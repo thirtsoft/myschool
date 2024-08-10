@@ -3,8 +3,12 @@ package com.myschool.sn.admin.mapping;
 
 import com.myschool.sn.admin.entity.Action;
 import com.myschool.sn.admin.entity.Profil;
+import com.myschool.sn.admin.entity.Utilisateur;
 import com.myschool.sn.utils.dtos.admin.ActionDTO;
 import com.myschool.sn.utils.dtos.admin.ProfilDTO;
+import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
+import com.myschool.sn.utils.dtos.admin.UtilisateurProfilDTO;
+import com.myschool.sn.utils.dtos.admin.register.AgentDTO;
 
 import javax.inject.Named;
 import java.io.Serializable;
@@ -22,7 +26,6 @@ public class DTOFactory implements Serializable {
         dto.setCode(action.getCode());
         dto.setId(action.getId());
         dto.setLibelle(action.getLibelle());
-        dto.setModule(action.getModule());
         dto.setTypeCompte(action.getTypeCompte());
         return dto;
     }
@@ -67,4 +70,59 @@ public class DTOFactory implements Serializable {
         }
         return dtos;
     }
+
+    public UtilisateurDTO createUtilisateurDTO(Utilisateur model) {
+        if (model == null)
+            return null;
+        UtilisateurDTO dto = new UtilisateurDTO();
+        dto.setUsername(model.getUsername());
+        dto.setId(model.getId());
+        dto.setProfilDTO(createProfilDTO(model.getProfil()));
+    //    dto.setUtilisateurDetailsDTO(createUtilisateurDetailsDTO(model.getUtilisateurDetails()));
+        dto.setMotdepasse(model.getMotdepasse());
+        return dto;
+    }
+
+    public List<UtilisateurDTO> createListeUtilisateurDTO(List<Utilisateur> utilisateurs) {
+        if (utilisateurs == null)
+            return null;
+        List<UtilisateurDTO> dtos = new ArrayList<>();
+        for (Utilisateur utilisateur : utilisateurs) {
+            dtos.add(createUtilisateurDTO(utilisateur));
+        }
+        return dtos;
+    }
+
+    public UtilisateurProfilDTO createUtilisateurProfilDTO(Utilisateur model) {
+        if (model == null)
+            return null;
+    //    UtilisateurDetails det = model.getUtilisateurDetails();
+        UtilisateurProfilDTO dto = new UtilisateurProfilDTO();
+        dto.setEmail(model.getUsername());
+  //      dto.setDateCreation(DateUtils.formatDate(det.getDateCreation()));
+//        dto.setId(det.getId());
+//        dto.setNom(det.getNom());
+//        dto.setPrenom(det.getPrenom());
+//        if (det.getService() != null)
+//            dto.setService(det.getService().getLibelle());
+//        if (det.getQualite() != null)
+//            dto.setFonction(det.getQualite().getLibelle());
+//        dto.setTelephone(det.getTelephone());
+        dto.setTypeProfil(model.getProfil().getTypeCompte());
+        dto.setProfil(model.getProfil().getLibelle());
+        return dto;
+    }
+
+    public AgentDTO createAgent(Utilisateur utilisateur) {
+        if (utilisateur == null)
+            return null;
+        AgentDTO agentDTO = new AgentDTO();
+        agentDTO.setUsername(utilisateur.getUsername());
+        agentDTO.setEmail(utilisateur.getEmail());
+        agentDTO.setTelephone(utilisateur.getTelephone());
+        agentDTO.setProfilDTO(createProfilDTO(utilisateur.getProfil()));
+        agentDTO.setTypeCompte(utilisateur.getTypeCompte());
+        return agentDTO;
+    }
+
 }

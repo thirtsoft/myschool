@@ -24,8 +24,6 @@ public class Action {
 
     private String libelle;
 
-    private Long module;
-
     private String typeCompte;
 
     private int actif;
