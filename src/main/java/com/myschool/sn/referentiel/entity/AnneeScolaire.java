@@ -15,16 +15,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnneeScolaire {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class AnneeScolaire extends ReferencetielEntity {
 
     private String code;
-
-    @Column(name = "annee_scolaire", unique = true)
-    private String libelle;
 
     private int actif;
 
