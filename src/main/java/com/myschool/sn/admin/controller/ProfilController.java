@@ -2,6 +2,7 @@ package com.myschool.sn.admin.controller;
 
 import com.myschool.sn.admin.controller.api.ProfilApi;
 import com.myschool.sn.admin.service.ProfilServiceCustom;
+import com.myschool.sn.utils.MessageException;
 import com.myschool.sn.utils.dtos.admin.ActionDTO;
 import com.myschool.sn.utils.dtos.admin.ProfilDTO;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
@@ -32,9 +33,9 @@ public class ProfilController implements ProfilApi {
     public ReponseMessageDTO createOrUpdateProfil(ProfilDTO profilDTO) {
         try {
             profilServiceCustom.saveProfil(profilDTO);
-            return new ReponseMessageDTO("OK", "Profil ajouté avec succès");
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO("FAILED",  e.getMessage());
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE,  e.getMessage());
         }
     }
 
