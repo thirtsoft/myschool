@@ -4,8 +4,11 @@ import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
 import com.myschool.sn.utils.dtos.referentiel.AnneeScolaireDTO;
 import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
+import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
+import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
+import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -147,6 +150,89 @@ public interface ReferentielApi {
 
     @DeleteMapping(value = "/salle/delete/{salleId}")
     ReponseMessageDTO deleteSalle(@PathVariable Long salleId);
+
+    /************* Evenement *************************/
+    @GetMapping(value = "/evenement", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    List<EvenementDTO> getEvenements();
+
+    @GetMapping(value = "/evenement/{evenementId}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    EvenementDTO getEvenement(@PathVariable @NotNull Long evenementId);
+
+    @PostMapping(value = "/evenement/save", consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    ReponseMessageDTO createEvenement(@RequestBody EvenementDTO evenementDTO);
+
+    @PutMapping(value = "/evenement/update/{evenementId}", consumes = "application/json")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    ReponseMessageDTO updateEvenement(@PathVariable Long evenementId, @RequestBody EvenementDTO evenementDTO);
+
+    @GetMapping(value = "/evenement/by-libelle/{libelle}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    EvenementDTO getEvenementByLibelle(@PathVariable String libelle);
+
+    @DeleteMapping(value = "/evenement/delete/{evenementId}")
+    ReponseMessageDTO deleteEvenement(@PathVariable Long evenementId);
+
+    /************* Semestre *************************/
+    @GetMapping(value = "/semestre", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    List<SemestreDTO> getSemestres();
+
+    @GetMapping(value = "/semestre/{semestreId}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    SemestreDTO getSemestre(@PathVariable @NotNull Long semestreId);
+
+    @PostMapping(value = "/semestre/save", consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    ReponseMessageDTO createSemestre(@RequestBody SemestreDTO semestreDTO);
+
+    @PutMapping(value = "/semestre/update/{semestreId}", consumes = "application/json")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    ReponseMessageDTO updateSemestre(@PathVariable Long semestreId, @RequestBody SemestreDTO semestreDTO);
+
+    @GetMapping(value = "/semestre/by-code/{code}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    SemestreDTO getSemestreByCode(@PathVariable String code);
+
+    @GetMapping(value = "/semestre/by-libelle/{libelle}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    SemestreDTO getSemestreByLibelle(@PathVariable String libelle);
+
+    @DeleteMapping(value = "/semestre/delete/{semestreId}")
+    ReponseMessageDTO deleteSemestre(@PathVariable Long semestreId);
+
+    /************* TypeDocument *************************/
+    @GetMapping(value = "/typeDocument", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    List<TypeDocumentDTO> getTypeDocuments();
+
+    @GetMapping(value = "/typeDocument/{typeDocumentId}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    TypeDocumentDTO getTypeDocument(@PathVariable @NotNull Long typeDocumentId);
+
+    @PostMapping(value = "/typeDocument/save", consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    ReponseMessageDTO createTypeDocument(@RequestBody TypeDocumentDTO typeDocumentDTO);
+
+    @PutMapping(value = "/typeDocument/update/{typeDocumentId}", consumes = "application/json")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    ReponseMessageDTO updateTypeDocument(@PathVariable Long typeDocumentId, @RequestBody TypeDocumentDTO typeDocumentDTO);
+
+    @GetMapping(value = "/typeDocument/by-code/{code}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    SemestreDTO getTypeDocumentByCode(@PathVariable String code);
+
+    @GetMapping(value = "/typeDocument/by-libelle/{libelle}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    SemestreDTO getTypeDocumentByLibelle(@PathVariable String libelle);
+
+    @DeleteMapping(value = "/typeDocument/delete/{typeDocumentId}")
+    ReponseMessageDTO deleteTypeDocument(@PathVariable Long typeDocumentId);
+
+
+
 
 
 

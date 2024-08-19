@@ -4,14 +4,20 @@ import com.myschool.sn.dossierEleve.entity.Eleve;
 import com.myschool.sn.referentiel.entity.AnneeScolaire;
 import com.myschool.sn.referentiel.entity.Batiment;
 import com.myschool.sn.referentiel.entity.Classe;
+import com.myschool.sn.referentiel.entity.Evenement;
 import com.myschool.sn.referentiel.entity.Matiere;
 import com.myschool.sn.referentiel.entity.Salle;
+import com.myschool.sn.referentiel.entity.Semestre;
+import com.myschool.sn.referentiel.entity.TypeDocument;
 import com.myschool.sn.utils.dtos.dossierEleve.EleveDTO;
 import com.myschool.sn.utils.dtos.referentiel.AnneeScolaireDTO;
 import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
+import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
+import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
+import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
 
 import javax.inject.Named;
 import java.util.ArrayList;
@@ -124,6 +130,75 @@ public class DTOFactoryRef {
         List<SalleDTO> dtos = new ArrayList<>();
         for (Salle salle: salles) {
             dtos.add(createSalleDTO(salle));
+        }
+        return dtos;
+    }
+
+    /****************** Evenement *******************/
+    public EvenementDTO createEvenementDTO(Evenement model) {
+        if (model == null)
+            return null;
+        EvenementDTO dto = new EvenementDTO();
+        dto.setId(model.getId());
+        dto.setLibelle(model.getLibelle());
+        dto.setDateEvenement(model.getDateEvenement());
+        dto.setHeureDebut(model.getHeureDebut());
+        dto.setHeureFin(model.getHeureFin());
+        dto.setDescription(model.getDescription());
+        dto.setActif(model.isActif());
+        return dto;
+    }
+
+    public List<EvenementDTO> createListeEvenementDTO(List<Evenement> evenements) {
+        if (evenements == null)
+            return new ArrayList<>();
+        List<EvenementDTO> dtos = new ArrayList<>();
+        for (Evenement evenement: evenements) {
+            dtos.add(createEvenementDTO(evenement));
+        }
+        return dtos;
+    }
+
+    /****************** Semestre *******************/
+    public SemestreDTO createSemestreDTO(Semestre model) {
+        if (model == null)
+            return null;
+        SemestreDTO dto = new SemestreDTO();
+        dto.setId(model.getId());
+        dto.setLibelle(model.getLibelle());
+        dto.setCode(model.getCode());
+        dto.setActif(model.isActif());
+        return dto;
+    }
+
+    public List<SemestreDTO> createListeSemestreDTO(List<Semestre> semestres) {
+        if (semestres == null)
+            return new ArrayList<>();
+        List<SemestreDTO> dtos = new ArrayList<>();
+        for (Semestre semestre: semestres) {
+            dtos.add(createSemestreDTO(semestre));
+        }
+        return dtos;
+    }
+
+    /****************** TypeDocument *******************/
+    public TypeDocumentDTO createTypeDocumentDTO(TypeDocument model) {
+        if (model == null)
+            return null;
+        TypeDocumentDTO dto = new TypeDocumentDTO();
+        dto.setId(model.getId());
+        dto.setLibelle(model.getLibelle());
+        dto.setCode(model.getCode());
+        dto.setActif(model.isActif());
+        return dto;
+    }
+
+    public List<TypeDocumentDTO> createListeTypeDocumentDTO(List<TypeDocument> typeDocuments) {
+        if (typeDocuments == null)
+            return new ArrayList<>();
+        List<TypeDocumentDTO> dtos = new ArrayList<>();
+        for (TypeDocument typeDocument: typeDocuments) {
+            dtos.add(createTypeDocumentDTO(typeDocument));
         }
         return dtos;
     }

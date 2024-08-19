@@ -4,8 +4,11 @@ import com.myschool.sn.referentiel.exception.ReferentielException;
 import com.myschool.sn.utils.dtos.referentiel.AnneeScolaireDTO;
 import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
+import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
+import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
+import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
 
 import java.util.List;
 
@@ -79,4 +82,47 @@ public interface ReferentielService {
     List<SalleDTO> findSallesByBatiment(Long batimentId);
 
     void deleteSalle(Long id);
+
+    /**************   Evenement ***********************/
+    Long saveEvenement(EvenementDTO evenementDTO) throws ReferentielException;
+
+    Long updateEvenement(Long id, EvenementDTO evenementDTO) throws ReferentielException;
+
+    EvenementDTO findEvenementById(Long id);
+
+    EvenementDTO findEvenementByLibelle(String libelle);
+
+    List<EvenementDTO> findAllEvenements();
+
+    void deleteEvenement(Long id);
+
+    /**************   Semestre ***********************/
+    Long saveSemestre(SemestreDTO semestreDTO) throws ReferentielException;
+
+    Long updateSemestre(Long id, SemestreDTO semestreDTO) throws ReferentielException;
+
+    SemestreDTO findSemestreById(Long id);
+
+    SemestreDTO findSemestreByCode(String code);
+
+    SemestreDTO findSemestreByLibelle(String libelle);
+
+    List<SemestreDTO> findAllSemestres();
+
+    void deleteSemestre(Long id);
+
+    /**************   TypeDocument ***********************/
+    Long saveTypeDocument(TypeDocumentDTO typeDocumentDTO) throws ReferentielException;
+
+    Long updateTypeDocument(Long id, TypeDocumentDTO typeDocumentDTO) throws ReferentielException;
+
+    TypeDocumentDTO findTypeDocumentById(Long id);
+
+    TypeDocumentDTO findTypeDocumentByCode(String code);
+
+    TypeDocumentDTO findTypeDocumentByLibelle(String libelle);
+
+    List<TypeDocumentDTO> findAllTypeDocuments();
+
+    void deleteTypeDocument(Long id);
 }

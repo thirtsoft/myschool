@@ -4,23 +4,32 @@ import com.myschool.sn.dossierEleve.exception.DossierEleveException;
 import com.myschool.sn.referentiel.entity.AnneeScolaire;
 import com.myschool.sn.referentiel.entity.Batiment;
 import com.myschool.sn.referentiel.entity.Classe;
+import com.myschool.sn.referentiel.entity.Evenement;
 import com.myschool.sn.referentiel.entity.Matiere;
 import com.myschool.sn.referentiel.entity.Salle;
+import com.myschool.sn.referentiel.entity.Semestre;
+import com.myschool.sn.referentiel.entity.TypeDocument;
 import com.myschool.sn.referentiel.exception.ReferentielException;
 import com.myschool.sn.referentiel.mapping.DTOFactoryRef;
 import com.myschool.sn.referentiel.mapping.ModelFactoryRef;
 import com.myschool.sn.referentiel.repository.AnneeScolaireRepository;
 import com.myschool.sn.referentiel.repository.BatimentRepository;
 import com.myschool.sn.referentiel.repository.ClasseRepository;
+import com.myschool.sn.referentiel.repository.EvenementRepository;
 import com.myschool.sn.referentiel.repository.MatiereRepository;
 import com.myschool.sn.referentiel.repository.SalleRepository;
+import com.myschool.sn.referentiel.repository.SemestreRepository;
+import com.myschool.sn.referentiel.repository.TypeDocumentRepository;
 import com.myschool.sn.referentiel.service.ReferentielService;
 import com.myschool.sn.utils.MessageException;
 import com.myschool.sn.utils.dtos.referentiel.AnneeScolaireDTO;
 import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
+import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
+import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
+import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,6 +47,12 @@ public class ReferentielServiceImpl implements ReferentielService {
 
     private final SalleRepository salleRepository;
 
+    private final EvenementRepository evenementRepository;
+
+    private final SemestreRepository semestreRepository;
+
+    private final TypeDocumentRepository typeDocumentRepository;
+
     private final DTOFactoryRef dtoFactoryRef;
 
     private final ModelFactoryRef modelFactoryRef;
@@ -47,6 +62,9 @@ public class ReferentielServiceImpl implements ReferentielService {
                                   ClasseRepository classeRepository,
                                   MatiereRepository matiereRepository,
                                   SalleRepository salleRepository,
+                                  EvenementRepository evenementRepository,
+                                  SemestreRepository semestreRepository,
+                                  TypeDocumentRepository typeDocumentRepository,
                                   DTOFactoryRef dtoFactoryRef,
                                   ModelFactoryRef modelFactoryRef) {
         this.anneeScolaireRepository = anneeScolaireRepository;
@@ -54,6 +72,9 @@ public class ReferentielServiceImpl implements ReferentielService {
         this.classeRepository = classeRepository;
         this.matiereRepository = matiereRepository;
         this.salleRepository = salleRepository;
+        this.evenementRepository = evenementRepository;
+        this.semestreRepository = semestreRepository;
+        this.typeDocumentRepository = typeDocumentRepository;
         this.dtoFactoryRef = dtoFactoryRef;
         this.modelFactoryRef = modelFactoryRef;
     }
@@ -283,7 +304,7 @@ public class ReferentielServiceImpl implements ReferentielService {
             throw new ReferentielException("L'identifiant du batiment est obligatoire");
         Salle foundSalleByLibelle = salleRepository.findByLibelle(salleDTO.getLibelle());
         if (salleDTO.getId() == null && foundSalleByLibelle != null
-            || (salleDTO.getId() != null && foundSalleByLibelle != null && !foundSalleByLibelle.getId().equals(salleDTO.getId())))
+                || (salleDTO.getId() != null && foundSalleByLibelle != null && !foundSalleByLibelle.getId().equals(salleDTO.getId())))
             throw new ReferentielException((String.format("Le libellé %s est déjà associé à une autre salle .", salleDTO.getLibelle())));
         Salle savedSalle = modelFactoryRef.createSalle(salleDTO);
         savedSalle.setActif(true);
@@ -326,5 +347,168 @@ public class ReferentielServiceImpl implements ReferentielService {
         Salle deleted = salleRepository.findSalleById(id);
         deleted.setActif(false);
         salleRepository.save(deleted);
+    }
+
+    @Override
+    public Long saveEvenement(EvenementDTO evenementDTO) throws ReferentielException {
+        if (evenementDTO == null)
+            throw new ReferentielException(MessageException.NULL_OBJECT);
+        if (evenementDTO.getLibelle() == null || evenementDTO.getLibelle().isEmpty())
+            throw new ReferentielException("Le libelle de l'événement est obligatoire");
+        if (evenementDTO.getHeureDebut() == null || evenementDTO.getHeureDebut().isEmpty())
+            throw new ReferentielException("L'heure de début de l'événement est obligatoire");
+        if (evenementDTO.getHeureFin() == null || evenementDTO.getHeureFin().isEmpty())
+            throw new ReferentielException("L'heure de fin de l'événement est obligatoire");
+        Evenement savedEvenement = modelFactoryRef.createEvenement(evenementDTO);
+        savedEvenement.setActif(true);
+        return savedEvenement.getId();
+    }
+
+    @Override
+    public Long updateEvenement(Long id, EvenementDTO evenementDTO) throws ReferentielException {
+        EvenementDTO foundEvenement = findEvenementById(id);
+        if (foundEvenement == null)
+            throw new ReferentielException(MessageException.NOT_FOUND_OBJECT);
+        evenementDTO.setId(id);
+        saveEvenement(evenementDTO);
+        return evenementDTO.getId();
+    }
+
+    @Override
+    public EvenementDTO findEvenementById(Long id) {
+        return dtoFactoryRef.createEvenementDTO(evenementRepository.findEvenementById(id));
+    }
+
+    @Override
+    public EvenementDTO findEvenementByLibelle(String libelle) {
+        return dtoFactoryRef.createEvenementDTO(evenementRepository.findByLibelle(libelle));
+    }
+
+    @Override
+    public List<EvenementDTO> findAllEvenements() {
+        return dtoFactoryRef.createListeEvenementDTO(evenementRepository.findAllEvenements());
+    }
+
+    @Override
+    public void deleteEvenement(Long id) {
+        Evenement deleted = evenementRepository.findEvenementById(id);
+        deleted.setActif(false);
+        evenementRepository.save(deleted);
+    }
+
+    @Override
+    public Long saveSemestre(SemestreDTO semestreDTO) throws ReferentielException {
+        if (semestreDTO == null)
+            throw new ReferentielException(MessageException.NULL_OBJECT);
+        if (semestreDTO.getCode() == null || semestreDTO.getCode().isEmpty())
+            throw new ReferentielException("Le code du semestre est obligatoire");
+        if (semestreDTO.getLibelle() == null || semestreDTO.getLibelle().isEmpty())
+            throw new ReferentielException("Le libelle du semestre est obligatoire");
+        SemestreDTO semestreByCode = findSemestreByCode(semestreDTO.getCode());
+        if (semestreDTO.getId() == null && semestreByCode != null
+                || (semestreDTO.getId() != null && semestreByCode != null && !semestreByCode.getId().equals(semestreDTO.getId())))
+            throw new ReferentielException((String.format("Le code %s est déjà associé à un autre semestre .", semestreDTO.getCode())));
+        SemestreDTO semestreByLibelle = findSemestreByCode(semestreDTO.getCode());
+        if (semestreDTO.getId() == null && semestreByLibelle != null
+                || (semestreDTO.getId() != null && semestreByLibelle != null && !semestreByLibelle.getId().equals(semestreDTO.getId())))
+            throw new ReferentielException((String.format("Le libelle %s est déjà associé à un autre semestre .", semestreDTO.getLibelle())));
+        Semestre savedSemestre = modelFactoryRef.createSemestre(semestreDTO);
+        savedSemestre.setActif(false);
+        return savedSemestre.getId();
+    }
+
+    @Override
+    public Long updateSemestre(Long id, SemestreDTO semestreDTO) throws ReferentielException {
+        SemestreDTO foundSemestre = findSemestreById(id);
+        if (foundSemestre == null)
+            throw new ReferentielException(MessageException.NOT_FOUND_OBJECT);
+        semestreDTO.setId(id);
+        saveSemestre(semestreDTO);
+        return semestreDTO.getId();
+    }
+
+    @Override
+    public SemestreDTO findSemestreById(Long id) {
+        return dtoFactoryRef.createSemestreDTO(semestreRepository.findSemestreById(id));
+    }
+
+    @Override
+    public SemestreDTO findSemestreByCode(String code) {
+        return dtoFactoryRef.createSemestreDTO(semestreRepository.findByCode(code));
+    }
+
+    @Override
+    public SemestreDTO findSemestreByLibelle(String libelle) {
+        return dtoFactoryRef.createSemestreDTO(semestreRepository.findByLibelle(libelle));
+    }
+
+    @Override
+    public List<SemestreDTO> findAllSemestres() {
+        return dtoFactoryRef.createListeSemestreDTO(semestreRepository.findAllSemestres());
+    }
+
+    @Override
+    public void deleteSemestre(Long id) {
+        Semestre deleted = semestreRepository.findSemestreById(id);
+        deleted.setActif(false);
+        semestreRepository.save(deleted);
+    }
+
+    @Override
+    public Long saveTypeDocument(TypeDocumentDTO typeDocumentDTO) throws ReferentielException {
+        if (typeDocumentDTO == null)
+            throw new ReferentielException(MessageException.NULL_OBJECT);
+        if (typeDocumentDTO.getCode() == null || typeDocumentDTO.getCode().isEmpty())
+            throw new ReferentielException("Le code du type de document est obligatoire");
+        if (typeDocumentDTO.getLibelle() == null || typeDocumentDTO.getLibelle().isEmpty())
+            throw new ReferentielException("Le libellé du type de document est obligatoire");
+        TypeDocumentDTO typeDocumentByCode = findTypeDocumentByCode(typeDocumentDTO.getCode());
+        if (typeDocumentDTO.getId() == null && typeDocumentByCode != null
+                || (typeDocumentDTO.getId() != null && typeDocumentByCode != null && !typeDocumentByCode.getId().equals(typeDocumentDTO.getId())))
+            throw new ReferentielException((String.format("Le code %s est déjà associé à un autre type de document .", typeDocumentDTO.getCode())));
+        TypeDocumentDTO typeDocumentByLibelle = findTypeDocumentByLibelle(typeDocumentDTO.getLibelle());
+        if (typeDocumentDTO.getId() == null && typeDocumentByLibelle != null
+                || (typeDocumentDTO.getId() != null && typeDocumentByLibelle != null && !typeDocumentByLibelle.getId().equals(typeDocumentDTO.getId())))
+            throw new ReferentielException((String.format("Le libellé %s est déjà associé à un autre type de document .", typeDocumentDTO.getCode())));
+        TypeDocument savedTypeDocument = modelFactoryRef.createTypeDocument(typeDocumentDTO);
+        savedTypeDocument.setActif(true);
+        return savedTypeDocument.getId();
+    }
+
+    @Override
+    public Long updateTypeDocument(Long id, TypeDocumentDTO typeDocumentDTO) throws ReferentielException {
+        TypeDocumentDTO foundTypeDocument = findTypeDocumentById(id);
+        if (foundTypeDocument == null)
+            throw new ReferentielException(MessageException.NOT_FOUND_OBJECT);
+        typeDocumentDTO.setId(id);
+        saveTypeDocument(typeDocumentDTO);
+        return typeDocumentDTO.getId();
+    }
+
+    @Override
+    public TypeDocumentDTO findTypeDocumentById(Long id) {
+        return dtoFactoryRef.createTypeDocumentDTO(typeDocumentRepository.findTypeDocumentById(id));
+    }
+
+    @Override
+    public TypeDocumentDTO findTypeDocumentByCode(String code) {
+        return dtoFactoryRef.createTypeDocumentDTO(typeDocumentRepository.findByCode(code));
+    }
+
+    @Override
+    public TypeDocumentDTO findTypeDocumentByLibelle(String libelle) {
+        return dtoFactoryRef.createTypeDocumentDTO(typeDocumentRepository.findByLibelle(libelle));
+    }
+
+    @Override
+    public List<TypeDocumentDTO> findAllTypeDocuments() {
+        return dtoFactoryRef.createListeTypeDocumentDTO(typeDocumentRepository.findAllTypeDocuments());
+    }
+
+    @Override
+    public void deleteTypeDocument(Long id) {
+        TypeDocument deleted = typeDocumentRepository.findTypeDocumentById(id);
+        deleted.setActif(false);
+        typeDocumentRepository.save(deleted);
     }
 }

@@ -7,8 +7,11 @@ import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
 import com.myschool.sn.utils.dtos.referentiel.AnneeScolaireDTO;
 import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
+import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
+import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
+import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -256,6 +259,154 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO deleteSalle(Long salleId) {
         try {
             referentielService.deleteSalle(salleId);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    /***************  Evenement   ***************/
+    @Override
+    public List<EvenementDTO> getEvenements() {
+        return referentielService.findAllEvenements();
+    }
+
+    @Override
+    public EvenementDTO getEvenement(Long evenementId) {
+        return referentielService.findEvenementById(evenementId);
+    }
+
+    @Override
+    public ReponseMessageDTO createEvenement(EvenementDTO evenementDTO) {
+        try{
+            referentielService.saveEvenement(evenementDTO);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public ReponseMessageDTO updateEvenement(Long evenementId, EvenementDTO evenementDTO) {
+        try{
+            referentielService.updateEvenement(evenementId, evenementDTO);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public EvenementDTO getEvenementByLibelle(String libelle) {
+        return referentielService.findEvenementByLibelle(libelle);
+    }
+
+    @Override
+    public ReponseMessageDTO deleteEvenement(Long evenementId) {
+        try {
+            referentielService.deleteEvenement(evenementId);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    /***************     Semestre  *****************/
+    @Override
+    public List<SemestreDTO> getSemestres() {
+        return referentielService.findAllSemestres();
+    }
+
+    @Override
+    public SemestreDTO getSemestre(Long semestreId) {
+        return referentielService.findSemestreById(semestreId);
+    }
+
+    @Override
+    public ReponseMessageDTO createSemestre(SemestreDTO semestreDTO) {
+        try {
+            referentielService.saveSemestre(semestreDTO);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public ReponseMessageDTO updateSemestre(Long semestreId, SemestreDTO semestreDTO) {
+        try {
+            referentielService.updateSemestre(semestreId, semestreDTO);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public SemestreDTO getSemestreByCode(String code) {
+        return referentielService.findSemestreByCode(code);
+    }
+
+    @Override
+    public SemestreDTO getSemestreByLibelle(String libelle) {
+        return referentielService.findSemestreByLibelle(libelle);
+    }
+
+    @Override
+    public ReponseMessageDTO deleteSemestre(Long semestreId) {
+        try {
+            referentielService.deleteSemestre(semestreId);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    /**************   TypeDocument  ****************/
+    @Override
+    public List<TypeDocumentDTO> getTypeDocuments() {
+        return referentielService.findAllTypeDocuments();
+    }
+
+    @Override
+    public TypeDocumentDTO getTypeDocument(Long typeDocumentId) {
+        return referentielService.findTypeDocumentById(typeDocumentId);
+    }
+
+    @Override
+    public ReponseMessageDTO createTypeDocument(TypeDocumentDTO typeDocumentDTO) {
+        try {
+            referentielService.saveTypeDocument(typeDocumentDTO);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public ReponseMessageDTO updateTypeDocument(Long typeDocumentId, TypeDocumentDTO typeDocumentDTO) {
+        try {
+            referentielService.updateTypeDocument(typeDocumentId, typeDocumentDTO);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public SemestreDTO getTypeDocumentByCode(String code) {
+        return referentielService.findSemestreByCode(code);
+    }
+
+    @Override
+    public SemestreDTO getTypeDocumentByLibelle(String libelle) {
+        return referentielService.findSemestreByLibelle(libelle);
+    }
+
+    @Override
+    public ReponseMessageDTO deleteTypeDocument(Long typeDocumentId) {
+        try {
+            referentielService.deleteTypeDocument(typeDocumentId);
             return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
         } catch (Exception e) {
             return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
