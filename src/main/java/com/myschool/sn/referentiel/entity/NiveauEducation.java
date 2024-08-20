@@ -2,21 +2,19 @@ package com.myschool.sn.referentiel.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "myschool_annee_scolaire")
+@Table(name = "myschool_niveau_education")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnneeScolaire extends ReferencetielEntity {
+public class NiveauEducation extends ReferencetielEntity {
 
+    @Column(name = "code", unique = true)
     private String code;
 
     private int actif;
@@ -29,6 +27,6 @@ public class AnneeScolaire extends ReferencetielEntity {
     }
 
     public boolean isActif() {
-        return actif==1;
+        return actif == 1;
     }
 }

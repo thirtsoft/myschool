@@ -6,6 +6,8 @@ public final class MessageException {
 
     public static String SAVED_OBJECT = "L'objet à été sauvegardé avec succès";
 
+    public static String EDIT_OBJECT = "L'objet à été modifiée avec succès";
+
     public static String DELETE_OBJECT = "L'objet à été supprimé avec succès";
 
 

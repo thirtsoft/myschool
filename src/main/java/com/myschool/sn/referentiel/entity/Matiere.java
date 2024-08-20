@@ -11,12 +11,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "myschool_annee_scolaire")
+@Table(name = "myschool_matiere")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnneeScolaire extends ReferencetielEntity {
+public class Matiere extends ReferencetielEntity {
 
+    @Column(name = "code_matiere", unique = true)
     private String code;
 
     private int actif;
@@ -29,6 +30,6 @@ public class AnneeScolaire extends ReferencetielEntity {
     }
 
     public boolean isActif() {
-        return actif==1;
+        return actif == 1;
     }
 }

@@ -10,14 +10,33 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
-@Table(name = "myschool_annee_scolaire")
+@Table(name = "myschool_evenement")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnneeScolaire extends ReferencetielEntity {
+public class Evenement {
 
-    private String code;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(name = "libelle_evenement")
+    private String libelle;
+
+    @Column(name = "date_evenement")
+    private Date dateEvenement;
+
+    @Column(name = "heure_debut")
+    private String heureDebut;
+
+    @Column(name = "heure_Fin")
+    private String heureFin;
+
+    @Column(name = "description")
+    private String description;
 
     private int actif;
 
@@ -29,6 +48,6 @@ public class AnneeScolaire extends ReferencetielEntity {
     }
 
     public boolean isActif() {
-        return actif==1;
+        return actif == 1;
     }
 }
