@@ -1,7 +1,6 @@
 package com.myschool.sn.enseignant.controller.api;
 
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
-import com.myschool.sn.utils.dtos.dossierEnseignant.EnseignantDTO;
 import com.myschool.sn.utils.dtos.enseignant.EnseignantDTO;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.http.HttpStatus;

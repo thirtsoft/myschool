@@ -31,8 +31,8 @@ public final class ConstantSigs {
 
     public static final int ETAT_BROUILLON = 1;
     public static final int ETAT_SOUMIS = 2;
-    public static final int ETAT_ACCEPTEE = 3;
-    public static final int ETAT_REJETEE = 4;
-    public static final int ETAT_ANNULEE = 5;
+    public static final int ETAT_ACCEPTE = 3;
+    public static final int ETAT_REJETE = 4;
+    public static final int ETAT_ANNULE = 5;
 
 }

@@ -1,6 +1,8 @@
 package com.myschool.sn.enseignant.mapping;
 
+import com.myschool.sn.enseignant.entity.Conges;
 import com.myschool.sn.enseignant.entity.Enseignant;
+import com.myschool.sn.utils.dtos.enseignant.CongesDTO;
 import com.myschool.sn.utils.dtos.enseignant.EnseignantDTO;
 
 import javax.inject.Named;
@@ -37,4 +39,27 @@ public class DTOFactoryEns {
         return dtos;
     }
 
+    public CongesDTO createCongesDTO(Conges model) {
+        if (model == null)
+            return null;
+        CongesDTO dto = new CongesDTO();
+        dto.setId(model.getId());
+        dto.setMotif(model.getMotif());
+        dto.setEnseignantDTO(createEnseignantDTO(model.getEnseignant()));
+        dto.setEtat(model.getEtat());
+        dto.setDateDebut(model.getDateDebut());
+        dto.setDateFin(model.getDateFin());
+        dto.setActif(model.isActif());
+        return dto;
+    }
+
+    public List<CongesDTO> createListeCongesDTO(List<Conges> conges) {
+        if (conges == null)
+            return new ArrayList<>();
+        List<CongesDTO> dtos = new ArrayList<>();
+        for (Conges conge: conges) {
+            dtos.add(createCongesDTO(conge));
+        }
+        return dtos;
+    }
 }

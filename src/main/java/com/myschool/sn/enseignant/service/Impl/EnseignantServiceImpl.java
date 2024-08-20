@@ -1,12 +1,16 @@
 package com.myschool.sn.enseignant.service.Impl;
 
+import com.myschool.sn.enseignant.entity.Conges;
 import com.myschool.sn.enseignant.entity.Enseignant;
 import com.myschool.sn.enseignant.exception.EnseignantException;
 import com.myschool.sn.enseignant.mapping.DTOFactoryEns;
 import com.myschool.sn.enseignant.mapping.ModelFactoryEns;
+import com.myschool.sn.enseignant.repository.CongesRepository;
 import com.myschool.sn.enseignant.repository.EnseignantRepository;
 import com.myschool.sn.enseignant.service.EnseignantService;
+import com.myschool.sn.utils.ConstantSigs;
 import com.myschool.sn.utils.MessageException;
+import com.myschool.sn.utils.dtos.enseignant.CongesDTO;
 import com.myschool.sn.utils.dtos.enseignant.EnseignantDTO;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +21,18 @@ public class EnseignantServiceImpl implements EnseignantService {
 
     private final EnseignantRepository enseignantRepository;
 
+    private final CongesRepository congesRepository;
+
     private final DTOFactoryEns dtoFactoryEns;
 
     private final ModelFactoryEns modelFactoryEns;
 
     public EnseignantServiceImpl(EnseignantRepository enseignantRepository,
+                                 CongesRepository congesRepository,
                                  DTOFactoryEns dtoFactoryEns,
                                  ModelFactoryEns modelFactoryEns) {
         this.enseignantRepository = enseignantRepository;
+        this.congesRepository = congesRepository;
         this.dtoFactoryEns = dtoFactoryEns;
         this.modelFactoryEns = modelFactoryEns;
     }
@@ -91,5 +99,59 @@ public class EnseignantServiceImpl implements EnseignantService {
         Enseignant deleted = enseignantRepository.findEnseignantById(id);
         deleted.setActif(false);
         enseignantRepository.save(deleted);
+    }
+
+    @Override
+    public Long saveConges(CongesDTO congesDTO) throws EnseignantException {
+        if (congesDTO == null)
+            throw new EnseignantException(MessageException.NULL_OBJECT);
+        if (congesDTO.getMotif() == null || congesDTO.getMotif().isEmpty())
+            throw new EnseignantException("Le motif du conges est obligatoire");
+        Conges savedConges = modelFactoryEns.createConges(congesDTO);
+        savedConges.setActif(true);
+        savedConges.setEtat(ConstantSigs.ETAT_SOUMIS);
+        return savedConges.getId();
+    }
+
+    @Override
+    public Long updateConges(Long id, CongesDTO congesDTO) throws EnseignantException {
+        CongesDTO foundConges = findCongeById(id);
+        if (foundConges == null)
+            throw new EnseignantException(MessageException.NOT_FOUND_OBJECT);
+        congesDTO.setId(id);
+        saveConges(congesDTO);
+        return congesDTO.getId();
+    }
+
+    @Override
+    public CongesDTO findCongeById(Long id) {
+        return dtoFactoryEns.createCongesDTO(congesRepository.findCongesById(id));
+    }
+
+    @Override
+    public List<CongesDTO> findAllConges() {
+        return dtoFactoryEns.createListeCongesDTO(congesRepository.findAllCongess());
+    }
+
+    @Override
+    public List<CongesDTO> findAllCongesSoumis() {
+        return dtoFactoryEns.createListeCongesDTO(congesRepository.findAllCongesSoumis());
+    }
+
+    @Override
+    public List<CongesDTO> findAllCongesAccepte() {
+        return dtoFactoryEns.createListeCongesDTO(congesRepository.findAllCongesAcceptes());
+    }
+
+    @Override
+    public List<CongesDTO> findAllCongesRejetes() {
+        return dtoFactoryEns.createListeCongesDTO(congesRepository.findAllCongesRejetes());
+    }
+
+    @Override
+    public void deleteConges(Long id) {
+        Conges deleted = congesRepository.findCongesById(id);
+        deleted.setActif(false);
+        congesRepository.save(deleted);
     }
 }
