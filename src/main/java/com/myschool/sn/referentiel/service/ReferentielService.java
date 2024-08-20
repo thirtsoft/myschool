@@ -6,6 +6,7 @@ import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
+import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
 import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
 import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
@@ -125,4 +126,19 @@ public interface ReferentielService {
     List<TypeDocumentDTO> findAllTypeDocuments();
 
     void deleteTypeDocument(Long id);
+
+    /**************   NiveauEducation ***********************/
+    Long saveNiveauEducation(NiveauEducationDTO niveauEducationDTO) throws ReferentielException;
+
+    Long updateNiveauEducation(Long id, NiveauEducationDTO niveauEducationDTO) throws ReferentielException;
+
+    NiveauEducationDTO findNiveauEducationById(Long id);
+
+    NiveauEducationDTO findNiveauEducationByCode(String code);
+
+    NiveauEducationDTO findNiveauEducationByLibelle(String libelle);
+
+    List<NiveauEducationDTO> findAllNiveauEducations();
+
+    void deleteNiveauEducation(Long id);
 }

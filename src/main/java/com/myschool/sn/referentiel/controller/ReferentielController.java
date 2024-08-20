@@ -9,6 +9,7 @@ import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
+import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
 import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
 import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
@@ -407,6 +408,57 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO deleteTypeDocument(Long typeDocumentId) {
         try {
             referentielService.deleteTypeDocument(typeDocumentId);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    /**************   NiveauEducation  ****************/
+    @Override
+    public List<NiveauEducationDTO> getNiveauEducations() {
+        return referentielService.findAllNiveauEducations();
+    }
+
+    @Override
+    public NiveauEducationDTO getNiveauEducation(Long niveauEducationId) {
+        return referentielService.findNiveauEducationById(niveauEducationId);
+    }
+
+    @Override
+    public ReponseMessageDTO createNiveauEducation(NiveauEducationDTO niveauEducationDTO) {
+        try {
+            referentielService.saveNiveauEducation(niveauEducationDTO);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public ReponseMessageDTO updateNiveauEducation(Long niveauEducationId, NiveauEducationDTO niveauEducationDTO) {
+        try {
+            referentielService.updateNiveauEducation(niveauEducationId, niveauEducationDTO);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public NiveauEducationDTO getNiveauEducationByCode(String code) {
+        return referentielService.findNiveauEducationByCode(code);
+    }
+
+    @Override
+    public NiveauEducationDTO getNiveauEducationByLibelle(String libelle) {
+        return referentielService.findNiveauEducationByLibelle(libelle);
+    }
+
+    @Override
+    public ReponseMessageDTO deleteNiveauEducation(Long niveauEducationId) {
+        try {
+            referentielService.deleteNiveauEducation(niveauEducationId);
             return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
         } catch (Exception e) {
             return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);

@@ -5,6 +5,7 @@ import com.myschool.sn.referentiel.entity.Batiment;
 import com.myschool.sn.referentiel.entity.Classe;
 import com.myschool.sn.referentiel.entity.Evenement;
 import com.myschool.sn.referentiel.entity.Matiere;
+import com.myschool.sn.referentiel.entity.NiveauEducation;
 import com.myschool.sn.referentiel.entity.Salle;
 import com.myschool.sn.referentiel.entity.Semestre;
 import com.myschool.sn.referentiel.entity.TypeDocument;
@@ -13,6 +14,7 @@ import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
+import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
 import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
 import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
@@ -104,6 +106,17 @@ public class ModelFactoryRef {
         if (dto == null)
             return null;
         TypeDocument model = new TypeDocument();
+        model.setId(dto.getId());
+        model.setLibelle(dto.getLibelle());
+        model.setCode(dto.getCode());
+        model.setActif(dto.isActif());
+        return model;
+    }
+
+    public NiveauEducation createNiveauEducation(NiveauEducationDTO dto) {
+        if (dto == null)
+            return null;
+        NiveauEducation model = new NiveauEducation();
         model.setId(dto.getId());
         model.setLibelle(dto.getLibelle());
         model.setCode(dto.getCode());

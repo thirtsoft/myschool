@@ -6,6 +6,7 @@ import com.myschool.sn.referentiel.entity.Batiment;
 import com.myschool.sn.referentiel.entity.Classe;
 import com.myschool.sn.referentiel.entity.Evenement;
 import com.myschool.sn.referentiel.entity.Matiere;
+import com.myschool.sn.referentiel.entity.NiveauEducation;
 import com.myschool.sn.referentiel.entity.Salle;
 import com.myschool.sn.referentiel.entity.Semestre;
 import com.myschool.sn.referentiel.entity.TypeDocument;
@@ -17,6 +18,7 @@ import com.myschool.sn.referentiel.repository.BatimentRepository;
 import com.myschool.sn.referentiel.repository.ClasseRepository;
 import com.myschool.sn.referentiel.repository.EvenementRepository;
 import com.myschool.sn.referentiel.repository.MatiereRepository;
+import com.myschool.sn.referentiel.repository.NiveauEducationRepository;
 import com.myschool.sn.referentiel.repository.SalleRepository;
 import com.myschool.sn.referentiel.repository.SemestreRepository;
 import com.myschool.sn.referentiel.repository.TypeDocumentRepository;
@@ -27,6 +29,7 @@ import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
+import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
 import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
 import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
@@ -53,6 +56,8 @@ public class ReferentielServiceImpl implements ReferentielService {
 
     private final TypeDocumentRepository typeDocumentRepository;
 
+    private final NiveauEducationRepository niveauEducationRepository;
+
     private final DTOFactoryRef dtoFactoryRef;
 
     private final ModelFactoryRef modelFactoryRef;
@@ -65,6 +70,7 @@ public class ReferentielServiceImpl implements ReferentielService {
                                   EvenementRepository evenementRepository,
                                   SemestreRepository semestreRepository,
                                   TypeDocumentRepository typeDocumentRepository,
+                                  NiveauEducationRepository niveauEducationRepository,
                                   DTOFactoryRef dtoFactoryRef,
                                   ModelFactoryRef modelFactoryRef) {
         this.anneeScolaireRepository = anneeScolaireRepository;
@@ -75,6 +81,7 @@ public class ReferentielServiceImpl implements ReferentielService {
         this.evenementRepository = evenementRepository;
         this.semestreRepository = semestreRepository;
         this.typeDocumentRepository = typeDocumentRepository;
+        this.niveauEducationRepository = niveauEducationRepository;
         this.dtoFactoryRef = dtoFactoryRef;
         this.modelFactoryRef = modelFactoryRef;
     }
@@ -510,5 +517,63 @@ public class ReferentielServiceImpl implements ReferentielService {
         TypeDocument deleted = typeDocumentRepository.findTypeDocumentById(id);
         deleted.setActif(false);
         typeDocumentRepository.save(deleted);
+    }
+
+    @Override
+    public Long saveNiveauEducation(NiveauEducationDTO niveauEducationDTO) throws ReferentielException {
+        if (niveauEducationDTO == null)
+            throw new ReferentielException(MessageException.NULL_OBJECT);
+        if (niveauEducationDTO.getCode() == null || niveauEducationDTO.getCode().isEmpty())
+            throw new ReferentielException("Le code du niveau d'éducation est obligatoire");
+        if (niveauEducationDTO.getLibelle() == null || niveauEducationDTO.getLibelle().isEmpty())
+            throw new ReferentielException("Le libellé du niveau d'éducation est obligatoire");
+        NiveauEducationDTO niveauEducationByCode = findNiveauEducationByCode(niveauEducationDTO.getCode());
+        if (niveauEducationDTO.getId() == null && niveauEducationByCode != null
+                || (niveauEducationDTO.getId() != null && niveauEducationByCode != null && !niveauEducationByCode.getId().equals(niveauEducationDTO.getId())))
+            throw new ReferentielException((String.format("Le code %s est déjà associé à un autre niveau d'éducation .", niveauEducationDTO.getCode())));
+        NiveauEducationDTO niveauEducationByLibelle = findNiveauEducationByLibelle(niveauEducationDTO.getLibelle());
+        if (niveauEducationDTO.getId() == null && niveauEducationByLibelle != null
+                || (niveauEducationDTO.getId() != null && niveauEducationByLibelle != null && !niveauEducationByLibelle.getId().equals(niveauEducationDTO.getId())))
+            throw new ReferentielException((String.format("Le libellé %s est déjà associé à un autre niveau d'éducation .", niveauEducationDTO.getCode())));
+        NiveauEducation savedNiveauEducation = modelFactoryRef.createNiveauEducation(niveauEducationDTO);
+        savedNiveauEducation.setActif(true);
+        return savedNiveauEducation.getId();
+    }
+
+    @Override
+    public Long updateNiveauEducation(Long id, NiveauEducationDTO niveauEducationDTO) throws ReferentielException {
+        NiveauEducationDTO foundNiveauEducation = findNiveauEducationById(id);
+        if (foundNiveauEducation == null)
+            throw new ReferentielException(MessageException.NOT_FOUND_OBJECT);
+        niveauEducationDTO.setId(id);
+        saveNiveauEducation(niveauEducationDTO);
+        return niveauEducationDTO.getId();
+    }
+
+    @Override
+    public NiveauEducationDTO findNiveauEducationById(Long id) {
+        return dtoFactoryRef.createNiveauEducationDTO(niveauEducationRepository.findNiveauEducationById(id));
+    }
+
+    @Override
+    public NiveauEducationDTO findNiveauEducationByCode(String code) {
+        return dtoFactoryRef.createNiveauEducationDTO(niveauEducationRepository.findNiveauEducationByCode(code));
+    }
+
+    @Override
+    public NiveauEducationDTO findNiveauEducationByLibelle(String libelle) {
+        return dtoFactoryRef.createNiveauEducationDTO(niveauEducationRepository.findNiveauEducationByLibelle(libelle));
+    }
+
+    @Override
+    public List<NiveauEducationDTO> findAllNiveauEducations() {
+        return dtoFactoryRef.createListeNiveauEducationDTO(niveauEducationRepository.findAllActiveNiveauEducations());
+    }
+
+    @Override
+    public void deleteNiveauEducation(Long id) {
+        NiveauEducation deleted = niveauEducationRepository.findNiveauEducationById(id);
+        deleted.setActif(false);
+        niveauEducationRepository.save(deleted);
     }
 }

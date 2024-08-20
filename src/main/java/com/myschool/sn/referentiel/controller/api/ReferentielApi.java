@@ -6,6 +6,7 @@ import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
+import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
 import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
 import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
@@ -231,10 +232,32 @@ public interface ReferentielApi {
     @DeleteMapping(value = "/typeDocument/delete/{typeDocumentId}")
     ReponseMessageDTO deleteTypeDocument(@PathVariable Long typeDocumentId);
 
+    /************* NiveauEducation *************************/
+    @GetMapping(value = "/niveauEducation", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    List<NiveauEducationDTO> getNiveauEducations();
 
+    @GetMapping(value = "/niveauEducation/{niveauEducationId}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    NiveauEducationDTO getNiveauEducation(@PathVariable @NotNull Long niveauEducationId);
 
+    @PostMapping(value = "/niveauEducation/save", consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    ReponseMessageDTO createNiveauEducation(@RequestBody NiveauEducationDTO niveauEducationDTO);
 
+    @PutMapping(value = "/niveauEducation/update/{niveauEducationId}", consumes = "application/json")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    ReponseMessageDTO updateNiveauEducation(@PathVariable Long niveauEducationId, @RequestBody NiveauEducationDTO niveauEducationDTO);
 
+    @GetMapping(value = "/niveauEducation/by-code/{code}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    NiveauEducationDTO getNiveauEducationByCode(@PathVariable String code);
 
+    @GetMapping(value = "/niveauEducation/by-libelle/{libelle}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    NiveauEducationDTO getNiveauEducationByLibelle(@PathVariable String libelle);
+
+    @DeleteMapping(value = "/niveauEducation/delete/{niveauEducationId}")
+    ReponseMessageDTO deleteNiveauEducation(@PathVariable Long niveauEducationId);
 
 }
