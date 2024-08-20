@@ -1,22 +1,21 @@
 package com.myschool.sn.referentiel.entity;
 
+import com.myschool.sn.referentiel.entity.ReferencetielEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "myschool_annee_scolaire")
+@Table(name = "myschool_typedocument")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnneeScolaire extends ReferencetielEntity {
+public class TypeDocument extends ReferencetielEntity {
 
+    @Column(unique = true)
     private String code;
 
     private int actif;

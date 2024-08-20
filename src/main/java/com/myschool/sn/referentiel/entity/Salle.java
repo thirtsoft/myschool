@@ -1,23 +1,23 @@
 package com.myschool.sn.referentiel.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "myschool_annee_scolaire")
+@Table(name = "myschool_salle")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnneeScolaire extends ReferencetielEntity {
+public class Salle extends ReferencetielEntity {
 
-    private String code;
+    @ManyToOne
+    @JoinColumn(name = "batiment_uid", referencedColumnName = "id", nullable = false)
+    private Batiment batiment;
 
     private int actif;
 
@@ -29,6 +29,6 @@ public class AnneeScolaire extends ReferencetielEntity {
     }
 
     public boolean isActif() {
-        return actif==1;
+        return actif == 1;
     }
 }
