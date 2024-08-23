@@ -3,9 +3,11 @@ package com.myschool.sn.referentiel.controller.api;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
 import com.myschool.sn.utils.dtos.referentiel.AnneeScolaireDTO;
 import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
+import com.myschool.sn.utils.dtos.referentiel.CategoryMenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
+import com.myschool.sn.utils.dtos.referentiel.MenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
 import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
@@ -259,5 +261,58 @@ public interface ReferentielApi {
 
     @DeleteMapping(value = "/niveauEducation/delete/{niveauEducationId}")
     ReponseMessageDTO deleteNiveauEducation(@PathVariable Long niveauEducationId);
+
+    /*************   CategoryMenu  *************************/
+    @GetMapping(value = "/categoryMenu", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    List<CategoryMenuDTO> getCategoryMenus();
+
+    @GetMapping(value = "/categoryMenu/{categoryMenuId}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    CategoryMenuDTO getCategoryMenu(@PathVariable @NotNull Long categoryMenuId);
+
+    @PostMapping(value = "/categoryMenu/save", consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    ReponseMessageDTO createCategoryMenu(@RequestBody CategoryMenuDTO categoryMenuDTO);
+
+    @PutMapping(value = "/categoryMenu/update/{categoryMenuId}", consumes = "application/json")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    ReponseMessageDTO updateCategoryMenu(@PathVariable Long categoryMenuId, @RequestBody CategoryMenuDTO categoryMenuDTO);
+
+    @GetMapping(value = "/categoryMenu/by-libelle/{libelle}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    CategoryMenuDTO getCategoryMenuByLibelle(@PathVariable String libelle);
+
+    @DeleteMapping(value = "/categoryMenu/delete/{categoryMenuId}")
+    ReponseMessageDTO deleteCategoryMenu(@PathVariable Long categoryMenuId);
+
+    /*************      Menu  *************************/
+    @GetMapping(value = "/menu", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    List<MenuDTO> getMenus();
+
+    @GetMapping(value = "/menu/by-category-menu/{menuId}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    List<MenuDTO> findMenusByCategoryMenu(@PathVariable Long catMenuId);
+
+    @GetMapping(value = "/menu/{menuId}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    MenuDTO getMenu(@PathVariable @NotNull Long menuId);
+
+    @PostMapping(value = "/menu/save", consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    ReponseMessageDTO createMenu(@RequestBody MenuDTO menuDTO);
+
+    @PutMapping(value = "/menu/update/{menuId}", consumes = "application/json")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    ReponseMessageDTO updateMenu(@PathVariable Long menuId, @RequestBody MenuDTO menuDTO);
+
+    @GetMapping(value = "/menu/by-libelle/{libelle}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    MenuDTO getMenuByLibelle(@PathVariable String libelle);
+
+    @DeleteMapping(value = "/menu/delete/{menuId}")
+    ReponseMessageDTO deleteMenu(@PathVariable Long menuId);
+
 
 }

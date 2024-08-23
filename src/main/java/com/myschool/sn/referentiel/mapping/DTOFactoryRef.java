@@ -3,9 +3,11 @@ package com.myschool.sn.referentiel.mapping;
 import com.myschool.sn.dossierEleve.entity.Eleve;
 import com.myschool.sn.referentiel.entity.AnneeScolaire;
 import com.myschool.sn.referentiel.entity.Batiment;
+import com.myschool.sn.referentiel.entity.CategoryMenu;
 import com.myschool.sn.referentiel.entity.Classe;
 import com.myschool.sn.referentiel.entity.Evenement;
 import com.myschool.sn.referentiel.entity.Matiere;
+import com.myschool.sn.referentiel.entity.Menu;
 import com.myschool.sn.referentiel.entity.NiveauEducation;
 import com.myschool.sn.referentiel.entity.Salle;
 import com.myschool.sn.referentiel.entity.Semestre;
@@ -13,9 +15,11 @@ import com.myschool.sn.referentiel.entity.TypeDocument;
 import com.myschool.sn.utils.dtos.dossierEleve.EleveDTO;
 import com.myschool.sn.utils.dtos.referentiel.AnneeScolaireDTO;
 import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
+import com.myschool.sn.utils.dtos.referentiel.CategoryMenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
+import com.myschool.sn.utils.dtos.referentiel.MenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
 import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
@@ -223,6 +227,50 @@ public class DTOFactoryRef {
         List<NiveauEducationDTO> dtos = new ArrayList<>();
         for (NiveauEducation niveauEducation: niveauEducations) {
             dtos.add(createNiveauEducationDTO(niveauEducation));
+        }
+        return dtos;
+    }
+
+    /****************   CategoryMenu    *************/
+    public CategoryMenuDTO createCategoryMenuDTO(CategoryMenu model) {
+        if (model == null)
+            return null;
+        CategoryMenuDTO dto = new CategoryMenuDTO();
+        dto.setId(model.getId());
+        dto.setLibelle(model.getLibelle());
+        dto.setActif(model.isActif());
+        return dto;
+    }
+
+    public List<CategoryMenuDTO> createListeCategoryMenuDTO(List<CategoryMenu> categoryMenus) {
+        if (categoryMenus == null)
+            return new ArrayList<>();
+        List<CategoryMenuDTO> dtos = new ArrayList<>();
+        for (CategoryMenu categoryMenu: categoryMenus) {
+            dtos.add(createCategoryMenuDTO(categoryMenu));
+        }
+        return dtos;
+    }
+
+    /*************      Menu    ****************/
+    public MenuDTO createMenuDTO(Menu model) {
+        if (model == null)
+            return null;
+        MenuDTO dto = new MenuDTO();
+        dto.setId(model.getId());
+        dto.setLibelle(model.getLibelle());
+        dto.setDescription(model.getDescription());
+        dto.setCategoryMenuDTO(createCategoryMenuDTO(model.getCategoryMenu()));
+        dto.setActif(model.isActif());
+        return dto;
+    }
+
+    public List<MenuDTO> createListeMenu(List<Menu> menus) {
+        if (menus == null)
+            return new ArrayList<>();
+        List<MenuDTO> dtos = new ArrayList<>();
+        for (Menu menu: menus) {
+            dtos.add(createMenuDTO(menu));
         }
         return dtos;
     }

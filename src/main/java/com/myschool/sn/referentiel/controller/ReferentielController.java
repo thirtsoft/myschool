@@ -6,9 +6,11 @@ import com.myschool.sn.utils.MessageException;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
 import com.myschool.sn.utils.dtos.referentiel.AnneeScolaireDTO;
 import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
+import com.myschool.sn.utils.dtos.referentiel.CategoryMenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
+import com.myschool.sn.utils.dtos.referentiel.MenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
 import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
@@ -279,7 +281,7 @@ public class ReferentielController implements ReferentielApi {
 
     @Override
     public ReponseMessageDTO createEvenement(EvenementDTO evenementDTO) {
-        try{
+        try {
             referentielService.saveEvenement(evenementDTO);
             return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
         } catch (Exception e) {
@@ -289,7 +291,7 @@ public class ReferentielController implements ReferentielApi {
 
     @Override
     public ReponseMessageDTO updateEvenement(Long evenementId, EvenementDTO evenementDTO) {
-        try{
+        try {
             referentielService.updateEvenement(evenementId, evenementDTO);
             return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
         } catch (Exception e) {
@@ -459,6 +461,103 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO deleteNiveauEducation(Long niveauEducationId) {
         try {
             referentielService.deleteNiveauEducation(niveauEducationId);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    /****************      CategoryMenu    ***************/
+    @Override
+    public List<CategoryMenuDTO> getCategoryMenus() {
+        return referentielService.findAllCategoryMenus();
+    }
+
+    @Override
+    public CategoryMenuDTO getCategoryMenu(Long categoryMenuId) {
+        return referentielService.findCategoryMenuById(categoryMenuId);
+    }
+
+    @Override
+    public ReponseMessageDTO createCategoryMenu(CategoryMenuDTO categoryMenuDTO) {
+        try {
+            referentielService.saveCategoryMenu(categoryMenuDTO);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public ReponseMessageDTO updateCategoryMenu(Long categoryMenuId, CategoryMenuDTO categoryMenuDTO) {
+        try {
+            referentielService.updateCategoryMenu(categoryMenuId, categoryMenuDTO);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public CategoryMenuDTO getCategoryMenuByLibelle(String libelle) {
+        return referentielService.findCategoryMenuByLibelle(libelle);
+    }
+
+    @Override
+    public ReponseMessageDTO deleteCategoryMenu(Long categoryMenuId) {
+        try {
+            referentielService.deleteCategoryMenu(categoryMenuId);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    /************    Menu    ****************/
+    @Override
+    public List<MenuDTO> getMenus() {
+        return referentielService.findAllMenus();
+    }
+
+    @Override
+    public List<MenuDTO> findMenusByCategoryMenu(Long catMenuId) {
+        return referentielService.findMenusByCategoryMenu(catMenuId);
+    }
+
+    @Override
+    public MenuDTO getMenu(Long menuId) {
+        return referentielService.findMenuById(menuId);
+    }
+
+    @Override
+    public ReponseMessageDTO createMenu(MenuDTO menuDTO) {
+        try {
+            referentielService.saveMenu(menuDTO);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public ReponseMessageDTO updateMenu(Long menuId, MenuDTO menuDTO) {
+        try {
+            referentielService.updateMenu(menuId, menuDTO);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public MenuDTO getMenuByLibelle(String libelle) {
+        return referentielService.findMenuByLibelle(libelle);
+    }
+
+    @Override
+    public ReponseMessageDTO deleteMenu(Long menuId) {
+        try {
+            referentielService.deleteMenu(menuId);
             return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
         } catch (Exception e) {
             return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);

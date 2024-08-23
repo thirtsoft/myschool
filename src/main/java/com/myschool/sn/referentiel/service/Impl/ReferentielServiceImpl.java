@@ -3,9 +3,11 @@ package com.myschool.sn.referentiel.service.Impl;
 import com.myschool.sn.dossierEleve.exception.DossierEleveException;
 import com.myschool.sn.referentiel.entity.AnneeScolaire;
 import com.myschool.sn.referentiel.entity.Batiment;
+import com.myschool.sn.referentiel.entity.CategoryMenu;
 import com.myschool.sn.referentiel.entity.Classe;
 import com.myschool.sn.referentiel.entity.Evenement;
 import com.myschool.sn.referentiel.entity.Matiere;
+import com.myschool.sn.referentiel.entity.Menu;
 import com.myschool.sn.referentiel.entity.NiveauEducation;
 import com.myschool.sn.referentiel.entity.Salle;
 import com.myschool.sn.referentiel.entity.Semestre;
@@ -15,9 +17,11 @@ import com.myschool.sn.referentiel.mapping.DTOFactoryRef;
 import com.myschool.sn.referentiel.mapping.ModelFactoryRef;
 import com.myschool.sn.referentiel.repository.AnneeScolaireRepository;
 import com.myschool.sn.referentiel.repository.BatimentRepository;
+import com.myschool.sn.referentiel.repository.CategoryMenuRepository;
 import com.myschool.sn.referentiel.repository.ClasseRepository;
 import com.myschool.sn.referentiel.repository.EvenementRepository;
 import com.myschool.sn.referentiel.repository.MatiereRepository;
+import com.myschool.sn.referentiel.repository.MenuRepository;
 import com.myschool.sn.referentiel.repository.NiveauEducationRepository;
 import com.myschool.sn.referentiel.repository.SalleRepository;
 import com.myschool.sn.referentiel.repository.SemestreRepository;
@@ -26,9 +30,11 @@ import com.myschool.sn.referentiel.service.ReferentielService;
 import com.myschool.sn.utils.MessageException;
 import com.myschool.sn.utils.dtos.referentiel.AnneeScolaireDTO;
 import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
+import com.myschool.sn.utils.dtos.referentiel.CategoryMenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
+import com.myschool.sn.utils.dtos.referentiel.MenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
 import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
@@ -58,6 +64,10 @@ public class ReferentielServiceImpl implements ReferentielService {
 
     private final NiveauEducationRepository niveauEducationRepository;
 
+    private final CategoryMenuRepository categoryMenuRepository;
+
+    private final MenuRepository menuRepository;
+
     private final DTOFactoryRef dtoFactoryRef;
 
     private final ModelFactoryRef modelFactoryRef;
@@ -71,6 +81,8 @@ public class ReferentielServiceImpl implements ReferentielService {
                                   SemestreRepository semestreRepository,
                                   TypeDocumentRepository typeDocumentRepository,
                                   NiveauEducationRepository niveauEducationRepository,
+                                  CategoryMenuRepository categoryMenuRepository,
+                                  MenuRepository menuRepository,
                                   DTOFactoryRef dtoFactoryRef,
                                   ModelFactoryRef modelFactoryRef) {
         this.anneeScolaireRepository = anneeScolaireRepository;
@@ -82,6 +94,8 @@ public class ReferentielServiceImpl implements ReferentielService {
         this.semestreRepository = semestreRepository;
         this.typeDocumentRepository = typeDocumentRepository;
         this.niveauEducationRepository = niveauEducationRepository;
+        this.categoryMenuRepository = categoryMenuRepository;
+        this.menuRepository = menuRepository;
         this.dtoFactoryRef = dtoFactoryRef;
         this.modelFactoryRef = modelFactoryRef;
     }
@@ -575,5 +589,108 @@ public class ReferentielServiceImpl implements ReferentielService {
         NiveauEducation deleted = niveauEducationRepository.findNiveauEducationById(id);
         deleted.setActif(false);
         niveauEducationRepository.save(deleted);
+    }
+
+    @Override
+    public Long saveCategoryMenu(CategoryMenuDTO categoryMenuDTO) throws ReferentielException {
+        if (categoryMenuDTO == null)
+            throw new ReferentielException(MessageException.NULL_OBJECT);
+        if (categoryMenuDTO.getLibelle() == null || categoryMenuDTO.getLibelle().isEmpty())
+            throw new ReferentielException("Le libellé de la catégory du menu est obligatoire");
+        CategoryMenu byLibelle = categoryMenuRepository.findByLibelle(categoryMenuDTO.getLibelle());
+        if (categoryMenuDTO.getId() == null && byLibelle != null
+                || (categoryMenuDTO.getId() != null && byLibelle != null && !byLibelle.getId().equals(categoryMenuDTO.getId())))
+            throw new ReferentielException((String.format("Le libellé %s est déjà associé à un autre catégory de menu .", categoryMenuDTO.getLibelle())));
+        CategoryMenu savedCategoryMenu = modelFactoryRef.createCategoryMenu(categoryMenuDTO);
+        savedCategoryMenu.setActif(true);
+        categoryMenuRepository.save(savedCategoryMenu);
+        return savedCategoryMenu.getId();
+    }
+
+    @Override
+    public Long updateCategoryMenu(Long id, CategoryMenuDTO categoryMenuDTO) throws ReferentielException {
+        CategoryMenuDTO foundCategoryMenu = findCategoryMenuById(id);
+        if (foundCategoryMenu == null)
+            throw new ReferentielException(MessageException.NOT_FOUND_OBJECT);
+        categoryMenuDTO.setId(id);
+        saveCategoryMenu(categoryMenuDTO);
+        return categoryMenuDTO.getId();
+    }
+
+    @Override
+    public CategoryMenuDTO findCategoryMenuById(Long id) {
+        return dtoFactoryRef.createCategoryMenuDTO(categoryMenuRepository.findCategoryMenuById(id));
+    }
+
+    @Override
+    public CategoryMenuDTO findCategoryMenuByLibelle(String libelle) {
+        return dtoFactoryRef.createCategoryMenuDTO(categoryMenuRepository.findByLibelle(libelle));
+    }
+
+    @Override
+    public List<CategoryMenuDTO> findAllCategoryMenus() {
+        return dtoFactoryRef.createListeCategoryMenuDTO(categoryMenuRepository.findAllActivesCategoryMenu());
+    }
+
+    @Override
+    public void deleteCategoryMenu(Long id) {
+        CategoryMenu deleted = categoryMenuRepository.findCategoryMenuById(id);
+        deleted.setActif(false);
+        categoryMenuRepository.save(deleted);
+    }
+
+    @Override
+    public Long saveMenu(MenuDTO menuDTO) throws ReferentielException {
+        if (menuDTO == null)
+            throw new ReferentielException(MessageException.NULL_OBJECT);
+        if (menuDTO.getLibelle() == null || menuDTO.getLibelle().isEmpty())
+            throw new ReferentielException("Le libelle du menu est obligatoire");
+        if (menuDTO.getCategoryMenuDTO() == null)
+            throw new ReferentielException("La category du menu est obligatoire");
+        Menu byLibelle = menuRepository.findByLibelle(menuDTO.getLibelle());
+        if (menuDTO.getId() == null && byLibelle != null
+                || (menuDTO.getId() != null && byLibelle != null && !byLibelle.getId().equals(menuDTO.getId())))
+            throw new ReferentielException((String.format("Le libellé %s est déjà associé à un autre menu .", menuDTO.getLibelle())));
+        Menu savedMenu = modelFactoryRef.createMenu(menuDTO);
+        savedMenu.setActif(true);
+        menuRepository.save(savedMenu);
+        return savedMenu.getId();
+    }
+
+    @Override
+    public Long updateMenu(Long id, MenuDTO menuDTO) throws ReferentielException {
+        MenuDTO foundMenu = findMenuById(id);
+        if (foundMenu == null)
+            throw new ReferentielException(MessageException.NOT_FOUND_OBJECT);
+        menuDTO.setId(id);
+        saveMenu(menuDTO);
+        return menuDTO.getId();
+    }
+
+    @Override
+    public MenuDTO findMenuById(Long id) {
+        return dtoFactoryRef.createMenuDTO(menuRepository.findMenuById(id));
+    }
+
+    @Override
+    public MenuDTO findMenuByLibelle(String libelle) {
+        return dtoFactoryRef.createMenuDTO(menuRepository.findByLibelle(libelle));
+    }
+
+    @Override
+    public List<MenuDTO> findAllMenus() {
+        return dtoFactoryRef.createListeMenu(menuRepository.findAllActivesMenu());
+    }
+
+    @Override
+    public List<MenuDTO> findMenusByCategoryMenu(Long catMenuId) {
+        return dtoFactoryRef.createListeMenu(menuRepository.findAllActivesMenu(catMenuId));
+    }
+
+    @Override
+    public void deleteMenu(Long id) {
+        Menu deleted = menuRepository.findMenuById(id);
+        deleted.setActif(false);
+        menuRepository.save(deleted);
     }
 }
