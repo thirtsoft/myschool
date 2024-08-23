@@ -7,6 +7,7 @@ import com.myschool.sn.utils.dtos.referentiel.CategoryMenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
+import com.myschool.sn.utils.dtos.referentiel.MeetingDTO;
 import com.myschool.sn.utils.dtos.referentiel.MenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
@@ -171,4 +172,18 @@ public interface ReferentielService {
     List<MenuDTO> findMenusByCategoryMenu(Long catMenuId);
 
     void deleteMenu(Long id);
+
+    /**************    Meeting  ***********************/
+    Long saveMeeting(MeetingDTO meetingDTO) throws ReferentielException;
+
+    Long updateMeeting(Long id, MeetingDTO meetingDTO) throws ReferentielException;
+
+    MeetingDTO findMeetingById(Long id);
+
+    MeetingDTO findMeetingByLibelle(String libelle);
+
+    List<MeetingDTO> findAllMeetings();
+
+
+    void deleteMeeting(Long id);
 }

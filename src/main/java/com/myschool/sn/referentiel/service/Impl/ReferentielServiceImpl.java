@@ -7,6 +7,7 @@ import com.myschool.sn.referentiel.entity.CategoryMenu;
 import com.myschool.sn.referentiel.entity.Classe;
 import com.myschool.sn.referentiel.entity.Evenement;
 import com.myschool.sn.referentiel.entity.Matiere;
+import com.myschool.sn.referentiel.entity.Meeting;
 import com.myschool.sn.referentiel.entity.Menu;
 import com.myschool.sn.referentiel.entity.NiveauEducation;
 import com.myschool.sn.referentiel.entity.Salle;
@@ -21,6 +22,7 @@ import com.myschool.sn.referentiel.repository.CategoryMenuRepository;
 import com.myschool.sn.referentiel.repository.ClasseRepository;
 import com.myschool.sn.referentiel.repository.EvenementRepository;
 import com.myschool.sn.referentiel.repository.MatiereRepository;
+import com.myschool.sn.referentiel.repository.MeetingRepository;
 import com.myschool.sn.referentiel.repository.MenuRepository;
 import com.myschool.sn.referentiel.repository.NiveauEducationRepository;
 import com.myschool.sn.referentiel.repository.SalleRepository;
@@ -34,6 +36,7 @@ import com.myschool.sn.utils.dtos.referentiel.CategoryMenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
+import com.myschool.sn.utils.dtos.referentiel.MeetingDTO;
 import com.myschool.sn.utils.dtos.referentiel.MenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
@@ -68,6 +71,8 @@ public class ReferentielServiceImpl implements ReferentielService {
 
     private final MenuRepository menuRepository;
 
+    private final MeetingRepository meetingRepository;
+
     private final DTOFactoryRef dtoFactoryRef;
 
     private final ModelFactoryRef modelFactoryRef;
@@ -83,6 +88,7 @@ public class ReferentielServiceImpl implements ReferentielService {
                                   NiveauEducationRepository niveauEducationRepository,
                                   CategoryMenuRepository categoryMenuRepository,
                                   MenuRepository menuRepository,
+                                  MeetingRepository meetingRepository,
                                   DTOFactoryRef dtoFactoryRef,
                                   ModelFactoryRef modelFactoryRef) {
         this.anneeScolaireRepository = anneeScolaireRepository;
@@ -96,6 +102,7 @@ public class ReferentielServiceImpl implements ReferentielService {
         this.niveauEducationRepository = niveauEducationRepository;
         this.categoryMenuRepository = categoryMenuRepository;
         this.menuRepository = menuRepository;
+        this.meetingRepository = meetingRepository;
         this.dtoFactoryRef = dtoFactoryRef;
         this.modelFactoryRef = modelFactoryRef;
     }
@@ -679,12 +686,12 @@ public class ReferentielServiceImpl implements ReferentielService {
 
     @Override
     public List<MenuDTO> findAllMenus() {
-        return dtoFactoryRef.createListeMenu(menuRepository.findAllActivesMenu());
+        return dtoFactoryRef.createListeMenuDTO(menuRepository.findAllActivesMenu());
     }
 
     @Override
     public List<MenuDTO> findMenusByCategoryMenu(Long catMenuId) {
-        return dtoFactoryRef.createListeMenu(menuRepository.findAllActivesMenu(catMenuId));
+        return dtoFactoryRef.createListeMenuDTO(menuRepository.findAllActivesMenu(catMenuId));
     }
 
     @Override
@@ -692,5 +699,53 @@ public class ReferentielServiceImpl implements ReferentielService {
         Menu deleted = menuRepository.findMenuById(id);
         deleted.setActif(false);
         menuRepository.save(deleted);
+    }
+
+    @Override
+    public Long saveMeeting(MeetingDTO meetingDTO) throws ReferentielException {
+        if (meetingDTO == null)
+            throw new ReferentielException(MessageException.NULL_OBJECT);
+        if (meetingDTO.getLibelle() == null || meetingDTO.getLibelle().isEmpty())
+            throw new ReferentielException("Le libellé du meeting est obligatoire");
+        Meeting byLibelle = meetingRepository.findMeetingByLibelle(meetingDTO.getLibelle());
+        if (meetingDTO.getId() == null && byLibelle != null
+                || (meetingDTO.getId() != null && byLibelle != null && !byLibelle.getId().equals(meetingDTO.getId())))
+            throw new ReferentielException((String.format("Le libellé %s est déjà associé à un autre meeting .", meetingDTO.getLibelle())));
+        Meeting savedMeeting = modelFactoryRef.createMeeting(meetingDTO);
+        savedMeeting.setActif(true);
+        meetingRepository.save(savedMeeting);
+        return savedMeeting.getId();
+    }
+
+    @Override
+    public Long updateMeeting(Long id, MeetingDTO meetingDTO) throws ReferentielException {
+        MeetingDTO foundMeeting = findMeetingById(id);
+        if (foundMeeting == null)
+            throw new ReferentielException(MessageException.NOT_FOUND_OBJECT);
+        meetingDTO.setId(id);
+        saveMeeting(meetingDTO);
+        return meetingDTO.getId();
+    }
+
+    @Override
+    public MeetingDTO findMeetingById(Long id) {
+        return dtoFactoryRef.createMeetingDTO(meetingRepository.findMeetingById(id));
+    }
+
+    @Override
+    public MeetingDTO findMeetingByLibelle(String libelle) {
+        return dtoFactoryRef.createMeetingDTO(meetingRepository.findMeetingByLibelle(libelle));
+    }
+
+    @Override
+    public List<MeetingDTO> findAllMeetings() {
+        return dtoFactoryRef.createListeMeetingDTO(meetingRepository.findAllActiveMeetings());
+    }
+
+    @Override
+    public void deleteMeeting(Long id) {
+        Meeting deleted = meetingRepository.findMeetingById(id);
+        deleted.setActif(false);
+        meetingRepository.save(deleted);
     }
 }

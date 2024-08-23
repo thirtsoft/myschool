@@ -10,6 +10,7 @@ import com.myschool.sn.utils.dtos.referentiel.CategoryMenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
+import com.myschool.sn.utils.dtos.referentiel.MeetingDTO;
 import com.myschool.sn.utils.dtos.referentiel.MenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
@@ -558,6 +559,52 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO deleteMenu(Long menuId) {
         try {
             referentielService.deleteMenu(menuId);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    /***********          Meeting        **************/
+    @Override
+    public List<MeetingDTO> getMeetings() {
+        return referentielService.findAllMeetings();
+    }
+
+    @Override
+    public MeetingDTO getMeeting(Long meetingId) {
+        return referentielService.findMeetingById(meetingId);
+    }
+
+    @Override
+    public ReponseMessageDTO createMeeting(MeetingDTO meetingDTO) {
+        try {
+            referentielService.saveMeeting(meetingDTO);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public ReponseMessageDTO updateMeeting(Long meetingId, MeetingDTO meetingDTO) {
+        try {
+            referentielService.updateMeeting(meetingId, meetingDTO);
+            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public MeetingDTO getMeetingByLibelle(String libelle) {
+        return referentielService.findMeetingByLibelle(libelle);
+    }
+
+    @Override
+    public ReponseMessageDTO deleteMeeting(Long meetingId) {
+        try {
+            referentielService.deleteMeeting(meetingId);
             return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
         } catch (Exception e) {
             return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);

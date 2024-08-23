@@ -7,6 +7,7 @@ import com.myschool.sn.referentiel.entity.CategoryMenu;
 import com.myschool.sn.referentiel.entity.Classe;
 import com.myschool.sn.referentiel.entity.Evenement;
 import com.myschool.sn.referentiel.entity.Matiere;
+import com.myschool.sn.referentiel.entity.Meeting;
 import com.myschool.sn.referentiel.entity.Menu;
 import com.myschool.sn.referentiel.entity.NiveauEducation;
 import com.myschool.sn.referentiel.entity.Salle;
@@ -19,6 +20,7 @@ import com.myschool.sn.utils.dtos.referentiel.CategoryMenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
+import com.myschool.sn.utils.dtos.referentiel.MeetingDTO;
 import com.myschool.sn.utils.dtos.referentiel.MenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
@@ -265,12 +267,36 @@ public class DTOFactoryRef {
         return dto;
     }
 
-    public List<MenuDTO> createListeMenu(List<Menu> menus) {
+    public List<MenuDTO> createListeMenuDTO(List<Menu> menus) {
         if (menus == null)
             return new ArrayList<>();
         List<MenuDTO> dtos = new ArrayList<>();
         for (Menu menu: menus) {
             dtos.add(createMenuDTO(menu));
+        }
+        return dtos;
+    }
+
+    /***********      Meeting       ***********/
+    public MeetingDTO createMeetingDTO(Meeting model) {
+        if (model == null)
+            return null;
+        MeetingDTO dto = new MeetingDTO();
+        dto.setId(model.getId());
+        dto.setLibelle(model.getLibelle());
+        dto.setDateMeeting(model.getDateMeeting());
+        dto.setHeureDebut(model.getHeureDebut());
+        dto.setHeureFin(model.getHeureFin());
+        dto.setDescription(model.getDescription());
+        dto.setActif(model.isActif());
+        return dto;
+    }
+    public List<MeetingDTO> createListeMeetingDTO(List<Meeting> meetings) {
+        if (meetings == null)
+            return new ArrayList<>();
+        List<MeetingDTO> dtos = new ArrayList<>();
+        for (Meeting meeting: meetings) {
+            dtos.add(createMeetingDTO(meeting));
         }
         return dtos;
     }

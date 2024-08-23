@@ -7,6 +7,7 @@ import com.myschool.sn.utils.dtos.referentiel.CategoryMenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
+import com.myschool.sn.utils.dtos.referentiel.MeetingDTO;
 import com.myschool.sn.utils.dtos.referentiel.MenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
@@ -313,6 +314,30 @@ public interface ReferentielApi {
 
     @DeleteMapping(value = "/menu/delete/{menuId}")
     ReponseMessageDTO deleteMenu(@PathVariable Long menuId);
+
+    /*************      Meeting    *************************/
+    @GetMapping(value = "/meeting", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    List<MeetingDTO> getMeetings();
+
+    @GetMapping(value = "/meeting/{meetingId}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    MeetingDTO getMeeting(@PathVariable @NotNull Long meetingId);
+
+    @PostMapping(value = "/meeting/save", consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    ReponseMessageDTO createMeeting(@RequestBody MeetingDTO meetingDTO);
+
+    @PutMapping(value = "/meeting/update/{meetingId}", consumes = "application/json")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    ReponseMessageDTO updateMeeting(@PathVariable Long meetingId, @RequestBody MeetingDTO meetingDTO);
+
+    @GetMapping(value = "/meeting/by-libelle/{libelle}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    MeetingDTO getMeetingByLibelle(@PathVariable String libelle);
+
+    @DeleteMapping(value = "/meeting/delete/{meetingId}")
+    ReponseMessageDTO deleteMeeting(@PathVariable Long meetingId);
 
 
 }
