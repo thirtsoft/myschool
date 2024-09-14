@@ -13,12 +13,15 @@ import com.myschool.sn.referentiel.entity.NiveauEducation;
 import com.myschool.sn.referentiel.entity.Salle;
 import com.myschool.sn.referentiel.entity.Semestre;
 import com.myschool.sn.referentiel.entity.TypeDocument;
+import com.myschool.sn.referentiel.repository.BatimentRepository;
+import com.myschool.sn.referentiel.service.ReferentielService;
 import com.myschool.sn.utils.dtos.dossierEleve.EleveDTO;
 import com.myschool.sn.utils.dtos.referentiel.AnneeScolaireDTO;
 import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
 import com.myschool.sn.utils.dtos.referentiel.CategoryMenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
+import com.myschool.sn.utils.dtos.referentiel.ListeClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
 import com.myschool.sn.utils.dtos.referentiel.MeetingDTO;
 import com.myschool.sn.utils.dtos.referentiel.MenuDTO;
@@ -26,13 +29,19 @@ import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
 import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
 import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
+import lombok.RequiredArgsConstructor;
 
 import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 
 @Named("dtoFactoryRef")
+@RequiredArgsConstructor
 public class DTOFactoryRef {
+
+ //   private final ReferentielService referentielService;
+
+    private final BatimentRepository batimentRepository;
 
     /**************  AnneeScolaire  ****************/
     public AnneeScolaireDTO createAnneeScolaireDTO(AnneeScolaire anneeScolaire) {
@@ -84,6 +93,7 @@ public class DTOFactoryRef {
         ClasseDTO dto = new ClasseDTO();
         dto.setId(model.getId());
         dto.setLibelle(model.getLibelle());
+        dto.setBatimentId(model.getBatimentId());
         dto.setActif(model.isActif());
         return dto;
     }
@@ -94,6 +104,28 @@ public class DTOFactoryRef {
         List<ClasseDTO> dtos = new ArrayList<>();
         for (Classe classe: classes) {
             dtos.add(createClasseDTO(classe));
+        }
+        return dtos;
+    }
+
+    public ListeClasseDTO createListeClasseDTO(Classe model) {
+        if (model == null)
+            return null;
+        ListeClasseDTO dto = new ListeClasseDTO();
+        dto.setId(model.getId());
+        dto.setLibelle(model.getLibelle());
+        dto.setActif(model.isActif());
+        if (model.getBatimentId() != null)
+            dto.setBatiment(batimentRepository.findBatimentById(model.getBatimentId()).getLibelle());
+        return dto;
+    }
+
+    public List<ListeClasseDTO> createListClasseDTO(List<Classe> classes) {
+        if (classes == null)
+            return new ArrayList<>();
+        List<ListeClasseDTO> dtos = new ArrayList<>();
+        for (Classe classe: classes) {
+            dtos.add(createListeClasseDTO(classe));
         }
         return dtos;
     }

@@ -6,6 +6,7 @@ import com.myschool.sn.utils.MessageException;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
 import com.myschool.sn.utils.dtos.dossierEleve.DetailsInscriptionDTO;
 import com.myschool.sn.utils.dtos.dossierEleve.InscriptionDTO;
+import com.myschool.sn.utils.dtos.dossierEleve.ListeInscriptionDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,12 +19,12 @@ public class InscriptionController implements InscriptionApi {
     private final InscriptionService inscriptionService;
 
     @Override
-    public List<DetailsInscriptionDTO> getInscriptions() {
+    public List<ListeInscriptionDTO> getInscriptions() {
         return inscriptionService.findAllInscriptions();
     }
 
     @Override
-    public List<DetailsInscriptionDTO> getInscriptionsByAnneeScolaire(String code) {
+    public List<ListeInscriptionDTO> getInscriptionsByAnneeScolaire(String code) {
         return inscriptionService.findInscriptionsByAnneeScolaire(code);
     }
 

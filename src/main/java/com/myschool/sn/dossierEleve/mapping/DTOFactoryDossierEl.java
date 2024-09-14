@@ -3,11 +3,16 @@ package com.myschool.sn.dossierEleve.mapping;
 import com.myschool.sn.dossierEleve.entity.Eleve;
 import com.myschool.sn.dossierEleve.entity.Inscription;
 import com.myschool.sn.dossierEleve.entity.Paiement;
+import com.myschool.sn.dossierEleve.repository.EleveRepository;
 import com.myschool.sn.referentiel.mapping.DTOFactoryRef;
+import com.myschool.sn.referentiel.service.ReferentielService;
 import com.myschool.sn.utils.dtos.dossierEleve.DetailsInscriptionDTO;
 import com.myschool.sn.utils.dtos.dossierEleve.EleveDTO;
 import com.myschool.sn.utils.dtos.dossierEleve.InscriptionDTO;
+import com.myschool.sn.utils.dtos.dossierEleve.ListeInscriptionDTO;
 import com.myschool.sn.utils.dtos.dossierEleve.PaiementDTO;
+import com.myschool.sn.utils.dtos.referentiel.AnneeScolaireDTO;
+import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 
 import javax.inject.Named;
 import java.util.ArrayList;
@@ -18,8 +23,16 @@ public class DTOFactoryDossierEl {
 
     private final DTOFactoryRef dtoFactoryRef;
 
-    public DTOFactoryDossierEl(DTOFactoryRef dtoFactoryRef) {
+    private final EleveRepository eleveRepository;
+
+    private final ReferentielService referentielService;
+
+    public DTOFactoryDossierEl(DTOFactoryRef dtoFactoryRef,
+                               EleveRepository eleveRepository,
+                               ReferentielService referentielService) {
         this.dtoFactoryRef = dtoFactoryRef;
+        this.eleveRepository = eleveRepository;
+        this.referentielService = referentielService;
     }
 
     public EleveDTO createEleveDTO(Eleve eleve) {
@@ -54,7 +67,7 @@ public class DTOFactoryDossierEl {
         InscriptionDTO dto = new InscriptionDTO();
         dto.setId(inscription.getId());
         dto.setActif(inscription.isActif());
-        dto.setEleveDTO(createEleveDTO(inscription.getEleve()));
+        dto.setEleveId(inscription.getEleve().getId());
         dto.setAnneeScolaireDebutId(inscription.getAnneeScolaire_debut().getId());
         dto.setAnneeScolaireFinId(inscription.getAnneeScolaire_fin().getId());
         dto.setCode(inscription.getCode());
@@ -63,6 +76,46 @@ public class DTOFactoryDossierEl {
         dto.setCreatedBy(inscription.getCreatedBy());
         return dto;
     }
+
+    public ListeInscriptionDTO createInscriptionListeDTO(Inscription inscription) {
+        if (inscription == null)
+            return null;
+        ListeInscriptionDTO dto = new ListeInscriptionDTO();
+        dto.setId(inscription.getId());
+        dto.setActif(inscription.isActif());
+        if (inscription.getEleve() != null) {
+            Eleve eleve = eleveRepository.findEleveById(inscription.getEleve().getId());
+            String nomEleve = eleve.getPrenom() + " " + eleve.getNom();
+            dto.setNomCompletEleve(nomEleve);
+        }
+        if (inscription.getAnneeScolaire_debut() != null) {
+            dto.setAnneeScolareDebut(referentielService.findAnneeScolaireDTOById(
+                    inscription.getAnneeScolaire_debut().getId()).getLibelle());
+        }
+        if (inscription.getAnneeScolaire_fin() != null) {
+            dto.setAnneeScolareFin(referentielService.findAnneeScolaireDTOById(
+                    inscription.getAnneeScolaire_fin().getId()).getLibelle());
+        }
+        if (inscription.getClasse() != null) {
+            dto.setClasse(referentielService.findClasseById(inscription.getClasse().getId()).getLibelle());
+        }
+        dto.setCode(inscription.getCode());
+        dto.setMontantInscription(inscription.getMontantInscription());
+        dto.setDateInscription(inscription.getDateInscription());
+        dto.setCreatedBy(inscription.getCreatedBy());
+        return dto;
+    }
+
+    public List<ListeInscriptionDTO> createListeInscriptionDTO(List<Inscription> inscriptions) {
+        if (inscriptions == null)
+            return new ArrayList<>();
+        List<ListeInscriptionDTO> dtos = new ArrayList<>();
+        for (Inscription inscription : inscriptions) {
+            dtos.add(createInscriptionListeDTO(inscription));
+        }
+        return dtos;
+    }
+
 
     public DetailsInscriptionDTO createDetailsInscriptionDTO(Inscription inscription) {
         if (inscription == null)

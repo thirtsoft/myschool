@@ -15,7 +15,7 @@ public interface CategoryMenuRepository extends JpaRepository<CategoryMenu, Long
     @Query("SELECT DISTINCT cat from CategoryMenu cat where cat.id=:id and cat.actif=1 ")
     CategoryMenu findCategoryMenuById(@Param("id") Long id);
 
-    @Query("SELECT DISTINCT cat from  CategoryMenu bat where cat.actif=1 and cat.libelle=:libelle")
+    @Query("SELECT DISTINCT cat from  CategoryMenu cat where cat.actif=1 and cat.libelle=:libelle")
     CategoryMenu findByLibelle(@Param("libelle") String libelle);
 
 }

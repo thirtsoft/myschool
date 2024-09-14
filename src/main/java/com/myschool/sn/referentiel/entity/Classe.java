@@ -1,6 +1,7 @@
 package com.myschool.sn.referentiel.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Classe extends ReferencetielEntity {
 
+    @JoinColumn(name = "batiment_uid", referencedColumnName = "id", nullable = false)
+    private Long batimentId;
 
     private int actif;
 

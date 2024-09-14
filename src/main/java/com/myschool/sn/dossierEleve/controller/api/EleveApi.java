@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
-@RequestMapping("/api/eleve")
+@RequestMapping("/eleve")
 public interface EleveApi {
 
     @GetMapping(value = "", produces = "application/json")

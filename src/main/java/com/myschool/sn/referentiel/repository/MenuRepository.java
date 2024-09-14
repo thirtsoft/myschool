@@ -18,6 +18,6 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
     @Query("SELECT DISTINCT men from Menu men where men.id=:id and men.actif=1 ")
     Menu findMenuById(@Param("id") Long id);
 
-    @Query("SELECT DISTINCT men from  Menu bat where men.actif=1 and men.libelle=:libelle")
+    @Query("SELECT DISTINCT men from  Menu men where men.actif=1 and men.libelle=:libelle")
     Menu findByLibelle(@Param("libelle") String libelle);
 }

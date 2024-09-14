@@ -58,6 +58,7 @@ public class ModelFactoryRef {
         model.setId(dto.getId());
         model.setActif(dto.isActif());
         model.setLibelle(dto.getLibelle());
+        model.setBatimentId(dto.getBatimentId());
         return model;
     }
 

@@ -6,6 +6,7 @@ import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
 import com.myschool.sn.utils.dtos.referentiel.CategoryMenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
+import com.myschool.sn.utils.dtos.referentiel.ListeClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
 import com.myschool.sn.utils.dtos.referentiel.MeetingDTO;
 import com.myschool.sn.utils.dtos.referentiel.MenuDTO;
@@ -53,7 +54,7 @@ public interface ReferentielService {
 
     ClasseDTO findClasseByLibelle(String libelle);
 
-    List<ClasseDTO> findAllClasses();
+    List<ListeClasseDTO> findAllClasses();
 
     void deleteClasse(Long id);
 

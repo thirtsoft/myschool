@@ -9,6 +9,7 @@ import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
 import com.myschool.sn.utils.dtos.referentiel.CategoryMenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
+import com.myschool.sn.utils.dtos.referentiel.ListeClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
 import com.myschool.sn.utils.dtos.referentiel.MeetingDTO;
 import com.myschool.sn.utils.dtos.referentiel.MenuDTO;
@@ -123,7 +124,7 @@ public class ReferentielController implements ReferentielApi {
 
     /********************    Classe    *********************/
     @Override
-    public List<ClasseDTO> getClasses() {
+    public List<ListeClasseDTO> getClasses() {
         return referentielService.findAllClasses();
     }
 

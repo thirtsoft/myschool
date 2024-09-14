@@ -6,6 +6,7 @@ import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
 import com.myschool.sn.utils.dtos.referentiel.CategoryMenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
+import com.myschool.sn.utils.dtos.referentiel.ListeClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
 import com.myschool.sn.utils.dtos.referentiel.MeetingDTO;
 import com.myschool.sn.utils.dtos.referentiel.MenuDTO;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
-@RequestMapping(value = "/api/referentiel")
+@RequestMapping(value = "/referentiel")
 public interface ReferentielApi {
 
     @GetMapping(value = "/anneescolaire", produces = "application/json")
@@ -79,7 +80,7 @@ public interface ReferentielApi {
     /************* Classe *************************/
     @GetMapping(value = "/classe", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    List<ClasseDTO> getClasses();
+    List<ListeClasseDTO> getClasses();
 
     @GetMapping(value = "/classe/{classeId}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
@@ -96,11 +97,12 @@ public interface ReferentielApi {
     @GetMapping(value = "/classe/by-libelle/{libelle}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     ClasseDTO getClasseByLibelle(@PathVariable String libelle);
+
     @DeleteMapping(value = "/classe/delete/{classeId}")
     ReponseMessageDTO deleteClasse(@PathVariable Long classeId);
 
     /************* Matiere *************************/
-    @GetMapping(value = "/classe", produces = "application/json")
+    @GetMapping(value = "/matiere", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     List<MatiereDTO> getMatieres();
 

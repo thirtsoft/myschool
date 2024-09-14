@@ -11,5 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProfilReponse {
+    private String code;
     private List<ActionListResponse> actions;
 }

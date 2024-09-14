@@ -35,6 +35,7 @@ import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
 import com.myschool.sn.utils.dtos.referentiel.CategoryMenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
+import com.myschool.sn.utils.dtos.referentiel.ListeClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
 import com.myschool.sn.utils.dtos.referentiel.MeetingDTO;
 import com.myschool.sn.utils.dtos.referentiel.MenuDTO;
@@ -250,8 +251,8 @@ public class ReferentielServiceImpl implements ReferentielService {
     }
 
     @Override
-    public List<ClasseDTO> findAllClasses() {
-        return dtoFactoryRef.createListeClasseDTO(classeRepository.findAllActives());
+    public List<ListeClasseDTO> findAllClasses() {
+        return dtoFactoryRef.createListClasseDTO(classeRepository.findAllActives());
     }
 
     @Override
@@ -389,6 +390,7 @@ public class ReferentielServiceImpl implements ReferentielService {
             throw new ReferentielException("L'heure de fin de l'événement est obligatoire");
         Evenement savedEvenement = modelFactoryRef.createEvenement(evenementDTO);
         savedEvenement.setActif(true);
+        evenementRepository.save(savedEvenement);
         return savedEvenement.getId();
     }
 
@@ -441,7 +443,8 @@ public class ReferentielServiceImpl implements ReferentielService {
                 || (semestreDTO.getId() != null && semestreByLibelle != null && !semestreByLibelle.getId().equals(semestreDTO.getId())))
             throw new ReferentielException((String.format("Le libelle %s est déjà associé à un autre semestre .", semestreDTO.getLibelle())));
         Semestre savedSemestre = modelFactoryRef.createSemestre(semestreDTO);
-        savedSemestre.setActif(false);
+        savedSemestre.setActif(true);
+        semestreRepository.save(savedSemestre);
         return savedSemestre.getId();
     }
 
@@ -558,6 +561,7 @@ public class ReferentielServiceImpl implements ReferentielService {
             throw new ReferentielException((String.format("Le libellé %s est déjà associé à un autre niveau d'éducation .", niveauEducationDTO.getCode())));
         NiveauEducation savedNiveauEducation = modelFactoryRef.createNiveauEducation(niveauEducationDTO);
         savedNiveauEducation.setActif(true);
+        niveauEducationRepository.save(savedNiveauEducation);
         return savedNiveauEducation.getId();
     }
 
