@@ -1,7 +1,7 @@
-package com.myschool.sn.dossierEleve.controller.api;
+package com.myschool.sn.enseignant.controller.api;
 
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
-import com.myschool.sn.utils.dtos.dossierEleve.EleveDTO;
+import com.myschool.sn.utils.dtos.enseignant.EnseignantDTO;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,34 +15,34 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
-@RequestMapping("/eleve")
-public interface EleveApi {
+@RequestMapping(value = "/api/enseignant")
+public interface EnseignantApi {
 
     @GetMapping(value = "", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    List<EleveDTO> getEleves();
+    List<EnseignantDTO> getEnseignants();
 
-    @GetMapping(value = "/{eleveId}", produces = "application/json")
+    @GetMapping(value = "/{enseignantId}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    EleveDTO getEleve(@PathVariable @NotNull Long eleveId);
+    EnseignantDTO getEnseignant(@PathVariable @NotNull Long enseignantId);
 
     @PostMapping(value = "/save", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    ReponseMessageDTO createOrUpdateEleve(@RequestBody EleveDTO eleveDTO);
+    ReponseMessageDTO createEnseignant(@RequestBody EnseignantDTO enseignantDTO);
 
-    @PutMapping(value = "/update/{eleveId}", consumes = "application/json")
+    @PutMapping(value = "/update/{enseignantId}", consumes = "application/json")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    ReponseMessageDTO updateEleve(@PathVariable Long eleveId, @RequestBody EleveDTO eleveDTO);
+    ReponseMessageDTO updateEnseignant(@PathVariable Long enseignantId, @RequestBody EnseignantDTO enseignantDTO);
 
     @GetMapping(value = "/by-matricule/{matricule}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    EleveDTO getEleveByMatricule(@PathVariable String matricule);
+    EnseignantDTO getEnseignantByMatricule(@PathVariable String matricule);
 
-    @GetMapping(value = "/by-nom/{nom}/by-prenom/{prenom}", produces = "application/json")
+    @GetMapping(value = "/by-telephone/{telephone}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    EleveDTO getEleveByNomOrPrenom(@PathVariable String nom, @PathVariable String prenom);
+    EnseignantDTO getEnseignantByTelephone(@PathVariable String telephone);
 
-    @DeleteMapping(value = "/delete/{eleveId}")
-    ReponseMessageDTO deleteEleve(@PathVariable Long eleveId);
+    @DeleteMapping(value = "/delete/{enseignantId}")
+    ReponseMessageDTO deleteEnseignant(@PathVariable Long enseignantId);
 
 }

@@ -1,21 +1,32 @@
 package com.myschool.sn.referentiel.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
-@Table(name = "myschool_classe")
+@Table(name = "myschool_meeting")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Classe extends ReferencetielEntity {
+public class Meeting extends ReferencetielEntity {
 
-    @JoinColumn(name = "batiment_uid", referencedColumnName = "id", nullable = false)
-    private Long batimentId;
+    @Column(name = "date_meeting")
+    private Date dateMeeting;
+
+    @Column(name = "heure_debut")
+    private String heureDebut;
+
+    @Column(name = "heure_Fin")
+    private String heureFin;
+
+    @Column(name = "description")
+    private String description;
 
     private int actif;
 

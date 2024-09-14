@@ -2,6 +2,7 @@ package com.myschool.sn.dossierEleve.entity;
 
 import com.myschool.sn.admin.entity.Profil;
 import com.myschool.sn.referentiel.entity.AnneeScolaire;
+import com.myschool.sn.referentiel.entity.Classe;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -42,6 +43,10 @@ public class Inscription {
     @ManyToOne
     @JoinColumn(name = "annee_scolaire_fin_uid", referencedColumnName = "id", nullable = false)
     private AnneeScolaire anneeScolaire_fin;
+
+    @ManyToOne
+    @JoinColumn(name = "classe_uid", referencedColumnName = "id")
+    private Classe classe;
 
     @Column(name = "montant_inscription")
     private Double montantInscription;

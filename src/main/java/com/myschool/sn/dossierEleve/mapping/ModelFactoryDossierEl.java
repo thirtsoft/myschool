@@ -3,6 +3,7 @@ package com.myschool.sn.dossierEleve.mapping;
 import com.myschool.sn.dossierEleve.entity.Eleve;
 import com.myschool.sn.dossierEleve.entity.Inscription;
 import com.myschool.sn.dossierEleve.entity.Paiement;
+import com.myschool.sn.dossierEleve.repository.EleveRepository;
 import com.myschool.sn.referentiel.mapping.ModelFactoryRef;
 import com.myschool.sn.referentiel.service.ReferentielService;
 import com.myschool.sn.utils.dtos.dossierEleve.EleveDTO;
@@ -14,11 +15,16 @@ import javax.inject.Named;
 @Named("modelFactoryEl")
 public class ModelFactoryDossierEl {
 
+    private final EleveRepository eleveRepository;
+
     private final ReferentielService referentielService;
 
     private final ModelFactoryRef modelFactoryRef;
 
-    public ModelFactoryDossierEl(ReferentielService referentielService, ModelFactoryRef modelFactoryRef) {
+    public ModelFactoryDossierEl(EleveRepository eleveRepository,
+                                 ReferentielService referentielService,
+                                 ModelFactoryRef modelFactoryRef) {
+        this.eleveRepository = eleveRepository;
         this.referentielService = referentielService;
         this.modelFactoryRef = modelFactoryRef;
     }
@@ -47,12 +53,28 @@ public class ModelFactoryDossierEl {
         model.setCreatedBy(dto.getCreatedBy());
         model.setCode(dto.getCode());
         model.setEleve(createEleve(dto.getEleveDTO()));
-        model.setAnneeScolaire_debut(modelFactoryRef.createAnneeScolaire(
-                referentielService.findAnneeScolaireDTOById(dto.getAnneeScolaireDebutId())
-        ));
-        model.setAnneeScolaire_fin(modelFactoryRef.createAnneeScolaire(
-                referentielService.findAnneeScolaireDTOById(dto.getAnneeScolaireFinId())
-        ));
+        model.setClasse(modelFactoryRef.createClasse(dto.getClasseDTO()));
+        model.setAnneeScolaire_debut(modelFactoryRef.createAnneeScolaire(dto.getAnneeScolaireDebutDTO()));
+        model.setAnneeScolaire_fin(modelFactoryRef.createAnneeScolaire(dto.getAnneeScolaireFinDTO()));
+        /*
+        if (dto.getEleveId() != null) {
+            model.setEleve(eleveRepository.findEleveById(dto.getId()));
+        }
+        if (dto.getAnneeScolaireDebutId() != null) {
+            model.setAnneeScolaire_debut(modelFactoryRef.createAnneeScolaire(
+                    referentielService.findAnneeScolaireDTOById(dto.getAnneeScolaireDebutId())
+            ));
+        }
+        if (dto.getAnneeScolaireFinId() != null) {
+            model.setAnneeScolaire_fin(modelFactoryRef.createAnneeScolaire(
+                    referentielService.findAnneeScolaireDTOById(dto.getAnneeScolaireFinId())
+            ));
+        }
+        if (dto.getClasseId() != null) {
+            model.setClasse(modelFactoryRef.createClasse(
+                    referentielService.findClasseById(dto.getClasseId())
+            ));
+        }*/
         model.setMontantInscription(dto.getMontantInscription());
         model.setDateInscription(dto.getDateInscription());
         return model;

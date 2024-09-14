@@ -3,9 +3,13 @@ package com.myschool.sn.referentiel.service;
 import com.myschool.sn.referentiel.exception.ReferentielException;
 import com.myschool.sn.utils.dtos.referentiel.AnneeScolaireDTO;
 import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
+import com.myschool.sn.utils.dtos.referentiel.CategoryMenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
+import com.myschool.sn.utils.dtos.referentiel.ListeClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
+import com.myschool.sn.utils.dtos.referentiel.MeetingDTO;
+import com.myschool.sn.utils.dtos.referentiel.MenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
 import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
@@ -50,7 +54,7 @@ public interface ReferentielService {
 
     ClasseDTO findClasseByLibelle(String libelle);
 
-    List<ClasseDTO> findAllClasses();
+    List<ListeClasseDTO> findAllClasses();
 
     void deleteClasse(Long id);
 
@@ -141,4 +145,46 @@ public interface ReferentielService {
     List<NiveauEducationDTO> findAllNiveauEducations();
 
     void deleteNiveauEducation(Long id);
+
+    /**************   CategoryMenu ***********************/
+    Long saveCategoryMenu(CategoryMenuDTO categoryMenuDTO) throws ReferentielException;
+
+    Long updateCategoryMenu(Long id, CategoryMenuDTO categoryMenuDTO) throws ReferentielException;
+
+    CategoryMenuDTO findCategoryMenuById(Long id);
+
+    CategoryMenuDTO findCategoryMenuByLibelle(String libelle);
+
+    List<CategoryMenuDTO> findAllCategoryMenus();
+
+    void deleteCategoryMenu(Long id);
+
+    /**************   Menu ***********************/
+    Long saveMenu(MenuDTO menuDTO) throws ReferentielException;
+
+    Long updateMenu(Long id, MenuDTO menuDTO) throws ReferentielException;
+
+    MenuDTO findMenuById(Long id);
+
+    MenuDTO findMenuByLibelle(String libelle);
+
+    List<MenuDTO> findAllMenus();
+
+    List<MenuDTO> findMenusByCategoryMenu(Long catMenuId);
+
+    void deleteMenu(Long id);
+
+    /**************    Meeting  ***********************/
+    Long saveMeeting(MeetingDTO meetingDTO) throws ReferentielException;
+
+    Long updateMeeting(Long id, MeetingDTO meetingDTO) throws ReferentielException;
+
+    MeetingDTO findMeetingById(Long id);
+
+    MeetingDTO findMeetingByLibelle(String libelle);
+
+    List<MeetingDTO> findAllMeetings();
+
+
+    void deleteMeeting(Long id);
 }

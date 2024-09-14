@@ -3,6 +3,7 @@ package com.myschool.sn.dossierEleve.service;
 import com.myschool.sn.dossierEleve.exception.DossierEleveException;
 import com.myschool.sn.utils.dtos.dossierEleve.DetailsInscriptionDTO;
 import com.myschool.sn.utils.dtos.dossierEleve.InscriptionDTO;
+import com.myschool.sn.utils.dtos.dossierEleve.ListeInscriptionDTO;
 
 import java.util.List;
 
@@ -19,9 +20,9 @@ public interface InscriptionService {
 
     DetailsInscriptionDTO findInscriptionByEleve(String nom, String prenom);
 
-    List<DetailsInscriptionDTO> findAllInscriptions();
+    List<ListeInscriptionDTO> findAllInscriptions();
 
-    List<DetailsInscriptionDTO> findInscriptionsByAnneeScolaire(String anneeScolaire);
+    List<ListeInscriptionDTO> findInscriptionsByAnneeScolaire(String anneeScolaire);
 
     void deleteInscription(Long id);
 

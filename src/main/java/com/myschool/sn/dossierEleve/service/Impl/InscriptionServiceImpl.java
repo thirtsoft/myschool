@@ -9,6 +9,7 @@ import com.myschool.sn.dossierEleve.service.InscriptionService;
 import com.myschool.sn.utils.MessageException;
 import com.myschool.sn.utils.dtos.dossierEleve.DetailsInscriptionDTO;
 import com.myschool.sn.utils.dtos.dossierEleve.InscriptionDTO;
+import com.myschool.sn.utils.dtos.dossierEleve.ListeInscriptionDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,13 @@ public class InscriptionServiceImpl implements InscriptionService {
             throw new DossierEleveException("L'indentifiant de l'élève est obligatoire");
         if (inscriptionDTO.getMontantInscription() == null || inscriptionDTO.getMontantInscription().isNaN())
             throw new DossierEleveException("Le montant de l'inscription est obligatoire");
+        if (inscriptionDTO.getAnneeScolaireDebutDTO() == null)
+            throw new DossierEleveException("L'année scolaire de début est obligatoire");
+        if (inscriptionDTO.getAnneeScolaireFinDTO() == null)
+            throw new DossierEleveException("L'année scolaire de fin est obligatoire");
+        if (inscriptionDTO.getClasseDTO() == null)
+            throw new DossierEleveException("La classe d'inscription est obligatoire");
+
 //        if (inscriptionDTO.getDateInscription() == null)
 //            throw new DossierEleveException("La date de l'inscription est obligatoire");
         Inscription SearchInscription = inscriptionRepository.findByCode(inscriptionDTO.getCode());
@@ -81,15 +89,15 @@ public class InscriptionServiceImpl implements InscriptionService {
     }
 
     @Override
-    public List<DetailsInscriptionDTO> findAllInscriptions() {
-        return dtoFactoryDossierEl.createListeDetailsInscriptionDTO(inscriptionRepository.findAllInscriptions());
+    public List<ListeInscriptionDTO> findAllInscriptions() {
+        return dtoFactoryDossierEl.createListeInscriptionDTO(inscriptionRepository.findAllInscriptions());
     }
 
     @Override
-    public List<DetailsInscriptionDTO> findInscriptionsByAnneeScolaire(String anneeScolaire) {
+    public List<ListeInscriptionDTO> findInscriptionsByAnneeScolaire(String anneeScolaire) {
         if (anneeScolaire == null)
             throw new DossierEleveException(MessageException.NOT_FOUND_OBJECT);
-        return dtoFactoryDossierEl.createListeDetailsInscriptionDTO(inscriptionRepository.findInscriptionByAnneeScolaire(anneeScolaire));
+        return dtoFactoryDossierEl.createListeInscriptionDTO(inscriptionRepository.findInscriptionByAnneeScolaire(anneeScolaire));
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.myschool.sn.dossierEleve.controller.api;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
 import com.myschool.sn.utils.dtos.dossierEleve.DetailsInscriptionDTO;
 import com.myschool.sn.utils.dtos.dossierEleve.InscriptionDTO;
+import com.myschool.sn.utils.dtos.dossierEleve.ListeInscriptionDTO;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,16 +17,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
-@RequestMapping("/api/inscription")
+@RequestMapping("/inscription")
 public interface InscriptionApi {
 
     @GetMapping(value = "", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    List<DetailsInscriptionDTO> getInscriptions();
+    List<ListeInscriptionDTO> getInscriptions();
 
     @GetMapping(value = "/by-annnee-scolaire/{code}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    List<DetailsInscriptionDTO> getInscriptionsByAnneeScolaire(@PathVariable String code);
+    List<ListeInscriptionDTO> getInscriptionsByAnneeScolaire(@PathVariable String code);
 
     @GetMapping(value = "/{inscriptionId}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)

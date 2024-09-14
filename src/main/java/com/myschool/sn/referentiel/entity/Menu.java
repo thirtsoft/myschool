@@ -2,20 +2,24 @@ package com.myschool.sn.referentiel.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "myschool_classe")
+@Table(name = "myschool_menu")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Classe extends ReferencetielEntity {
+public class Menu extends ReferencetielEntity {
 
-    @JoinColumn(name = "batiment_uid", referencedColumnName = "id", nullable = false)
-    private Long batimentId;
+    @ManyToOne
+    @JoinColumn(name = "category_menu_uid", referencedColumnName = "id", nullable = false)
+    private CategoryMenu categoryMenu;
+
+    private String description;
 
     private int actif;
 
@@ -29,4 +33,5 @@ public class Classe extends ReferencetielEntity {
     public boolean isActif() {
         return actif == 1;
     }
+
 }

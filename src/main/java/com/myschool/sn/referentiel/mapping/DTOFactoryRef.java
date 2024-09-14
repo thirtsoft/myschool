@@ -3,30 +3,45 @@ package com.myschool.sn.referentiel.mapping;
 import com.myschool.sn.dossierEleve.entity.Eleve;
 import com.myschool.sn.referentiel.entity.AnneeScolaire;
 import com.myschool.sn.referentiel.entity.Batiment;
+import com.myschool.sn.referentiel.entity.CategoryMenu;
 import com.myschool.sn.referentiel.entity.Classe;
 import com.myschool.sn.referentiel.entity.Evenement;
 import com.myschool.sn.referentiel.entity.Matiere;
+import com.myschool.sn.referentiel.entity.Meeting;
+import com.myschool.sn.referentiel.entity.Menu;
 import com.myschool.sn.referentiel.entity.NiveauEducation;
 import com.myschool.sn.referentiel.entity.Salle;
 import com.myschool.sn.referentiel.entity.Semestre;
 import com.myschool.sn.referentiel.entity.TypeDocument;
+import com.myschool.sn.referentiel.repository.BatimentRepository;
+import com.myschool.sn.referentiel.service.ReferentielService;
 import com.myschool.sn.utils.dtos.dossierEleve.EleveDTO;
 import com.myschool.sn.utils.dtos.referentiel.AnneeScolaireDTO;
 import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
+import com.myschool.sn.utils.dtos.referentiel.CategoryMenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
+import com.myschool.sn.utils.dtos.referentiel.ListeClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
+import com.myschool.sn.utils.dtos.referentiel.MeetingDTO;
+import com.myschool.sn.utils.dtos.referentiel.MenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
 import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
 import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
+import lombok.RequiredArgsConstructor;
 
 import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 
 @Named("dtoFactoryRef")
+@RequiredArgsConstructor
 public class DTOFactoryRef {
+
+ //   private final ReferentielService referentielService;
+
+    private final BatimentRepository batimentRepository;
 
     /**************  AnneeScolaire  ****************/
     public AnneeScolaireDTO createAnneeScolaireDTO(AnneeScolaire anneeScolaire) {
@@ -78,6 +93,7 @@ public class DTOFactoryRef {
         ClasseDTO dto = new ClasseDTO();
         dto.setId(model.getId());
         dto.setLibelle(model.getLibelle());
+        dto.setBatimentId(model.getBatimentId());
         dto.setActif(model.isActif());
         return dto;
     }
@@ -88,6 +104,28 @@ public class DTOFactoryRef {
         List<ClasseDTO> dtos = new ArrayList<>();
         for (Classe classe: classes) {
             dtos.add(createClasseDTO(classe));
+        }
+        return dtos;
+    }
+
+    public ListeClasseDTO createListeClasseDTO(Classe model) {
+        if (model == null)
+            return null;
+        ListeClasseDTO dto = new ListeClasseDTO();
+        dto.setId(model.getId());
+        dto.setLibelle(model.getLibelle());
+        dto.setActif(model.isActif());
+        if (model.getBatimentId() != null)
+            dto.setBatiment(batimentRepository.findBatimentById(model.getBatimentId()).getLibelle());
+        return dto;
+    }
+
+    public List<ListeClasseDTO> createListClasseDTO(List<Classe> classes) {
+        if (classes == null)
+            return new ArrayList<>();
+        List<ListeClasseDTO> dtos = new ArrayList<>();
+        for (Classe classe: classes) {
+            dtos.add(createListeClasseDTO(classe));
         }
         return dtos;
     }
@@ -223,6 +261,74 @@ public class DTOFactoryRef {
         List<NiveauEducationDTO> dtos = new ArrayList<>();
         for (NiveauEducation niveauEducation: niveauEducations) {
             dtos.add(createNiveauEducationDTO(niveauEducation));
+        }
+        return dtos;
+    }
+
+    /****************   CategoryMenu    *************/
+    public CategoryMenuDTO createCategoryMenuDTO(CategoryMenu model) {
+        if (model == null)
+            return null;
+        CategoryMenuDTO dto = new CategoryMenuDTO();
+        dto.setId(model.getId());
+        dto.setLibelle(model.getLibelle());
+        dto.setActif(model.isActif());
+        return dto;
+    }
+
+    public List<CategoryMenuDTO> createListeCategoryMenuDTO(List<CategoryMenu> categoryMenus) {
+        if (categoryMenus == null)
+            return new ArrayList<>();
+        List<CategoryMenuDTO> dtos = new ArrayList<>();
+        for (CategoryMenu categoryMenu: categoryMenus) {
+            dtos.add(createCategoryMenuDTO(categoryMenu));
+        }
+        return dtos;
+    }
+
+    /*************      Menu    ****************/
+    public MenuDTO createMenuDTO(Menu model) {
+        if (model == null)
+            return null;
+        MenuDTO dto = new MenuDTO();
+        dto.setId(model.getId());
+        dto.setLibelle(model.getLibelle());
+        dto.setDescription(model.getDescription());
+        dto.setCategoryMenuDTO(createCategoryMenuDTO(model.getCategoryMenu()));
+        dto.setActif(model.isActif());
+        return dto;
+    }
+
+    public List<MenuDTO> createListeMenuDTO(List<Menu> menus) {
+        if (menus == null)
+            return new ArrayList<>();
+        List<MenuDTO> dtos = new ArrayList<>();
+        for (Menu menu: menus) {
+            dtos.add(createMenuDTO(menu));
+        }
+        return dtos;
+    }
+
+    /***********      Meeting       ***********/
+    public MeetingDTO createMeetingDTO(Meeting model) {
+        if (model == null)
+            return null;
+        MeetingDTO dto = new MeetingDTO();
+        dto.setId(model.getId());
+        dto.setLibelle(model.getLibelle());
+        dto.setDateMeeting(model.getDateMeeting());
+        dto.setHeureDebut(model.getHeureDebut());
+        dto.setHeureFin(model.getHeureFin());
+        dto.setDescription(model.getDescription());
+        dto.setActif(model.isActif());
+        return dto;
+    }
+    public List<MeetingDTO> createListeMeetingDTO(List<Meeting> meetings) {
+        if (meetings == null)
+            return new ArrayList<>();
+        List<MeetingDTO> dtos = new ArrayList<>();
+        for (Meeting meeting: meetings) {
+            dtos.add(createMeetingDTO(meeting));
         }
         return dtos;
     }

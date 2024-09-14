@@ -44,11 +44,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public JwtResponse authenticateUser(LoginRequest loginRequest) {
         var utilisateur = utilisateurRepository.findUtilisateurByUsername(loginRequest.getUsername());
-        if (utilisateur == null)
+        if (utilisateur == null) {
             throw new ForbiddenActionException("Cet utilisateur est désactivé ou n'existe pas");
+        }
         loginRequest.setUsername(utilisateur.getUsername());
-        if(!passwordEncoder.matches(loginRequest.getPassword(), utilisateur.getMotdepasse()))
+        if(!passwordEncoder.matches(loginRequest.getPassword(), utilisateur.getMotdepasse())) {
             throw new BadRequestException("Le mot de passe entré est incorrect");
+        }
         var authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
@@ -71,7 +73,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     private ProfilReponse getProfile(Profil profil) {
-        return new ProfilReponse(getActionReponse(profil));
+        return new ProfilReponse(profil.getLibelle(), getActionReponse(profil));
     }
 
     private List<ActionListResponse> getActionReponse(Profil profil) {

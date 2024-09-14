@@ -2,18 +2,24 @@ package com.myschool.sn.referentiel.mapping;
 
 import com.myschool.sn.referentiel.entity.AnneeScolaire;
 import com.myschool.sn.referentiel.entity.Batiment;
+import com.myschool.sn.referentiel.entity.CategoryMenu;
 import com.myschool.sn.referentiel.entity.Classe;
 import com.myschool.sn.referentiel.entity.Evenement;
 import com.myschool.sn.referentiel.entity.Matiere;
+import com.myschool.sn.referentiel.entity.Meeting;
+import com.myschool.sn.referentiel.entity.Menu;
 import com.myschool.sn.referentiel.entity.NiveauEducation;
 import com.myschool.sn.referentiel.entity.Salle;
 import com.myschool.sn.referentiel.entity.Semestre;
 import com.myschool.sn.referentiel.entity.TypeDocument;
 import com.myschool.sn.utils.dtos.referentiel.AnneeScolaireDTO;
 import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
+import com.myschool.sn.utils.dtos.referentiel.CategoryMenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import com.myschool.sn.utils.dtos.referentiel.EvenementDTO;
 import com.myschool.sn.utils.dtos.referentiel.MatiereDTO;
+import com.myschool.sn.utils.dtos.referentiel.MeetingDTO;
+import com.myschool.sn.utils.dtos.referentiel.MenuDTO;
 import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
 import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
@@ -52,6 +58,7 @@ public class ModelFactoryRef {
         model.setId(dto.getId());
         model.setActif(dto.isActif());
         model.setLibelle(dto.getLibelle());
+        model.setBatimentId(dto.getBatimentId());
         return model;
     }
 
@@ -120,6 +127,42 @@ public class ModelFactoryRef {
         model.setId(dto.getId());
         model.setLibelle(dto.getLibelle());
         model.setCode(dto.getCode());
+        model.setActif(dto.isActif());
+        return model;
+    }
+
+    public CategoryMenu createCategoryMenu(CategoryMenuDTO dto) {
+        if (dto == null)
+            return null;
+        CategoryMenu model = new CategoryMenu();
+        model.setId(dto.getId());
+        model.setLibelle(dto.getLibelle());
+        model.setActif(dto.isActif());
+        return model;
+    }
+
+    public Menu createMenu(MenuDTO dto) {
+        if (dto == null)
+            return null;
+        Menu model = new Menu();
+        model.setId(dto.getId());
+        model.setLibelle(dto.getLibelle());
+        model.setDescription(dto.getDescription());
+        model.setCategoryMenu(createCategoryMenu(dto.getCategoryMenuDTO()));
+        model.setActif(dto.isActif());
+        return model;
+    }
+
+    public Meeting createMeeting(MeetingDTO dto) {
+        if (dto == null)
+            return null;
+        Meeting model = new Meeting();
+        model.setId(dto.getId());
+        model.setLibelle(dto.getLibelle());
+        model.setDateMeeting(dto.getDateMeeting());
+        model.setHeureDebut(dto.getHeureDebut());
+        model.setHeureFin(dto.getHeureFin());
+        model.setDescription(dto.getDescription());
         model.setActif(dto.isActif());
         return model;
     }

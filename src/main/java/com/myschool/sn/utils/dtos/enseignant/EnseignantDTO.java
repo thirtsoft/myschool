@@ -1,5 +1,7 @@
-package com.myschool.sn.utils.dtos.referentiel;
+package com.myschool.sn.utils.dtos.enseignant;
 
+
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,13 +11,25 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClasseDTO {
+public class EnseignantDTO {
 
     private Long id;
 
-    private String libelle;
+    private String matricule;
 
-    private Long batimentId;
+    private String nom;
+
+    private String prenom;
+
+    private String cni;
+
+    private String civilite;
+
+    private String email;
+
+    private String adresse;
+
+    private String telephone;
 
     private int actif;
 
@@ -29,4 +43,5 @@ public class ClasseDTO {
     public boolean isActif() {
         return actif == 1;
     }
+
 }

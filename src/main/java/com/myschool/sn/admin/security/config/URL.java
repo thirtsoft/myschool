@@ -8,7 +8,7 @@ public final class URL {
 
     public static final String[] WHITE_LIST_URL = {
             "/h2-console/**",
-            "/api/v1/auth/signin",
+            "/auth/signin",
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",
@@ -18,6 +18,11 @@ public final class URL {
             "/configuration/security",
             "/swagger-ui/**",
             "/webjars/**",
-            "/swagger-ui.html"
+            "/swagger-ui.html",
+    };
+
+    public static final String[] API_LIST_URL = {
+            "/referentiel/*",
+            "/referentiel/**"
     };
 }

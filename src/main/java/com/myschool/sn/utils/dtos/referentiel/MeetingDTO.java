@@ -5,17 +5,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClasseDTO {
+public class MeetingDTO {
 
     private Long id;
 
     private String libelle;
 
-    private Long batimentId;
+    private Date dateMeeting;
+
+    private String heureDebut;
+
+    private String heureFin;
+
+    private String description;
 
     private int actif;
 

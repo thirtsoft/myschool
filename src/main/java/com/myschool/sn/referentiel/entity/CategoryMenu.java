@@ -1,21 +1,17 @@
-package com.myschool.sn.utils.dtos.referentiel;
+package com.myschool.sn.referentiel.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Setter
-@Getter
-@NoArgsConstructor
+@Entity
+@Table(name = "myschool_category_menu")
+@Data
 @AllArgsConstructor
-public class ClasseDTO {
-
-    private Long id;
-
-    private String libelle;
-
-    private Long batimentId;
+@NoArgsConstructor
+public class CategoryMenu extends ReferencetielEntity {
 
     private int actif;
 
@@ -29,4 +25,5 @@ public class ClasseDTO {
     public boolean isActif() {
         return actif == 1;
     }
+
 }

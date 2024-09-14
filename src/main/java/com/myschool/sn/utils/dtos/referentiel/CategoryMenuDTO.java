@@ -9,13 +9,11 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClasseDTO {
+public class CategoryMenuDTO {
 
     private Long id;
 
     private String libelle;
-
-    private Long batimentId;
 
     private int actif;
 

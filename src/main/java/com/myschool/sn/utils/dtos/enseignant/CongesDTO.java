@@ -1,21 +1,29 @@
-package com.myschool.sn.utils.dtos.referentiel;
+package com.myschool.sn.utils.dtos.enseignant;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClasseDTO {
+public class CongesDTO {
 
     private Long id;
 
-    private String libelle;
+    private String motif;
 
-    private Long batimentId;
+    private EnseignantDTO enseignantDTO;
+
+    private int etat;
+
+    private Date dateDebut;
+
+    private Date dateFin;
 
     private int actif;
 
@@ -29,4 +37,5 @@ public class ClasseDTO {
     public boolean isActif() {
         return actif == 1;
     }
+
 }

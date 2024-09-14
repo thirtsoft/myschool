@@ -1,5 +1,7 @@
 package com.myschool.sn.utils.dtos.dossierEleve;
 
+import com.myschool.sn.utils.dtos.referentiel.AnneeScolaireDTO;
+import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,9 +21,19 @@ public class InscriptionDTO {
 
     private EleveDTO eleveDTO;
 
+    private AnneeScolaireDTO anneeScolaireDebutDTO;
+
+    private AnneeScolaireDTO anneeScolaireFinDTO;
+
+    private ClasseDTO classeDTO;
+
+    private Long eleveId;
+
     private Long anneeScolaireDebutId;
 
     private Long anneeScolaireFinId;
+
+    private Long classeId;
 
     private Double montantInscription;
 

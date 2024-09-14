@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/auth")
 public interface AuthentificationApi {
     @PostMapping("/signin")
     ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) throws Exception;
