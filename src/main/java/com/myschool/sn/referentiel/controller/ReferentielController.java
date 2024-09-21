@@ -2,7 +2,6 @@ package com.myschool.sn.referentiel.controller;
 
 import com.myschool.sn.referentiel.controller.api.ReferentielApi;
 import com.myschool.sn.referentiel.service.ReferentielService;
-import com.myschool.sn.utils.MessageException;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
 import com.myschool.sn.utils.dtos.referentiel.AnneeScolaireDTO;
 import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
@@ -20,6 +19,13 @@ import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static com.myschool.sn.utils.MessageValueResponse.DELETE_OBJECT;
+import static com.myschool.sn.utils.MessageValueResponse.EDIT_OBJECT;
+import static com.myschool.sn.utils.MessageValueResponse.ERROR_MESSAGE;
+import static com.myschool.sn.utils.MessageValueResponse.FAILED_MESSAGE;
+import static com.myschool.sn.utils.MessageValueResponse.SAVED_OBJECT;
+import static com.myschool.sn.utils.MessageValueResponse.SUCCESS_MESSAGE;
 
 @RestController
 public class ReferentielController implements ReferentielApi {
@@ -45,9 +51,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO createAnneeScolaire(AnneeScolaireDTO anneeScolaireDTO) {
         try {
             referentielService.saveAnneeScolaire(anneeScolaireDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -55,9 +61,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO updateAnneeScolaire(Long anneeScolaireId, AnneeScolaireDTO anneeScolaireDTO) {
         try {
             referentielService.updateAnneeScolaire(anneeScolaireId, anneeScolaireDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, EDIT_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -70,9 +76,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO deleteAnneeScolaire(Long anneeScolaireId) {
         try {
             referentielService.deleteAnneeScolaire(anneeScolaireId);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, DELETE_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -91,9 +97,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO createBatiment(BatimentDTO batimentDTO) {
         try {
             referentielService.saveBatiment(batimentDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -101,9 +107,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO updateBatiment(Long batimentId, BatimentDTO batimentDTO) {
         try {
             referentielService.updateBatiment(batimentId, batimentDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, EDIT_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -116,9 +122,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO deleteBatiment(Long batimentId) {
         try {
             referentielService.deleteBatiment(batimentId);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, DELETE_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -137,9 +143,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO createClasse(ClasseDTO classeDTO) {
         try {
             referentielService.saveClasse(classeDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -147,9 +153,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO updateClasse(Long classeId, ClasseDTO classeDTO) {
         try {
             referentielService.updateClasse(classeId, classeDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, EDIT_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -162,9 +168,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO deleteClasse(Long classeId) {
         try {
             referentielService.deleteClasse(classeId);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, DELETE_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -183,9 +189,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO createMatiere(MatiereDTO matiereDTO) {
         try {
             referentielService.saveMatiere(matiereDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -193,9 +199,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO updateMatiere(Long matiereId, MatiereDTO matiereDTO) {
         try {
             referentielService.updateMatiere(matiereId, matiereDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, EDIT_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -213,9 +219,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO deleteMatiere(Long matiereId) {
         try {
             referentielService.deleteMatiere(matiereId);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, DELETE_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -239,9 +245,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO createSalle(SalleDTO salleDTO) {
         try {
             referentielService.saveSalle(salleDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -249,9 +255,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO updateSalle(Long salleId, SalleDTO salleDTO) {
         try {
             referentielService.updateSalle(salleId, salleDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, EDIT_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -264,9 +270,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO deleteSalle(Long salleId) {
         try {
             referentielService.deleteSalle(salleId);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, DELETE_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -285,9 +291,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO createEvenement(EvenementDTO evenementDTO) {
         try {
             referentielService.saveEvenement(evenementDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -295,9 +301,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO updateEvenement(Long evenementId, EvenementDTO evenementDTO) {
         try {
             referentielService.updateEvenement(evenementId, evenementDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, EDIT_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -310,9 +316,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO deleteEvenement(Long evenementId) {
         try {
             referentielService.deleteEvenement(evenementId);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, DELETE_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -331,9 +337,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO createSemestre(SemestreDTO semestreDTO) {
         try {
             referentielService.saveSemestre(semestreDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -341,9 +347,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO updateSemestre(Long semestreId, SemestreDTO semestreDTO) {
         try {
             referentielService.updateSemestre(semestreId, semestreDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, EDIT_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -361,9 +367,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO deleteSemestre(Long semestreId) {
         try {
             referentielService.deleteSemestre(semestreId);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, DELETE_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -382,9 +388,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO createTypeDocument(TypeDocumentDTO typeDocumentDTO) {
         try {
             referentielService.saveTypeDocument(typeDocumentDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -392,9 +398,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO updateTypeDocument(Long typeDocumentId, TypeDocumentDTO typeDocumentDTO) {
         try {
             referentielService.updateTypeDocument(typeDocumentId, typeDocumentDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, EDIT_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -412,9 +418,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO deleteTypeDocument(Long typeDocumentId) {
         try {
             referentielService.deleteTypeDocument(typeDocumentId);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, DELETE_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -433,9 +439,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO createNiveauEducation(NiveauEducationDTO niveauEducationDTO) {
         try {
             referentielService.saveNiveauEducation(niveauEducationDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -443,9 +449,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO updateNiveauEducation(Long niveauEducationId, NiveauEducationDTO niveauEducationDTO) {
         try {
             referentielService.updateNiveauEducation(niveauEducationId, niveauEducationDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, EDIT_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -463,9 +469,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO deleteNiveauEducation(Long niveauEducationId) {
         try {
             referentielService.deleteNiveauEducation(niveauEducationId);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, DELETE_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -484,9 +490,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO createCategoryMenu(CategoryMenuDTO categoryMenuDTO) {
         try {
             referentielService.saveCategoryMenu(categoryMenuDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -494,9 +500,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO updateCategoryMenu(Long categoryMenuId, CategoryMenuDTO categoryMenuDTO) {
         try {
             referentielService.updateCategoryMenu(categoryMenuId, categoryMenuDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, EDIT_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -509,9 +515,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO deleteCategoryMenu(Long categoryMenuId) {
         try {
             referentielService.deleteCategoryMenu(categoryMenuId);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, DELETE_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -535,9 +541,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO createMenu(MenuDTO menuDTO) {
         try {
             referentielService.saveMenu(menuDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -545,9 +551,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO updateMenu(Long menuId, MenuDTO menuDTO) {
         try {
             referentielService.updateMenu(menuId, menuDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, EDIT_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -560,9 +566,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO deleteMenu(Long menuId) {
         try {
             referentielService.deleteMenu(menuId);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, DELETE_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -581,9 +587,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO createMeeting(MeetingDTO meetingDTO) {
         try {
             referentielService.saveMeeting(meetingDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -591,9 +597,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO updateMeeting(Long meetingId, MeetingDTO meetingDTO) {
         try {
             referentielService.updateMeeting(meetingId, meetingDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.EDIT_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, EDIT_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 
@@ -606,9 +612,9 @@ public class ReferentielController implements ReferentielApi {
     public ReponseMessageDTO deleteMeeting(Long meetingId) {
         try {
             referentielService.deleteMeeting(meetingId);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.DELETE_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, DELETE_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE, MessageException.ERROR_MESSAGE);
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
 }

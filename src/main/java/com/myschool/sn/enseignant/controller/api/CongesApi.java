@@ -2,7 +2,6 @@ package com.myschool.sn.enseignant.controller.api;
 
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
 import com.myschool.sn.utils.dtos.enseignant.CongesDTO;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +14,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
-@RequestMapping(value = "/api/conges")
+@RequestMapping(value = "/conges")
 public interface CongesApi {
 
-    @GetMapping(value = "", produces = "application/json")
+    @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     List<CongesDTO> getCongess();
 
@@ -36,7 +35,7 @@ public interface CongesApi {
 
     @GetMapping(value = "/{congesId}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    CongesDTO getConges(@PathVariable @NotNull Long congesId);
+    CongesDTO getConges(@PathVariable Long congesId);
 
     @PostMapping(value = "/save", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)

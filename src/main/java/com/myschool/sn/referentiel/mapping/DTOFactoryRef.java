@@ -1,6 +1,5 @@
 package com.myschool.sn.referentiel.mapping;
 
-import com.myschool.sn.dossierEleve.entity.Eleve;
 import com.myschool.sn.referentiel.entity.AnneeScolaire;
 import com.myschool.sn.referentiel.entity.Batiment;
 import com.myschool.sn.referentiel.entity.CategoryMenu;
@@ -14,8 +13,6 @@ import com.myschool.sn.referentiel.entity.Salle;
 import com.myschool.sn.referentiel.entity.Semestre;
 import com.myschool.sn.referentiel.entity.TypeDocument;
 import com.myschool.sn.referentiel.repository.BatimentRepository;
-import com.myschool.sn.referentiel.service.ReferentielService;
-import com.myschool.sn.utils.dtos.dossierEleve.EleveDTO;
 import com.myschool.sn.utils.dtos.referentiel.AnneeScolaireDTO;
 import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
 import com.myschool.sn.utils.dtos.referentiel.CategoryMenuDTO;
@@ -38,8 +35,6 @@ import java.util.List;
 @Named("dtoFactoryRef")
 @RequiredArgsConstructor
 public class DTOFactoryRef {
-
- //   private final ReferentielService referentielService;
 
     private final BatimentRepository batimentRepository;
 

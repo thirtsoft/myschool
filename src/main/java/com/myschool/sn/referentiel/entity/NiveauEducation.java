@@ -6,12 +6,14 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "myschool_niveau_education")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 public class NiveauEducation extends ReferencetielEntity {
 
     @Column(name = "code", unique = true)
