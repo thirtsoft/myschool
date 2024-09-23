@@ -3,7 +3,6 @@ package com.myschool.sn.admin.mapping;
 import com.myschool.sn.admin.entity.Action;
 import com.myschool.sn.admin.entity.Profil;
 import com.myschool.sn.admin.entity.Utilisateur;
-import com.myschool.sn.admin.service.ProfilServiceCustom;
 import com.myschool.sn.utils.UtilString;
 import com.myschool.sn.utils.dtos.admin.ActionDTO;
 import com.myschool.sn.utils.dtos.admin.ProfilDTO;
@@ -14,6 +13,8 @@ import javax.inject.Named;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static java.util.Collections.emptySet;
 
 @Named("modelFactory")
 public class ModelFactory {
@@ -31,7 +32,7 @@ public class ModelFactory {
 
     public Set<Action> createSetAction(List<ActionDTO> actionDTOs) {
         if (actionDTOs == null)
-            return null;
+            return emptySet();
         Set<Action> actions = new HashSet<>();
         for (ActionDTO dto : actionDTOs)
             actions.add(createAction(dto));
@@ -82,7 +83,7 @@ public class ModelFactory {
 
     public Set<Utilisateur> createSetUtilisateur(List<UtilisateurDTO> dtos) {
         if (dtos == null)
-            return null;
+            return emptySet();
         Set<Utilisateur> list = new HashSet<>();
         for (UtilisateurDTO dto : dtos)
             list.add(createUtilisateur(dto));

@@ -2,13 +2,16 @@ package com.myschool.sn.admin.controller;
 
 import com.myschool.sn.admin.controller.api.ProfilApi;
 import com.myschool.sn.admin.service.ProfilServiceCustom;
-import com.myschool.sn.utils.MessageException;
 import com.myschool.sn.utils.dtos.admin.ActionDTO;
 import com.myschool.sn.utils.dtos.admin.ProfilDTO;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static com.myschool.sn.utils.MessageValueResponse.FAILED_MESSAGE;
+import static com.myschool.sn.utils.MessageValueResponse.SAVED_OBJECT;
+import static com.myschool.sn.utils.MessageValueResponse.SUCCESS_MESSAGE;
 
 @RestController
 public class ProfilController implements ProfilApi {
@@ -33,9 +36,9 @@ public class ProfilController implements ProfilApi {
     public ReponseMessageDTO createOrUpdateProfil(ProfilDTO profilDTO) {
         try {
             profilServiceCustom.saveProfil(profilDTO);
-            return new ReponseMessageDTO(MessageException.SUCCESS_MESSAGE, MessageException.SAVED_OBJECT);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
         } catch (Exception e) {
-            return new ReponseMessageDTO(MessageException.FAILED_MESSAGE,  e.getMessage());
+            return new ReponseMessageDTO(FAILED_MESSAGE,  e.getMessage());
         }
     }
 

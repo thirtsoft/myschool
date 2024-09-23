@@ -5,12 +5,14 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "myschool_category_menu")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 public class CategoryMenu extends ReferencetielEntity {
 
     private int actif;

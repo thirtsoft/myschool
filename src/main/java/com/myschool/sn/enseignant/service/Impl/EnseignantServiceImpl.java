@@ -9,14 +9,18 @@ import com.myschool.sn.enseignant.repository.CongesRepository;
 import com.myschool.sn.enseignant.repository.EnseignantRepository;
 import com.myschool.sn.enseignant.service.EnseignantService;
 import com.myschool.sn.utils.ConstantSigs;
-import com.myschool.sn.utils.MessageException;
 import com.myschool.sn.utils.dtos.enseignant.CongesDTO;
 import com.myschool.sn.utils.dtos.enseignant.EnseignantDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.myschool.sn.utils.MessageValueResponse.NOT_FOUND_OBJECT;
+import static com.myschool.sn.utils.MessageValueResponse.NULL_OBJECT;
+
 @Service
+@RequiredArgsConstructor
 public class EnseignantServiceImpl implements EnseignantService {
 
     private final EnseignantRepository enseignantRepository;
@@ -27,20 +31,10 @@ public class EnseignantServiceImpl implements EnseignantService {
 
     private final ModelFactoryEns modelFactoryEns;
 
-    public EnseignantServiceImpl(EnseignantRepository enseignantRepository,
-                                 CongesRepository congesRepository,
-                                 DTOFactoryEns dtoFactoryEns,
-                                 ModelFactoryEns modelFactoryEns) {
-        this.enseignantRepository = enseignantRepository;
-        this.congesRepository = congesRepository;
-        this.dtoFactoryEns = dtoFactoryEns;
-        this.modelFactoryEns = modelFactoryEns;
-    }
-
     @Override
     public Long saveEnseignant(EnseignantDTO enseignantDTO) throws EnseignantException {
         if (enseignantDTO == null)
-            throw new EnseignantException(MessageException.NOT_FOUND_OBJECT);
+            throw new EnseignantException(NOT_FOUND_OBJECT);
         if (enseignantDTO.getNom() == null || enseignantDTO.getNom().isEmpty())
             throw new EnseignantException("Le nom de l'enseignant est obligatoire");
         if (enseignantDTO.getPrenom() == null || enseignantDTO.getPrenom().isEmpty())
@@ -68,7 +62,7 @@ public class EnseignantServiceImpl implements EnseignantService {
     public Long updateEnseignant(Long id, EnseignantDTO enseignantDTO) throws EnseignantException {
         EnseignantDTO foundEnseignant = findEnseignantDTOById(id);
         if (foundEnseignant == null)
-            throw new EnseignantException(MessageException.NOT_FOUND_OBJECT);
+            throw new EnseignantException(NOT_FOUND_OBJECT);
         enseignantDTO.setId(id);
         saveEnseignant(enseignantDTO);
         return enseignantDTO.getId();
@@ -104,7 +98,7 @@ public class EnseignantServiceImpl implements EnseignantService {
     @Override
     public Long saveConges(CongesDTO congesDTO) throws EnseignantException {
         if (congesDTO == null)
-            throw new EnseignantException(MessageException.NULL_OBJECT);
+            throw new EnseignantException(NULL_OBJECT);
         if (congesDTO.getMotif() == null || congesDTO.getMotif().isEmpty())
             throw new EnseignantException("Le motif du conges est obligatoire");
         Conges savedConges = modelFactoryEns.createConges(congesDTO);
@@ -117,7 +111,7 @@ public class EnseignantServiceImpl implements EnseignantService {
     public Long updateConges(Long id, CongesDTO congesDTO) throws EnseignantException {
         CongesDTO foundConges = findCongeById(id);
         if (foundConges == null)
-            throw new EnseignantException(MessageException.NOT_FOUND_OBJECT);
+            throw new EnseignantException(NOT_FOUND_OBJECT);
         congesDTO.setId(id);
         saveConges(congesDTO);
         return congesDTO.getId();

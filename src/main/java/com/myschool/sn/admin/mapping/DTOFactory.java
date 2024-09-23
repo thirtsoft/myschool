@@ -1,6 +1,5 @@
 package com.myschool.sn.admin.mapping;
 
-
 import com.myschool.sn.admin.entity.Action;
 import com.myschool.sn.admin.entity.Profil;
 import com.myschool.sn.admin.entity.Utilisateur;
@@ -15,6 +14,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import static java.util.Collections.emptyList;
 
 @Named("dtoFactory")
 public class DTOFactory implements Serializable {
@@ -42,7 +43,7 @@ public class DTOFactory implements Serializable {
 
     public List<ActionDTO> createListeActionDTO(Set<Action> actions) {
         if (actions == null)
-            return null;
+            return emptyList();
         List<ActionDTO> dtos = new ArrayList<>();
         for (Action action : actions) {
             dtos.add(createActionDTO(action));
@@ -63,7 +64,7 @@ public class DTOFactory implements Serializable {
 
     public List<ProfilDTO> createListeProfilDTO(List<Profil> profils) {
         if (profils == null)
-            return null;
+            return emptyList();
         List<ProfilDTO> dtos = new ArrayList<>();
         for (Profil profil : profils) {
             dtos.add(createProfilDTO(profil));
@@ -78,7 +79,7 @@ public class DTOFactory implements Serializable {
         dto.setUsername(model.getUsername());
         dto.setId(model.getId());
         dto.setProfilDTO(createProfilDTO(model.getProfil()));
-    //    dto.setUtilisateurDetailsDTO(createUtilisateurDetailsDTO(model.getUtilisateurDetails()));
+//        dto.setUtilisateurDetailsDTO(createUtilisateurDetailsDTO(model.getUtilisateurDetails()));
         dto.setMotdepasse(model.getMotdepasse());
         return dto;
     }
@@ -96,10 +97,10 @@ public class DTOFactory implements Serializable {
     public UtilisateurProfilDTO createUtilisateurProfilDTO(Utilisateur model) {
         if (model == null)
             return null;
-    //    UtilisateurDetails det = model.getUtilisateurDetails();
+        //    UtilisateurDetails det = model.getUtilisateurDetails();
         UtilisateurProfilDTO dto = new UtilisateurProfilDTO();
         dto.setEmail(model.getUsername());
-  //      dto.setDateCreation(DateUtils.formatDate(det.getDateCreation()));
+        //      dto.setDateCreation(DateUtils.formatDate(det.getDateCreation()));
 //        dto.setId(det.getId());
 //        dto.setNom(det.getNom());
 //        dto.setPrenom(det.getPrenom());

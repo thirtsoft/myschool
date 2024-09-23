@@ -1,9 +1,7 @@
 package com.myschool.sn.enseignant.mapping;
 
-import com.myschool.sn.dossierEleve.entity.Eleve;
 import com.myschool.sn.enseignant.entity.Conges;
 import com.myschool.sn.enseignant.entity.Enseignant;
-import com.myschool.sn.utils.dtos.dossierEleve.EleveDTO;
 import com.myschool.sn.utils.dtos.enseignant.CongesDTO;
 import com.myschool.sn.utils.dtos.enseignant.EnseignantDTO;
 

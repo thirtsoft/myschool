@@ -6,12 +6,14 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "myschool_classe")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 public class Classe extends ReferencetielEntity {
 
     @JoinColumn(name = "batiment_uid", referencedColumnName = "id", nullable = false)
