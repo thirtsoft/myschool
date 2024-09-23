@@ -1,6 +1,8 @@
 package com.myschool.sn.dossiereleve.entity;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +15,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "myschool_paiement")
@@ -39,6 +42,11 @@ public class Paiement {
 
     @Column(name = "date_paiement")
     private Date datePaiement;
+
+    @ElementCollection
+    @CollectionTable(name = "paiement_type", joinColumns = @JoinColumn(name = "id_paiement"))
+    @Column(name = "type_paiement")
+    private Set<String> typePaiements;
 
     private Long createdBy;
 

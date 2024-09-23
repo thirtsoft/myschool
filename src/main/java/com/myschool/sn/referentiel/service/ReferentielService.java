@@ -14,6 +14,7 @@ import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
 import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
 import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
+import com.myschool.sn.utils.dtos.referentiel.TypePaiementDTO;
 
 import java.util.List;
 
@@ -185,6 +186,11 @@ public interface ReferentielService {
 
     List<MeetingDTO> findAllMeetings();
 
-
     void deleteMeeting(Long id);
+
+    /********** Type Paiement ***********/
+    void saveTypePaiement(TypePaiementDTO typePaiementDTO);
+    void updateTypePaiement(Long id, TypePaiementDTO typePaiementDTO);
+    TypePaiementDTO findTypePaiementById(Long id);
+    List<TypePaiementDTO> findAllTypePaiements();
 }
