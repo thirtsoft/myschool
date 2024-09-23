@@ -26,6 +26,9 @@ import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
 import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
 
 import javax.inject.Named;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Named("modelFactoryRef")
 public class ModelFactoryRef {
@@ -48,6 +51,7 @@ public class ModelFactoryRef {
         model.setId(batimentDTO.getId());
         model.setActif(batimentDTO.isActif());
         model.setLibelle(batimentDTO.getLibelle());
+        model.setClasses(createSetClasse(batimentDTO.getClasseDTOS()));
         return model;
     }
 
@@ -58,8 +62,18 @@ public class ModelFactoryRef {
         model.setId(dto.getId());
         model.setActif(dto.isActif());
         model.setLibelle(dto.getLibelle());
-        model.setBatimentId(dto.getBatimentId());
+    //    model.setBatimentId(dto.getBatimentId());
         return model;
+    }
+
+    public Set<Classe> createSetClasse(List<ClasseDTO> classeDTOList) {
+        if (classeDTOList == null)
+            return null;
+        Set<Classe> actions = new HashSet<>();
+        for (ClasseDTO dto : classeDTOList)
+            if (dto != null)
+                actions.add(createClasse(dto));
+        return actions;
     }
 
     public Matiere createMatiere(MatiereDTO dto) {

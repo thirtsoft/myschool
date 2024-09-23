@@ -145,6 +145,8 @@ public class ReferentielServiceImpl implements ReferentielService {
             throw new ReferentielException(NULL_OBJECT);
         if (batimentDTO.getLibelle() == null || batimentDTO.getLibelle().isEmpty())
             throw new ReferentielException("Le libellé du batiment est obligatoire");
+        if (batimentDTO.getClasseDTOS() == null || batimentDTO.getClasseDTOS().isEmpty())
+            throw new ReferentielException("Associé au moins une classe au batiment");
         Batiment foundBatiment = batimentRepository.findByCode(batimentDTO.getLibelle());
         if (batimentDTO.getId() == null && foundBatiment != null
                 || (batimentDTO.getId() != null && foundBatiment != null && !foundBatiment.getId().equals(batimentDTO.getId()))) {
