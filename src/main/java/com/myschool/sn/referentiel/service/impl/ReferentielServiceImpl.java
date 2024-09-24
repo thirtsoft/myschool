@@ -12,9 +12,11 @@ import com.myschool.sn.referentiel.entity.NiveauEducation;
 import com.myschool.sn.referentiel.entity.Salle;
 import com.myschool.sn.referentiel.entity.Semestre;
 import com.myschool.sn.referentiel.entity.TypeDocument;
+import com.myschool.sn.referentiel.entity.TypePaiement;
 import com.myschool.sn.referentiel.exception.ReferentielException;
 import com.myschool.sn.referentiel.mapping.DTOFactoryRef;
 import com.myschool.sn.referentiel.mapping.ModelFactoryRef;
+import com.myschool.sn.referentiel.mapping.TypePaiementMapper;
 import com.myschool.sn.referentiel.repository.AnneeScolaireRepository;
 import com.myschool.sn.referentiel.repository.BatimentRepository;
 import com.myschool.sn.referentiel.repository.CategoryMenuRepository;
@@ -27,6 +29,7 @@ import com.myschool.sn.referentiel.repository.NiveauEducationRepository;
 import com.myschool.sn.referentiel.repository.SalleRepository;
 import com.myschool.sn.referentiel.repository.SemestreRepository;
 import com.myschool.sn.referentiel.repository.TypeDocumentRepository;
+import com.myschool.sn.referentiel.repository.TypePaiementRepository;
 import com.myschool.sn.referentiel.service.ReferentielService;
 import com.myschool.sn.utils.dtos.referentiel.AnneeScolaireDTO;
 import com.myschool.sn.utils.dtos.referentiel.BatimentDTO;
@@ -41,10 +44,12 @@ import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
 import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
 import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
+import com.myschool.sn.utils.dtos.referentiel.TypePaiementDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.myschool.sn.utils.MessageValueResponse.NOT_FOUND_OBJECT;
 import static com.myschool.sn.utils.MessageValueResponse.NULL_OBJECT;
@@ -81,6 +86,9 @@ public class ReferentielServiceImpl implements ReferentielService {
     private final DTOFactoryRef dtoFactoryRef;
 
     private final ModelFactoryRef modelFactoryRef;
+
+    private final TypePaiementRepository typePaiementRepository;
+    private final TypePaiementMapper typePaiementMapper;
 
 
     @Override
@@ -726,5 +734,32 @@ public class ReferentielServiceImpl implements ReferentielService {
         Meeting deleted = meetingRepository.findMeetingById(id);
         deleted.setActif(false);
         meetingRepository.save(deleted);
+    }
+
+    @Override
+    public void saveTypePaiement(TypePaiementDTO typePaiementDTO) {
+        TypePaiement typePaiement = typePaiementMapper.mapToTypePaiement(typePaiementDTO);
+        typePaiementRepository.save(typePaiement);
+    }
+
+    @Override
+    public void updateTypePaiement(Long id, TypePaiementDTO typePaiementDTO) {
+        TypePaiement typePaiement = typePaiementRepository.findById(id)
+                .orElseThrow(() -> new ReferentielException(NOT_FOUND_OBJECT));
+        typePaiement.setLibelle(typePaiementDTO.getLibelle());
+    }
+
+    @Override
+    public TypePaiementDTO findTypePaiementById(Long id) {
+        Optional<TypePaiement> typePaiement = typePaiementRepository.findById(id);
+        return typePaiement.map(typePaiementMapper::mapToTypePaiementDTO)
+                .orElseThrow(() -> new ReferentielException(NOT_FOUND_OBJECT));
+    }
+
+    @Override
+    public List<TypePaiementDTO> findAllTypePaiements() {
+        return typePaiementRepository.findAll().stream()
+                .map(typePaiementMapper::mapToTypePaiementDTO)
+                .toList();
     }
 }

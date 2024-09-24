@@ -11,12 +11,16 @@ import com.myschool.sn.utils.dtos.dossiereleve.EleveDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.InscriptionDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.ListeInscriptionDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.PaiementDTO;
+import lombok.RequiredArgsConstructor;
 
 import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Collections.emptyList;
+
 @Named("dtoFactoryEl")
+@RequiredArgsConstructor
 public class DTOFactoryDossierEl {
 
     private final DTOFactoryRef dtoFactoryRef;
@@ -25,17 +29,11 @@ public class DTOFactoryDossierEl {
 
     private final ReferentielService referentielService;
 
-    public DTOFactoryDossierEl(DTOFactoryRef dtoFactoryRef,
-                               EleveRepository eleveRepository,
-                               ReferentielService referentielService) {
-        this.dtoFactoryRef = dtoFactoryRef;
-        this.eleveRepository = eleveRepository;
-        this.referentielService = referentielService;
-    }
 
     public EleveDTO createEleveDTO(Eleve eleve) {
-        if (eleve == null)
+        if (eleve == null) {
             return null;
+        }
         EleveDTO dto = new EleveDTO();
         dto.setId(eleve.getId());
         dto.setMatricule(eleve.getMatricule());
@@ -50,18 +48,18 @@ public class DTOFactoryDossierEl {
     }
 
     public List<EleveDTO> createListeEleveDTO(List<Eleve> eleves) {
-        if (eleves == null)
-            return new ArrayList<>();
-        List<EleveDTO> dtos = new ArrayList<>();
-        for (Eleve eleve : eleves) {
-            dtos.add(createEleveDTO(eleve));
+        if (eleves == null) {
+            return emptyList();
         }
-        return dtos;
+        return eleves.stream()
+                .map(this::createEleveDTO)
+                .toList();
     }
 
     public InscriptionDTO createInscriptionDTO(Inscription inscription) {
-        if (inscription == null)
+        if (inscription == null) {
             return null;
+        }
         InscriptionDTO dto = new InscriptionDTO();
         dto.setId(inscription.getId());
         dto.setActif(inscription.isActif());
@@ -76,8 +74,9 @@ public class DTOFactoryDossierEl {
     }
 
     public ListeInscriptionDTO createInscriptionListeDTO(Inscription inscription) {
-        if (inscription == null)
+        if (inscription == null) {
             return null;
+        }
         ListeInscriptionDTO dto = new ListeInscriptionDTO();
         dto.setId(inscription.getId());
         dto.setActif(inscription.isActif());
@@ -105,19 +104,19 @@ public class DTOFactoryDossierEl {
     }
 
     public List<ListeInscriptionDTO> createListeInscriptionDTO(List<Inscription> inscriptions) {
-        if (inscriptions == null)
-            return new ArrayList<>();
-        List<ListeInscriptionDTO> dtos = new ArrayList<>();
-        for (Inscription inscription : inscriptions) {
-            dtos.add(createInscriptionListeDTO(inscription));
+        if (inscriptions == null) {
+            return emptyList();
         }
-        return dtos;
+        return inscriptions.stream()
+                .map(this::createInscriptionListeDTO)
+                .toList();
     }
 
 
     public DetailsInscriptionDTO createDetailsInscriptionDTO(Inscription inscription) {
-        if (inscription == null)
+        if (inscription == null) {
             return null;
+        }
         DetailsInscriptionDTO dto = new DetailsInscriptionDTO();
         dto.setActif(inscription.isActif());
         dto.setId(inscription.getId());
@@ -143,8 +142,9 @@ public class DTOFactoryDossierEl {
 
     /************** Paiement ****************/
     public PaiementDTO createPaiementDTO(Paiement paiement) {
-        if (paiement == null)
+        if (paiement == null) {
             return null;
+        }
         PaiementDTO dto = new PaiementDTO();
         dto.setId(paiement.getId());
         dto.setCode(paiement.getCode());
@@ -153,16 +153,16 @@ public class DTOFactoryDossierEl {
         dto.setCreatedBy(paiement.getCreatedBy());
         dto.setMois(paiement.getMois());
         dto.setMontant(paiement.getMontant());
+        dto.setTypePaiements(paiement.getTypePaiements());
         return dto;
     }
 
-    public List<PaiementDTO> createListePaiementDTO(List<Paiement> paiements) {
-        if (paiements == null)
-            return new ArrayList<>();
-        List<PaiementDTO> dtos = new ArrayList<>();
-        for (Paiement paiement : paiements) {
-            dtos.add(createPaiementDTO(paiement));
+    public List<PaiementDTO> createListPaiementDTO(List<Paiement> paiements) {
+        if (paiements == null) {
+            return emptyList();
         }
-        return dtos;
+        return paiements.stream()
+                .map(this::createPaiementDTO)
+                .toList();
     }
 }

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -22,6 +23,8 @@ public class PaiementDTO {
     private String mois;
 
     private Double montant;
+
+    private Set<String> typePaiements;
 
     private Date datePaiement;
 

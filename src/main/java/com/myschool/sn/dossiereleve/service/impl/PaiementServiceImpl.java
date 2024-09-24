@@ -1,4 +1,4 @@
-package com.myschool.sn.dossiereleve.service.Impl;
+package com.myschool.sn.dossiereleve.service.impl;
 
 import com.myschool.sn.dossiereleve.entity.Paiement;
 import com.myschool.sn.dossiereleve.exception.DossierEleveException;
@@ -67,23 +67,17 @@ public class PaiementServiceImpl implements PaiementService {
 
     @Override
     public PaiementDTO findPaiementByCode(String code) {
-        return dtoFactoryDossierEl.createPaiementDTO(
-                paiementRepository.findByCode(code)
-        );
+        return dtoFactoryDossierEl.createPaiementDTO(paiementRepository.findByCode(code));
     }
 
     @Override
     public List<PaiementDTO> findAllPaiements() {
-        return dtoFactoryDossierEl.createListePaiementDTO(
-                paiementRepository.findAllPaiements()
-        );
+        return dtoFactoryDossierEl.createListPaiementDTO(paiementRepository.findAllPaiements());
     }
 
     @Override
     public List<PaiementDTO> findPaiementsByMois(String mois) {
-        return dtoFactoryDossierEl.createListePaiementDTO(
-                paiementRepository.findPaiementsByMois(mois)
-        );
+        return dtoFactoryDossierEl.createListPaiementDTO(paiementRepository.findPaiementsByMois(mois));
     }
 
     @Override

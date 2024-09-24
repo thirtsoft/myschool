@@ -24,8 +24,9 @@ public class ModelFactoryDossierEl {
     private final ModelFactoryRef modelFactoryRef;
 
     public Eleve createEleve(EleveDTO dto) {
-        if (dto == null)
+        if (dto == null) {
             return null;
+        }
         Eleve model = new Eleve();
         model.setId(dto.getId());
         model.setActif(true);
@@ -40,8 +41,9 @@ public class ModelFactoryDossierEl {
     }
 
     public Inscription createInscription(InscriptionDTO dto) {
-        if (dto == null)
+        if (dto == null) {
             return null;
+        }
         Inscription model = new Inscription();
         model.setActif(true);
         model.setCreatedBy(dto.getCreatedBy());
@@ -75,8 +77,9 @@ public class ModelFactoryDossierEl {
     }
 
     public Paiement createPaiement(PaiementDTO dto) {
-        if (dto == null)
+        if (dto == null) {
             return null;
+        }
         Paiement model = new Paiement();
         model.setId(dto.getId());
         model.setActif(true);
@@ -86,6 +89,7 @@ public class ModelFactoryDossierEl {
         model.setMois(dto.getMois());
         model.setMontant(dto.getMontant());
         model.setDatePaiement(dto.getDatePaiement());
+        model.setTypePaiements(dto.getTypePaiements());
         return model;
     }
 }

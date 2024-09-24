@@ -16,6 +16,8 @@ import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
 import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
 import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
+import com.myschool.sn.utils.dtos.referentiel.TypePaiementDTO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -26,6 +28,8 @@ import static com.myschool.sn.utils.MessageValueResponse.ERROR_MESSAGE;
 import static com.myschool.sn.utils.MessageValueResponse.FAILED_MESSAGE;
 import static com.myschool.sn.utils.MessageValueResponse.SAVED_OBJECT;
 import static com.myschool.sn.utils.MessageValueResponse.SUCCESS_MESSAGE;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 public class ReferentielController implements ReferentielApi {
@@ -616,5 +620,27 @@ public class ReferentielController implements ReferentielApi {
         } catch (Exception e) {
             return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
+    }
+
+    @Override
+    public ResponseEntity<Void> createTypePaiement(TypePaiementDTO typePaiementDTO) {
+        referentielService.saveTypePaiement(typePaiementDTO);
+        return new ResponseEntity<>(CREATED);
+    }
+
+    @Override
+    public ResponseEntity<Void> updateTypePaiement(Long typePaiementId, TypePaiementDTO typePaiementDTO) {
+        referentielService.updateTypePaiement(typePaiementId, typePaiementDTO);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<TypePaiementDTO> findTypePaiementById(Long typePaiement) {
+        return new ResponseEntity<>(referentielService.findTypePaiementById(typePaiement), OK);
+    }
+
+    @Override
+    public ResponseEntity<List<TypePaiementDTO>> getAllTypePaiements() {
+        return new ResponseEntity<>(referentielService.findAllTypePaiements(), OK);
     }
 }

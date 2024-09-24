@@ -1,4 +1,4 @@
-package com.myschool.sn.dossiereleve.service.Impl;
+package com.myschool.sn.dossiereleve.service.impl;
 
 
 import com.myschool.sn.dossiereleve.entity.Eleve;

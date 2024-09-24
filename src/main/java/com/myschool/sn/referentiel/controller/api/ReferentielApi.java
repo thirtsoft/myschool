@@ -14,8 +14,8 @@ import com.myschool.sn.utils.dtos.referentiel.NiveauEducationDTO;
 import com.myschool.sn.utils.dtos.referentiel.SalleDTO;
 import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
 import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
-import org.antlr.v4.runtime.misc.NotNull;
-import org.springframework.http.HttpStatus;
+import com.myschool.sn.utils.dtos.referentiel.TypePaiementDTO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,27 +27,31 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.ACCEPTED;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+
 @RequestMapping(value = "/referentiel")
 public interface ReferentielApi {
 
     @GetMapping(value = "/anneescolaire", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     List<AnneeScolaireDTO> getAnneeScolaires();
 
     @GetMapping(value = "/anneescolaire/{anneeScolaireId}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    AnneeScolaireDTO getAnneeScolaire(@PathVariable @NotNull Long anneeScolaireId);
+    @ResponseStatus(OK)
+    AnneeScolaireDTO getAnneeScolaire(@PathVariable Long anneeScolaireId);
 
     @PostMapping(value = "/anneescolaire/save", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     ReponseMessageDTO createAnneeScolaire(@RequestBody AnneeScolaireDTO anneeScolaireDTO);
 
     @PutMapping(value = "/anneescolaire/update/{anneeScolaireId}", consumes = "application/json")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(ACCEPTED)
     ReponseMessageDTO updateAnneeScolaire(@PathVariable Long anneeScolaireId, @RequestBody AnneeScolaireDTO anneeScolaireDTO);
 
     @GetMapping(value = "/anneescolaire/by-code/{code}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     AnneeScolaireDTO getAnneeScolaireByCode(@PathVariable String code);
 
     @DeleteMapping(value = "/anneescolaire/delete/{eleveId}")
@@ -55,23 +59,23 @@ public interface ReferentielApi {
 
     /************* Batiment *************************/
     @GetMapping(value = "/batiment", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     List<BatimentDTO> getBatiments();
 
     @GetMapping(value = "/batiment/{batimentId}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    BatimentDTO getBatiment(@PathVariable @NotNull Long batimentId);
+    @ResponseStatus(OK)
+    BatimentDTO getBatiment(@PathVariable Long batimentId);
 
     @PostMapping(value = "/batiment/save", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     ReponseMessageDTO createBatiment(@RequestBody BatimentDTO batimentDTO);
 
     @PutMapping(value = "/batiment/update/{batimentId}", consumes = "application/json")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(ACCEPTED)
     ReponseMessageDTO updateBatiment(@PathVariable Long batimentId, @RequestBody BatimentDTO batimentDTO);
 
     @GetMapping(value = "/batiment/by-code/{code}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     BatimentDTO getBatimentByCode(@PathVariable String code);
 
     @DeleteMapping(value = "/batiment/delete/{batimentId}")
@@ -79,23 +83,23 @@ public interface ReferentielApi {
 
     /************* Classe *************************/
     @GetMapping(value = "/classe", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     List<ListeClasseDTO> getClasses();
 
     @GetMapping(value = "/classe/{classeId}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    ClasseDTO getClasse(@PathVariable @NotNull Long classeId);
+    @ResponseStatus(OK)
+    ClasseDTO getClasse(@PathVariable Long classeId);
 
     @PostMapping(value = "/classe/save", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     ReponseMessageDTO createClasse(@RequestBody ClasseDTO classeDTO);
 
     @PutMapping(value = "/classe/update/{classeId}", consumes = "application/json")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(ACCEPTED)
     ReponseMessageDTO updateClasse(@PathVariable Long classeId, @RequestBody ClasseDTO classeDTO);
 
     @GetMapping(value = "/classe/by-libelle/{libelle}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     ClasseDTO getClasseByLibelle(@PathVariable String libelle);
 
     @DeleteMapping(value = "/classe/delete/{classeId}")
@@ -103,27 +107,27 @@ public interface ReferentielApi {
 
     /************* Matiere *************************/
     @GetMapping(value = "/matiere", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     List<MatiereDTO> getMatieres();
 
     @GetMapping(value = "/matiere/{matiereId}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    MatiereDTO getMatiere(@PathVariable @NotNull Long matiereId);
+    @ResponseStatus(OK)
+    MatiereDTO getMatiere(@PathVariable Long matiereId);
 
     @PostMapping(value = "/matiere/save", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     ReponseMessageDTO createMatiere(@RequestBody MatiereDTO matiereDTO);
 
     @PutMapping(value = "/matiere/update/{matiereId}", consumes = "application/json")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(ACCEPTED)
     ReponseMessageDTO updateMatiere(@PathVariable Long matiereId, @RequestBody MatiereDTO matiereDTO);
 
     @GetMapping(value = "/matiere/by-code/{code}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     MatiereDTO getMatiereByCode(@PathVariable String code);
 
     @GetMapping(value = "/matiere/by-libelle/{libelle}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     MatiereDTO getMatiereByLibelle(@PathVariable String libelle);
 
     @DeleteMapping(value = "/matiere/delete/{matiereId}")
@@ -131,27 +135,27 @@ public interface ReferentielApi {
 
     /************* Salle *************************/
     @GetMapping(value = "/salle", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     List<SalleDTO> getSalles();
 
     @GetMapping(value = "/salle/by-batiment/{batimentId}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     List<SalleDTO> getSallesByBatiment(@PathVariable Long batimentId);
 
     @GetMapping(value = "/salle/{salleId}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    SalleDTO getSalle(@PathVariable @NotNull Long salleId);
+    @ResponseStatus(OK)
+    SalleDTO getSalle(@PathVariable Long salleId);
 
     @PostMapping(value = "/salle/save", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     ReponseMessageDTO createSalle(@RequestBody SalleDTO salleDTO);
 
     @PutMapping(value = "/salle/update/{matiereId}", consumes = "application/json")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(ACCEPTED)
     ReponseMessageDTO updateSalle(@PathVariable Long salleId, @RequestBody SalleDTO salleDTO);
 
     @GetMapping(value = "/salle/by-code/{code}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     SalleDTO getSalleByCode(@PathVariable String code);
 
     @DeleteMapping(value = "/salle/delete/{salleId}")
@@ -159,23 +163,23 @@ public interface ReferentielApi {
 
     /************* Evenement *************************/
     @GetMapping(value = "/evenement", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     List<EvenementDTO> getEvenements();
 
     @GetMapping(value = "/evenement/{evenementId}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    EvenementDTO getEvenement(@PathVariable @NotNull Long evenementId);
+    @ResponseStatus(OK)
+    EvenementDTO getEvenement(@PathVariable Long evenementId);
 
     @PostMapping(value = "/evenement/save", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     ReponseMessageDTO createEvenement(@RequestBody EvenementDTO evenementDTO);
 
     @PutMapping(value = "/evenement/update/{evenementId}", consumes = "application/json")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(ACCEPTED)
     ReponseMessageDTO updateEvenement(@PathVariable Long evenementId, @RequestBody EvenementDTO evenementDTO);
 
     @GetMapping(value = "/evenement/by-libelle/{libelle}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     EvenementDTO getEvenementByLibelle(@PathVariable String libelle);
 
     @DeleteMapping(value = "/evenement/delete/{evenementId}")
@@ -183,27 +187,27 @@ public interface ReferentielApi {
 
     /************* Semestre *************************/
     @GetMapping(value = "/semestre", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     List<SemestreDTO> getSemestres();
 
     @GetMapping(value = "/semestre/{semestreId}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    SemestreDTO getSemestre(@PathVariable @NotNull Long semestreId);
+    @ResponseStatus(OK)
+    SemestreDTO getSemestre(@PathVariable Long semestreId);
 
     @PostMapping(value = "/semestre/save", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     ReponseMessageDTO createSemestre(@RequestBody SemestreDTO semestreDTO);
 
     @PutMapping(value = "/semestre/update/{semestreId}", consumes = "application/json")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(ACCEPTED)
     ReponseMessageDTO updateSemestre(@PathVariable Long semestreId, @RequestBody SemestreDTO semestreDTO);
 
     @GetMapping(value = "/semestre/by-code/{code}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     SemestreDTO getSemestreByCode(@PathVariable String code);
 
     @GetMapping(value = "/semestre/by-libelle/{libelle}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     SemestreDTO getSemestreByLibelle(@PathVariable String libelle);
 
     @DeleteMapping(value = "/semestre/delete/{semestreId}")
@@ -211,27 +215,27 @@ public interface ReferentielApi {
 
     /************* TypeDocument *************************/
     @GetMapping(value = "/typeDocument", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     List<TypeDocumentDTO> getTypeDocuments();
 
     @GetMapping(value = "/typeDocument/{typeDocumentId}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    TypeDocumentDTO getTypeDocument(@PathVariable @NotNull Long typeDocumentId);
+    @ResponseStatus(OK)
+    TypeDocumentDTO getTypeDocument(@PathVariable Long typeDocumentId);
 
     @PostMapping(value = "/typeDocument/save", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     ReponseMessageDTO createTypeDocument(@RequestBody TypeDocumentDTO typeDocumentDTO);
 
     @PutMapping(value = "/typeDocument/update/{typeDocumentId}", consumes = "application/json")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(ACCEPTED)
     ReponseMessageDTO updateTypeDocument(@PathVariable Long typeDocumentId, @RequestBody TypeDocumentDTO typeDocumentDTO);
 
     @GetMapping(value = "/typeDocument/by-code/{code}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     SemestreDTO getTypeDocumentByCode(@PathVariable String code);
 
     @GetMapping(value = "/typeDocument/by-libelle/{libelle}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     SemestreDTO getTypeDocumentByLibelle(@PathVariable String libelle);
 
     @DeleteMapping(value = "/typeDocument/delete/{typeDocumentId}")
@@ -239,27 +243,27 @@ public interface ReferentielApi {
 
     /************* NiveauEducation *************************/
     @GetMapping(value = "/niveauEducation", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     List<NiveauEducationDTO> getNiveauEducations();
 
     @GetMapping(value = "/niveauEducation/{niveauEducationId}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    NiveauEducationDTO getNiveauEducation(@PathVariable @NotNull Long niveauEducationId);
+    @ResponseStatus(OK)
+    NiveauEducationDTO getNiveauEducation(@PathVariable Long niveauEducationId);
 
     @PostMapping(value = "/niveauEducation/save", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     ReponseMessageDTO createNiveauEducation(@RequestBody NiveauEducationDTO niveauEducationDTO);
 
     @PutMapping(value = "/niveauEducation/update/{niveauEducationId}", consumes = "application/json")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(ACCEPTED)
     ReponseMessageDTO updateNiveauEducation(@PathVariable Long niveauEducationId, @RequestBody NiveauEducationDTO niveauEducationDTO);
 
     @GetMapping(value = "/niveauEducation/by-code/{code}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     NiveauEducationDTO getNiveauEducationByCode(@PathVariable String code);
 
     @GetMapping(value = "/niveauEducation/by-libelle/{libelle}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     NiveauEducationDTO getNiveauEducationByLibelle(@PathVariable String libelle);
 
     @DeleteMapping(value = "/niveauEducation/delete/{niveauEducationId}")
@@ -267,23 +271,23 @@ public interface ReferentielApi {
 
     /*************   CategoryMenu  *************************/
     @GetMapping(value = "/categoryMenu", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     List<CategoryMenuDTO> getCategoryMenus();
 
     @GetMapping(value = "/categoryMenu/{categoryMenuId}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    CategoryMenuDTO getCategoryMenu(@PathVariable @NotNull Long categoryMenuId);
+    @ResponseStatus(OK)
+    CategoryMenuDTO getCategoryMenu(@PathVariable Long categoryMenuId);
 
     @PostMapping(value = "/categoryMenu/save", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     ReponseMessageDTO createCategoryMenu(@RequestBody CategoryMenuDTO categoryMenuDTO);
 
     @PutMapping(value = "/categoryMenu/update/{categoryMenuId}", consumes = "application/json")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(ACCEPTED)
     ReponseMessageDTO updateCategoryMenu(@PathVariable Long categoryMenuId, @RequestBody CategoryMenuDTO categoryMenuDTO);
 
     @GetMapping(value = "/categoryMenu/by-libelle/{libelle}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     CategoryMenuDTO getCategoryMenuByLibelle(@PathVariable String libelle);
 
     @DeleteMapping(value = "/categoryMenu/delete/{categoryMenuId}")
@@ -291,27 +295,27 @@ public interface ReferentielApi {
 
     /*************      Menu  *************************/
     @GetMapping(value = "/menu", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     List<MenuDTO> getMenus();
 
     @GetMapping(value = "/menu/by-category-menu/{menuId}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     List<MenuDTO> findMenusByCategoryMenu(@PathVariable Long catMenuId);
 
     @GetMapping(value = "/menu/{menuId}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    MenuDTO getMenu(@PathVariable @NotNull Long menuId);
+    @ResponseStatus(OK)
+    MenuDTO getMenu(@PathVariable Long menuId);
 
     @PostMapping(value = "/menu/save", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     ReponseMessageDTO createMenu(@RequestBody MenuDTO menuDTO);
 
     @PutMapping(value = "/menu/update/{menuId}", consumes = "application/json")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(ACCEPTED)
     ReponseMessageDTO updateMenu(@PathVariable Long menuId, @RequestBody MenuDTO menuDTO);
 
     @GetMapping(value = "/menu/by-libelle/{libelle}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     MenuDTO getMenuByLibelle(@PathVariable String libelle);
 
     @DeleteMapping(value = "/menu/delete/{menuId}")
@@ -319,27 +323,38 @@ public interface ReferentielApi {
 
     /*************      Meeting    *************************/
     @GetMapping(value = "/meeting", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     List<MeetingDTO> getMeetings();
 
     @GetMapping(value = "/meeting/{meetingId}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    MeetingDTO getMeeting(@PathVariable @NotNull Long meetingId);
+    @ResponseStatus(OK)
+    MeetingDTO getMeeting(@PathVariable Long meetingId);
 
     @PostMapping(value = "/meeting/save", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     ReponseMessageDTO createMeeting(@RequestBody MeetingDTO meetingDTO);
 
     @PutMapping(value = "/meeting/update/{meetingId}", consumes = "application/json")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(ACCEPTED)
     ReponseMessageDTO updateMeeting(@PathVariable Long meetingId, @RequestBody MeetingDTO meetingDTO);
 
     @GetMapping(value = "/meeting/by-libelle/{libelle}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     MeetingDTO getMeetingByLibelle(@PathVariable String libelle);
 
     @DeleteMapping(value = "/meeting/delete/{meetingId}")
     ReponseMessageDTO deleteMeeting(@PathVariable Long meetingId);
 
+    /**************************** Type Paiement *********************************************/
+    @PostMapping(value = "/typePaiement/save", consumes = "application/json")
+    ResponseEntity<Void> createTypePaiement(@RequestBody TypePaiementDTO typePaiementDTO);
 
+    @PutMapping(value = "/typePaiement/update/{meetingId}", consumes = "application/json")
+    ResponseEntity<Void> updateTypePaiement(@PathVariable Long typePaiementId, @RequestBody TypePaiementDTO typePaiementDTO);
+
+    @GetMapping(value = "/typePaiement/{typePaiementId}")
+    ResponseEntity<TypePaiementDTO> findTypePaiementById(@PathVariable Long typePaiement);
+
+    @GetMapping(value = "/typePaiement/allTypePaiement", produces = "application/json")
+    ResponseEntity<List<TypePaiementDTO>> getAllTypePaiements();
 }
