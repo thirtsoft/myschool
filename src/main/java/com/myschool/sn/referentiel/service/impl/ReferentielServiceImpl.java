@@ -140,7 +140,7 @@ public class ReferentielServiceImpl implements ReferentielService {
     }
 
     @Override
-    public Long saveBatiment(BatimentDTO batimentDTO) throws ReferentielException {
+    public void saveBatiment(BatimentDTO batimentDTO) throws ReferentielException {
         if (batimentDTO == null)
             throw new ReferentielException(NULL_OBJECT);
         if (batimentDTO.getLibelle() == null || batimentDTO.getLibelle().isEmpty())
@@ -155,17 +155,15 @@ public class ReferentielServiceImpl implements ReferentielService {
         Batiment savedBatiment = modelFactoryRef.createBatiment(batimentDTO);
         savedBatiment.setActif(true);
         batimentRepository.save(savedBatiment);
-        return savedBatiment.getId();
     }
 
     @Override
-    public Long updateBatiment(Long id, BatimentDTO batimentDTO) throws ReferentielException {
+    public void updateBatiment(Long id, BatimentDTO batimentDTO) throws ReferentielException {
         BatimentDTO searchBatimentDTO = findBatimentById(id);
         if (searchBatimentDTO == null)
             throw new ReferentielException(NOT_FOUND_OBJECT);
         batimentDTO.setId(id);
         saveBatiment(batimentDTO);
-        return batimentDTO.getId();
     }
 
     @Override

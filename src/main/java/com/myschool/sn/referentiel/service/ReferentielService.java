@@ -33,9 +33,9 @@ public interface ReferentielService {
     void deleteAnneeScolaire(Long id);
 
     /**************   Batiment ***********************/
-    Long saveBatiment(BatimentDTO batimentDTO) throws ReferentielException;
+    void saveBatiment(BatimentDTO batimentDTO) throws ReferentielException;
 
-    Long updateBatiment(Long id, BatimentDTO batimentDTO) throws ReferentielException;
+    void updateBatiment(Long id, BatimentDTO batimentDTO) throws ReferentielException;
 
     BatimentDTO findBatimentById(Long id);
 
