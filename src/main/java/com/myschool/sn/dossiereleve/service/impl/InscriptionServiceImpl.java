@@ -108,4 +108,11 @@ public class InscriptionServiceImpl implements InscriptionService {
         deleted.setActif(false);
         inscriptionRepository.save(deleted);
     }
+
+    @Override
+    public InscriptionDTO findInscriptionByCodeEleve(String code) {
+        if (code == null)
+            throw new DossierEleveException(NOT_FOUND_OBJECT);
+        return dtoFactoryDossierEl.createInscriptionDTO(inscriptionRepository.findByCode(code));
+    }
 }

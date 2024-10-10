@@ -17,8 +17,6 @@ public class MenuDTO {
 
     private String description;
 
-    CategoryMenuDTO categoryMenuDTO;
-
     private int actif;
 
     public void setActif(boolean actif) {

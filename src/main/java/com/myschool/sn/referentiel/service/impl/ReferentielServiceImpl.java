@@ -551,8 +551,9 @@ public class ReferentielServiceImpl implements ReferentielService {
     @Override
     public Long updateNiveauEducation(Long id, NiveauEducationDTO niveauEducationDTO) throws ReferentielException {
         NiveauEducationDTO foundNiveauEducation = findNiveauEducationById(id);
-        if (foundNiveauEducation == null)
+        if (foundNiveauEducation == null) {
             throw new ReferentielException(NOT_FOUND_OBJECT);
+        }
         niveauEducationDTO.setId(id);
         saveNiveauEducation(niveauEducationDTO);
         return niveauEducationDTO.getId();
@@ -639,8 +640,6 @@ public class ReferentielServiceImpl implements ReferentielService {
             throw new ReferentielException(NULL_OBJECT);
         if (menuDTO.getLibelle() == null || menuDTO.getLibelle().isEmpty())
             throw new ReferentielException("Le libelle du menu est obligatoire");
-        if (menuDTO.getCategoryMenuDTO() == null)
-            throw new ReferentielException("La category du menu est obligatoire");
         Menu byLibelle = menuRepository.findByLibelle(menuDTO.getLibelle());
         if (menuDTO.getId() == null && byLibelle != null
                 || (menuDTO.getId() != null && byLibelle != null && !byLibelle.getId().equals(menuDTO.getId())))
@@ -676,10 +675,11 @@ public class ReferentielServiceImpl implements ReferentielService {
         return dtoFactoryRef.createListeMenuDTO(menuRepository.findAllActivesMenu());
     }
 
+    /*
     @Override
     public List<MenuDTO> findMenusByCategoryMenu(Long catMenuId) {
         return dtoFactoryRef.createListeMenuDTO(menuRepository.findAllActivesMenu(catMenuId));
-    }
+    }*/
 
     @Override
     public void deleteMenu(Long id) {

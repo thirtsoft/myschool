@@ -277,6 +277,7 @@ public class DTOFactoryRef {
         CategoryMenuDTO dto = new CategoryMenuDTO();
         dto.setId(model.getId());
         dto.setLibelle(model.getLibelle());
+        dto.setMenuDTOs(createSetMenuDTO(model.getMenus()));
         dto.setActif(model.isActif());
         return dto;
     }
@@ -292,6 +293,17 @@ public class DTOFactoryRef {
     }
 
     /*************      Menu    ****************/
+    public List<MenuDTO> createSetMenuDTO(Set<Menu> menus) {
+        if (menus == null)
+            return null;
+        List<MenuDTO> dtos = new ArrayList<>();
+        for (Menu ins : menus) {
+            if (ins != null)
+                dtos.add(createMenuDTO(ins));
+        }
+        return dtos;
+    }
+
     public MenuDTO createMenuDTO(Menu model) {
         if (model == null)
             return null;
@@ -299,7 +311,6 @@ public class DTOFactoryRef {
         dto.setId(model.getId());
         dto.setLibelle(model.getLibelle());
         dto.setDescription(model.getDescription());
-        dto.setCategoryMenuDTO(createCategoryMenuDTO(model.getCategoryMenu()));
         dto.setActif(model.isActif());
         return dto;
     }

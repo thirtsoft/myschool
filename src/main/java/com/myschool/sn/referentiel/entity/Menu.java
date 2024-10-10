@@ -1,8 +1,6 @@
 package com.myschool.sn.referentiel.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,9 +15,11 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class Menu extends ReferencetielEntity {
 
+    /*
     @ManyToOne
     @JoinColumn(name = "category_menu_uid", referencedColumnName = "id", nullable = false)
     private CategoryMenu categoryMenu;
+    */
 
     private String description;
 

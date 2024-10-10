@@ -171,7 +171,7 @@ public interface ReferentielService {
 
     List<MenuDTO> findAllMenus();
 
-    List<MenuDTO> findMenusByCategoryMenu(Long catMenuId);
+    //   List<MenuDTO> findMenusByCategoryMenu(Long catMenuId);
 
     void deleteMenu(Long id);
 
@@ -190,7 +190,10 @@ public interface ReferentielService {
 
     /********** Type Paiement ***********/
     void saveTypePaiement(TypePaiementDTO typePaiementDTO);
+
     void updateTypePaiement(Long id, TypePaiementDTO typePaiementDTO);
+
     TypePaiementDTO findTypePaiementById(Long id);
+
     List<TypePaiementDTO> findAllTypePaiements();
 }

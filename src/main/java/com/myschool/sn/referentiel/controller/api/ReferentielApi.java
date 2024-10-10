@@ -54,7 +54,7 @@ public interface ReferentielApi {
     @ResponseStatus(OK)
     AnneeScolaireDTO getAnneeScolaireByCode(@PathVariable String code);
 
-    @DeleteMapping(value = "/anneescolaire/delete/{eleveId}")
+    @DeleteMapping(value = "/anneescolaire/delete/{anneeScolaireId}")
     ReponseMessageDTO deleteAnneeScolaire(@PathVariable Long anneeScolaireId);
 
     /************* Batiment *************************/
@@ -255,16 +255,8 @@ public interface ReferentielApi {
     ReponseMessageDTO createNiveauEducation(@RequestBody NiveauEducationDTO niveauEducationDTO);
 
     @PutMapping(value = "/niveauEducation/update/{niveauEducationId}", consumes = "application/json")
-    @ResponseStatus(ACCEPTED)
+    @ResponseStatus(OK)
     ReponseMessageDTO updateNiveauEducation(@PathVariable Long niveauEducationId, @RequestBody NiveauEducationDTO niveauEducationDTO);
-
-    @GetMapping(value = "/niveauEducation/by-code/{code}", produces = "application/json")
-    @ResponseStatus(OK)
-    NiveauEducationDTO getNiveauEducationByCode(@PathVariable String code);
-
-    @GetMapping(value = "/niveauEducation/by-libelle/{libelle}", produces = "application/json")
-    @ResponseStatus(OK)
-    NiveauEducationDTO getNiveauEducationByLibelle(@PathVariable String libelle);
 
     @DeleteMapping(value = "/niveauEducation/delete/{niveauEducationId}")
     ReponseMessageDTO deleteNiveauEducation(@PathVariable Long niveauEducationId);
@@ -298,9 +290,9 @@ public interface ReferentielApi {
     @ResponseStatus(OK)
     List<MenuDTO> getMenus();
 
-    @GetMapping(value = "/menu/by-category-menu/{menuId}", produces = "application/json")
+   /* @GetMapping(value = "/menu/by-category-menu/{menuId}", produces = "application/json")
     @ResponseStatus(OK)
-    List<MenuDTO> findMenusByCategoryMenu(@PathVariable Long catMenuId);
+    List<MenuDTO> findMenusByCategoryMenu(@PathVariable Long catMenuId);*/
 
     @GetMapping(value = "/menu/{menuId}", produces = "application/json")
     @ResponseStatus(OK)
@@ -349,7 +341,7 @@ public interface ReferentielApi {
     @PostMapping(value = "/typePaiement/save", consumes = "application/json")
     ResponseEntity<Void> createTypePaiement(@RequestBody TypePaiementDTO typePaiementDTO);
 
-    @PutMapping(value = "/typePaiement/update/{meetingId}", consumes = "application/json")
+    @PutMapping(value = "/typePaiement/update/{typePaiementId}", consumes = "application/json")
     ResponseEntity<Void> updateTypePaiement(@PathVariable Long typePaiementId, @RequestBody TypePaiementDTO typePaiementDTO);
 
     @GetMapping(value = "/typePaiement/{typePaiementId}")

@@ -26,4 +26,5 @@ public interface InscriptionService {
 
     void deleteInscription(Long id);
 
+    InscriptionDTO findInscriptionByCodeEleve(String code);
 }

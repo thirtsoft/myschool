@@ -32,6 +32,10 @@ public interface InscriptionApi {
     @ResponseStatus(HttpStatus.OK)
     DetailsInscriptionDTO getInscription(@PathVariable @NotNull Long inscriptionId);
 
+    @GetMapping(value = "/{code}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    InscriptionDTO getInscriptionByCodeEleve(@PathVariable("code") String code);
+
     @PostMapping(value = "/save", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     ReponseMessageDTO createInscription(@RequestBody InscriptionDTO inscriptionDTO);

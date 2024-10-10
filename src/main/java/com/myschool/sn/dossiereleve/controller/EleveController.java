@@ -1,6 +1,9 @@
 package com.myschool.sn.dossiereleve.controller;
 
 import com.myschool.sn.dossiereleve.controller.api.EleveApi;
+import com.myschool.sn.dossiereleve.mapping.DTOFactoryDossierEl;
+import com.myschool.sn.dossiereleve.mapping.ModelFactoryDossierEl;
+import com.myschool.sn.dossiereleve.message.ResponseEleveDTO;
 import com.myschool.sn.dossiereleve.service.EleveService;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.EleveDTO;
@@ -19,8 +22,14 @@ public class EleveController implements EleveApi {
 
     private final EleveService eleveService;
 
-    public EleveController(EleveService eleveService) {
+    private final DTOFactoryDossierEl dtoFactoryDossierEl;
+
+    private final ModelFactoryDossierEl modelFactoryDossierEl;
+
+    public EleveController(EleveService eleveService, DTOFactoryDossierEl dtoFactoryDossierEl, ModelFactoryDossierEl modelFactoryDossierEl) {
         this.eleveService = eleveService;
+        this.dtoFactoryDossierEl = dtoFactoryDossierEl;
+        this.modelFactoryDossierEl = modelFactoryDossierEl;
     }
 
     @Override
@@ -34,22 +43,22 @@ public class EleveController implements EleveApi {
     }
 
     @Override
-    public ReponseMessageDTO createOrUpdateEleve(EleveDTO eleveDTO) {
+    public ResponseEleveDTO createOrUpdateEleve(EleveDTO eleveDTO) {
         try {
-            eleveService.saveEleve(eleveDTO);
-            return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
+            Long saved = eleveService.saveEleve(eleveDTO);
+            return new ResponseEleveDTO(SUCCESS_MESSAGE, SAVED_OBJECT, saved);
         } catch (Exception e) {
-            return new ReponseMessageDTO(FAILED_MESSAGE, e.getMessage());
+            return new ResponseEleveDTO(FAILED_MESSAGE, e.getMessage(), null);
         }
     }
 
     @Override
-    public ReponseMessageDTO updateEleve(Long eleveId, EleveDTO eleveDTO) {
+    public ResponseEleveDTO updateEleve(Long eleveId, EleveDTO eleveDTO) {
         try {
-            eleveService.updateEleve(eleveId, eleveDTO);
-            return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
+            Long saved = eleveService.updateEleve(eleveId, eleveDTO);
+            return new ResponseEleveDTO(SUCCESS_MESSAGE, SAVED_OBJECT, saved);
         } catch (Exception e) {
-            return new ReponseMessageDTO(FAILED_MESSAGE, e.getMessage());
+            return new ResponseEleveDTO(FAILED_MESSAGE, e.getMessage(), null);
         }
     }
 

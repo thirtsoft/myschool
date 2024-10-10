@@ -39,6 +39,11 @@ public class InscriptionController implements InscriptionApi {
     }
 
     @Override
+    public InscriptionDTO getInscriptionByCodeEleve(String code) {
+        return inscriptionService.findInscriptionByCodeEleve(code);
+    }
+
+    @Override
     public ReponseMessageDTO createInscription(InscriptionDTO inscriptionDTO) {
         try {
             inscriptionService.saveInscription(inscriptionDTO);
