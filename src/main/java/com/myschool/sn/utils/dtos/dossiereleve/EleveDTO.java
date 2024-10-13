@@ -25,6 +25,8 @@ public class EleveDTO {
 
     private String lieuNaissance;
 
+    private String nationalite;
+
     private Date DateNaissance;
 
     private String adresse;

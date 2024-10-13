@@ -5,6 +5,7 @@ import com.myschool.sn.dossiereleve.entity.Inscription;
 import com.myschool.sn.dossiereleve.entity.Paiement;
 import com.myschool.sn.dossiereleve.repository.EleveRepository;
 import com.myschool.sn.referentiel.mapping.DTOFactoryRef;
+import com.myschool.sn.referentiel.mapping.TypePaiementMapper;
 import com.myschool.sn.referentiel.service.ReferentielService;
 import com.myschool.sn.utils.dtos.dossiereleve.DetailsInscriptionDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.EleveDTO;
@@ -29,6 +30,8 @@ public class DTOFactoryDossierEl {
 
     private final ReferentielService referentielService;
 
+    private final TypePaiementMapper typePaiementMapper;
+
 
     public EleveDTO createEleveDTO(Eleve eleve) {
         if (eleve == null) {
@@ -43,6 +46,7 @@ public class DTOFactoryDossierEl {
         dto.setAdresse(eleve.getAdresse());
         dto.setDateNaissance(eleve.getDateNaissance());
         dto.setLieuNaissance(eleve.getLieuNaissance());
+        dto.setNationalite(eleve.getNationalite());
         dto.setActif(eleve.isActif());
         return dto;
     }
@@ -123,6 +127,7 @@ public class DTOFactoryDossierEl {
         dto.setEleveDTO(createEleveDTO(inscription.getEleve()));
         dto.setAnneeScolaireDTODebut(dtoFactoryRef.createAnneeScolaireDTO(inscription.getAnneeScolaire_debut()));
         dto.setAnneeScolaireDTOFin(dtoFactoryRef.createAnneeScolaireDTO(inscription.getAnneeScolaire_fin()));
+        dto.setClasseDTO(dtoFactoryRef.createClasseDTO(inscription.getClasse()));
         dto.setCode(inscription.getCode());
         dto.setMontantInscription(inscription.getMontantInscription());
         dto.setDateInscription(inscription.getDateInscription());
@@ -153,7 +158,8 @@ public class DTOFactoryDossierEl {
         dto.setCreatedBy(paiement.getCreatedBy());
         dto.setMois(paiement.getMois());
         dto.setMontant(paiement.getMontant());
-        dto.setTypePaiements(paiement.getTypePaiements());
+        //    dto.setTypePaiements(paiement.getTypePaiements());
+        dto.setTypePaiements(typePaiementMapper.createListeTypePaiementDTO(paiement.getTypePaiements()));
         return dto;
     }
 

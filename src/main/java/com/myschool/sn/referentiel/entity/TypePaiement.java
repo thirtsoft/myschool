@@ -23,4 +23,6 @@ public class TypePaiement {
 
     @Column(unique = true)
     private String libelle;
+
+    private Double montant;
 }

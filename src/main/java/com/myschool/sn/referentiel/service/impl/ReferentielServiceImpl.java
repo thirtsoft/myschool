@@ -747,6 +747,8 @@ public class ReferentielServiceImpl implements ReferentielService {
         TypePaiement typePaiement = typePaiementRepository.findById(id)
                 .orElseThrow(() -> new ReferentielException(NOT_FOUND_OBJECT));
         typePaiement.setLibelle(typePaiementDTO.getLibelle());
+        typePaiement.setMontant(typePaiementDTO.getMontant());
+        typePaiementRepository.save(typePaiement);
     }
 
     @Override

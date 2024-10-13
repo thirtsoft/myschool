@@ -11,7 +11,7 @@ class TypePaiementMapperTest {
 
     @Test
     void mapToTypePaiementDTO_shouldMapTypePaiementDto() {
-        TypePaiement typePaiement = new TypePaiement(1L, "Mensualite");
+        TypePaiement typePaiement = new TypePaiement(1L, "Mensualite", 250000.0);
 
         TypePaiementDTO typePaiementDTO = TypePaiementMapper.INSTANCE.mapToTypePaiementDTO(typePaiement);
 

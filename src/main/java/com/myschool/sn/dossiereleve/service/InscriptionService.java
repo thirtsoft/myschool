@@ -13,10 +13,9 @@ public interface InscriptionService {
 
     Long updateInscription(Long id, InscriptionDTO inscriptionDTO) throws DossierEleveException;
 
-    DetailsInscriptionDTO findInscriptionById(Long id);
+    InscriptionDTO findInscriptionById(Long id);
 
-    DetailsInscriptionDTO findInscriptionByCode(String code);
-
+    DetailsInscriptionDTO findDetailsInscription(Long id);
 
     DetailsInscriptionDTO findInscriptionByEleve(String nom, String prenom);
 
@@ -25,6 +24,4 @@ public interface InscriptionService {
     List<ListeInscriptionDTO> findInscriptionsByAnneeScolaire(String anneeScolaire);
 
     void deleteInscription(Long id);
-
-    InscriptionDTO findInscriptionByCodeEleve(String code);
 }

@@ -46,6 +46,8 @@ public class Eleve {
     @Column(name = "adresse_eleve")
     private String adresse;
 
+    private String nationalite;
+
     private int actif;
 
     public void setActif(boolean actif) {

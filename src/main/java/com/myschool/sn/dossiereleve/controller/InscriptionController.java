@@ -34,13 +34,13 @@ public class InscriptionController implements InscriptionApi {
     }
 
     @Override
-    public DetailsInscriptionDTO getInscription(Long inscriptionId) {
+    public InscriptionDTO getInscription(Long inscriptionId) {
         return inscriptionService.findInscriptionById(inscriptionId);
     }
 
     @Override
-    public InscriptionDTO getInscriptionByCodeEleve(String code) {
-        return inscriptionService.findInscriptionByCodeEleve(code);
+    public DetailsInscriptionDTO getDetailsInscription(Long inscriptionId) {
+        return inscriptionService.findDetailsInscription(inscriptionId);
     }
 
     @Override
@@ -61,11 +61,6 @@ public class InscriptionController implements InscriptionApi {
         } catch (Exception e) {
             return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
-    }
-
-    @Override
-    public DetailsInscriptionDTO getInscriptionByCode(String code) {
-        return inscriptionService.findInscriptionByCode(code);
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.myschool.sn.dossiereleve.entity.Inscription;
 import com.myschool.sn.dossiereleve.entity.Paiement;
 import com.myschool.sn.dossiereleve.repository.EleveRepository;
 import com.myschool.sn.referentiel.mapping.ModelFactoryRef;
+import com.myschool.sn.referentiel.mapping.TypePaiementMapper;
 import com.myschool.sn.referentiel.service.ReferentielService;
 import com.myschool.sn.utils.dtos.dossiereleve.EleveDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.InscriptionDTO;
@@ -23,6 +24,8 @@ public class ModelFactoryDossierEl {
 
     private final ModelFactoryRef modelFactoryRef;
 
+    private final TypePaiementMapper typePaiementMapper;
+
     public Eleve createEleve(EleveDTO dto) {
         if (dto == null) {
             return null;
@@ -37,6 +40,7 @@ public class ModelFactoryDossierEl {
         model.setSexe(dto.getSexe());
         model.setAdresse(dto.getAdresse());
         model.setLieuNaissance(dto.getLieuNaissance());
+        model.setNationalite(dto.getNationalite());
         return model;
     }
 
@@ -89,7 +93,8 @@ public class ModelFactoryDossierEl {
         model.setMois(dto.getMois());
         model.setMontant(dto.getMontant());
         model.setDatePaiement(dto.getDatePaiement());
-        model.setTypePaiements(dto.getTypePaiements());
+        //   model.setTypePaiements(dto.getTypePaiements());
+        model.setTypePaiements(typePaiementMapper.createSetTypePaiement(dto.getTypePaiements()));
         return model;
     }
 }

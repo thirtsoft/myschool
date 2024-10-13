@@ -1,13 +1,15 @@
 package com.myschool.sn.dossiereleve.entity;
 
-import jakarta.persistence.CollectionTable;
+import com.myschool.sn.referentiel.entity.TypePaiement;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -43,10 +45,17 @@ public class Paiement {
     @Column(name = "date_paiement")
     private Date datePaiement;
 
+    /*
     @ElementCollection
     @CollectionTable(name = "paiement_type", joinColumns = @JoinColumn(name = "id_paiement"))
     @Column(name = "type_paiement")
-    private Set<String> typePaiements;
+    private Set<String> typePaiements;*/
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "typepaiement_par_paiement",
+            joinColumns = @JoinColumn(name = "paiement_uid"),
+            inverseJoinColumns = @JoinColumn(name = "typepaiement_uid"))
+    private Set<TypePaiement> typePaiements;
 
     private Long createdBy;
 
@@ -58,8 +67,9 @@ public class Paiement {
         else
             this.actif = 0;
     }
+
     public boolean isActif() {
-        return actif==1;
+        return actif == 1;
     }
 
 }
