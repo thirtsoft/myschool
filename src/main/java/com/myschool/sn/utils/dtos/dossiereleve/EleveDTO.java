@@ -1,11 +1,14 @@
 package com.myschool.sn.utils.dtos.dossiereleve;
 
+import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
+import com.myschool.sn.utils.dtos.parent.ParentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -29,7 +32,17 @@ public class EleveDTO {
 
     private Date DateNaissance;
 
-    private String adresse;
+    private String address;
+
+    private List<String> allergies;
+
+    private MedecinTraitantDTO medecinTraitantDTO;
+
+    private List<ParentDTO> parentDTOs;
+
+    private List<UtilisateurDTO> utilisateurDTOS;
+
+//    private ParentDTO parentDTO;
 
     private int actif;
 

@@ -7,6 +7,7 @@ import com.myschool.sn.dossiereleve.mapping.ModelFactoryDossierEl;
 import com.myschool.sn.dossiereleve.repository.PaiementRepository;
 import com.myschool.sn.dossiereleve.service.PaiementService;
 import com.myschool.sn.referentiel.entity.TypePaiement;
+import com.myschool.sn.utils.dtos.dossiereleve.PaiementAddDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.PaiementDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,11 +47,41 @@ public class PaiementServiceImpl implements PaiementService {
         savedPaiement.setActif(true);
         savedPaiement.setDatePaiement(new Date());
         double montantTotal = 0;
-        for (TypePaiement typePaiement: savedPaiement.getTypePaiements()) {
+        for (TypePaiement typePaiement : savedPaiement.getTypePaiements()) {
             montantTotal = montantTotal + typePaiement.getMontant();
         }
         savedPaiement.setMontant(montantTotal);
         paiementRepository.save(savedPaiement);
+        return savedPaiement.getId();
+    }
+
+    @Override
+    public Long addPay(PaiementAddDTO paiementAddDTO) throws DossierEleveException {
+        Paiement savedPaiement = new Paiement();
+        for (PaiementDTO paiementDTO : paiementAddDTO.getPaiements()) {
+            if (paiementDTO == null)
+                throw new DossierEleveException(NULL_OBJECT);
+            if (paiementDTO.getCode() == null || paiementDTO.getCode().isEmpty())
+                throw new DossierEleveException("La référence du paiement est obligatoire");
+            if (paiementDTO.getEleveDTO().getId() == null)
+                throw new DossierEleveException("Le choix d'un élève est obligatoire");
+            if (paiementDTO.getMois() == null || paiementDTO.getMois().isEmpty())
+                throw new DossierEleveException("Le mois est obligatoire");
+            Paiement foundPaiement = paiementRepository.findByCode(paiementDTO.getCode());
+            if (paiementDTO.getId() == null && foundPaiement != null
+                    || (paiementDTO.getId() != null && foundPaiement != null && !foundPaiement.getId().equals(paiementDTO.getId()))) {
+                throw new DossierEleveException(String.format("Le code %s est déjà associé à une autre inscription  .", paiementDTO.getCode()));
+            }
+            savedPaiement = modelFactoryDossierEl.createPaiement(paiementDTO);
+            savedPaiement.setActif(true);
+            savedPaiement.setDatePaiement(new Date());
+            double montantTotal = 0;
+            for (TypePaiement typePaiement : savedPaiement.getTypePaiements()) {
+                montantTotal = montantTotal + typePaiement.getMontant();
+            }
+            savedPaiement.setMontant(montantTotal);
+            paiementRepository.save(savedPaiement);
+        }
         return savedPaiement.getId();
     }
 

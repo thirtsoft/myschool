@@ -102,6 +102,13 @@ public class InscriptionServiceImpl implements InscriptionService {
     }
 
     @Override
+    public List<ListeInscriptionDTO> findInscriptionsByEleveID(Long eleveId) {
+        if (eleveId == null)
+            throw new DossierEleveException(NOT_FOUND_OBJECT);
+        return dtoFactoryDossierEl.createListeInscriptionDTO(inscriptionRepository.findListInscriptionByEleveId(eleveId));
+    }
+
+    @Override
     public void deleteInscription(Long id) {
         Inscription deleted = inscriptionRepository.findInscriptionById(id);
         deleted.setActif(false);

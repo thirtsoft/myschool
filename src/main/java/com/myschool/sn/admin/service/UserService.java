@@ -3,8 +3,6 @@ package com.myschool.sn.admin.service;
 import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
 import com.myschool.sn.utils.dtos.admin.UtilisateurProfilDTO;
 import com.myschool.sn.utils.dtos.admin.login.ChangePasswordDTO;
-import com.myschool.sn.utils.dtos.admin.login.JwtResponse;
-import com.myschool.sn.utils.dtos.admin.login.LoginRequest;
 import com.myschool.sn.utils.dtos.admin.login.UserCredentials;
 
 public interface UserService {
@@ -28,5 +26,7 @@ public interface UserService {
     UtilisateurProfilDTO getUserDetails(Long userId);
 
     UtilisateurDTO getUserByUsername(String username);
+
+    UtilisateurDTO findUtilisateurByEleveId(Long eleveId);
 
 }

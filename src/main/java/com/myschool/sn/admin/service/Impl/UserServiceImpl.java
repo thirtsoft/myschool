@@ -173,6 +173,11 @@ public class UserServiceImpl implements UserService {
         return dtoFactory.createUtilisateurDTO(utilisateur);
     }
 
+    @Override
+    public UtilisateurDTO findUtilisateurByEleveId(Long eleveId) {
+        return null;
+    }
+
     public Utilisateur getUserById(Long userId) {
         return utilisateurRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageFormat.format(USER_NOT_FOUND, userId)));

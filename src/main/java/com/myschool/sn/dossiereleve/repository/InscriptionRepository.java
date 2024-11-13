@@ -23,4 +23,7 @@ public interface InscriptionRepository extends JpaRepository<Inscription, Long> 
 
     @Query("Select DISTINCT el from  Inscription el where el.actif=1 and el.anneeScolaire_debut.libelle=:anneeScolaire order by id desc")
     List<Inscription> findInscriptionByAnneeScolaire(@Param("anneeScolaire") String anneeScolaire);
+
+    @Query("Select DISTINCT el from  Inscription el where el.actif=1 and el.eleve.id=:eleveId order by id desc")
+    List<Inscription> findListInscriptionByEleveId(@Param("eleveId") Long eleveId);
 }

@@ -6,6 +6,7 @@ import com.myschool.sn.dossiereleve.mapping.ModelFactoryDossierEl;
 import com.myschool.sn.dossiereleve.message.ResponseEleveDTO;
 import com.myschool.sn.dossiereleve.service.EleveService;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.DetailsEleveDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.EleveDTO;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -53,6 +54,17 @@ public class EleveController implements EleveApi {
     }
 
     @Override
+    public ResponseEleveDTO createEleve(EleveDTO eleveDTO) {
+        try {
+            //    Long saved = eleveService.saveEleveRequest(eleveDTO);
+            Long saved = eleveService.savedStudent(eleveDTO);
+            return new ResponseEleveDTO(SUCCESS_MESSAGE, SAVED_OBJECT, saved);
+        } catch (Exception e) {
+            return new ResponseEleveDTO(FAILED_MESSAGE, e.getMessage(), null);
+        }
+    }
+
+    @Override
     public ResponseEleveDTO updateEleve(Long eleveId, EleveDTO eleveDTO) {
         try {
             Long saved = eleveService.updateEleve(eleveId, eleveDTO);
@@ -68,6 +80,11 @@ public class EleveController implements EleveApi {
     }
 
     @Override
+    public DetailsEleveDTO getDetailStudent(Long studentId) {
+        return eleveService.findDetailEleve(studentId);
+    }
+
+    @Override
     public EleveDTO getEleveByNomOrPrenom(String nom, String prenom) {
         return eleveService.findEleveByNomOrPrenom(nom, prenom);
     }
@@ -80,5 +97,10 @@ public class EleveController implements EleveApi {
         } catch (Exception e) {
             return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
+    }
+
+    @Override
+    public long countNombreEleve() {
+        return eleveService.countNombreEleve();
     }
 }

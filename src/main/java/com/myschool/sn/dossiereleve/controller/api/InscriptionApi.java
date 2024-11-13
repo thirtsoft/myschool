@@ -27,6 +27,10 @@ public interface InscriptionApi {
     @ResponseStatus(HttpStatus.OK)
     List<ListeInscriptionDTO> getInscriptionsByAnneeScolaire(@PathVariable String code);
 
+    @GetMapping(value = "/by-eleve/{eleveId}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    List<ListeInscriptionDTO> getInscriptionsByEleveId(@PathVariable Long eleveId);
+
     @GetMapping(value = "/{inscriptionId}")
     @ResponseStatus(HttpStatus.OK)
     InscriptionDTO getInscription(@PathVariable Long inscriptionId);

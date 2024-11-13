@@ -57,7 +57,7 @@ public class ModelFactoryRef {
         if (dto == null) return null;
         Classe model = new Classe();
         model.setId(dto.getId());
-        model.setActif(dto.isActif());
+        model.setActif(true);
         model.setLibelle(dto.getLibelle());
         return model;
     }
@@ -157,7 +157,7 @@ public class ModelFactoryRef {
         model.setId(dto.getId());
         model.setLibelle(dto.getLibelle());
         model.setDescription(dto.getDescription());
-        model.setActif(dto.isActif());
+        model.setActif(true);
         return model;
     }
 

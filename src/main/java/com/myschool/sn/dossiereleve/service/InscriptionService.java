@@ -23,5 +23,7 @@ public interface InscriptionService {
 
     List<ListeInscriptionDTO> findInscriptionsByAnneeScolaire(String anneeScolaire);
 
+    List<ListeInscriptionDTO> findInscriptionsByEleveID(Long eleveId);
+
     void deleteInscription(Long id);
 }

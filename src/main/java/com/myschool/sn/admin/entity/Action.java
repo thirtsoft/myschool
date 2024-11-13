@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "action")
+@Table(name = "myschool_action")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

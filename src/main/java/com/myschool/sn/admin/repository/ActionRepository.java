@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ActionRepository extends JpaRepository<Action, Long> {
 
-    @Query("Select DISTINCT act from  Action act order by id")
+    @Query("Select DISTINCT act from Action act where act.actif=1 order by act.libelle asc")
     List<Action> findAllActives();
 
     @Query("Select DISTINCT act from  Action act where act.typeCompte=:typeCompte and act.libelle=:libelle order by id")

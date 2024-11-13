@@ -1,12 +1,17 @@
 package com.myschool.sn.dossiereleve.mapping;
 
+import com.myschool.sn.admin.entity.Utilisateur;
+import com.myschool.sn.admin.mapping.DTOFactory;
 import com.myschool.sn.dossiereleve.entity.Eleve;
 import com.myschool.sn.dossiereleve.entity.Inscription;
 import com.myschool.sn.dossiereleve.entity.Paiement;
+import com.myschool.sn.dossiereleve.mapping.mapper.MedecinTraitantMapper;
 import com.myschool.sn.dossiereleve.repository.EleveRepository;
 import com.myschool.sn.referentiel.mapping.DTOFactoryRef;
 import com.myschool.sn.referentiel.mapping.TypePaiementMapper;
 import com.myschool.sn.referentiel.service.ReferentielService;
+import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.DetailsEleveDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.DetailsInscriptionDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.EleveDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.InscriptionDTO;
@@ -17,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static java.util.Collections.emptyList;
 
@@ -32,6 +38,9 @@ public class DTOFactoryDossierEl {
 
     private final TypePaiementMapper typePaiementMapper;
 
+    private final MedecinTraitantMapper medecinTraitantMapper;
+
+    private final DTOFactory dtoFactory;
 
     public EleveDTO createEleveDTO(Eleve eleve) {
         if (eleve == null) {
@@ -43,13 +52,66 @@ public class DTOFactoryDossierEl {
         dto.setNom(eleve.getNom());
         dto.setPrenom(eleve.getPrenom());
         dto.setSexe(eleve.getSexe());
-        dto.setAdresse(eleve.getAdresse());
+        dto.setAddress(eleve.getAddress());
         dto.setDateNaissance(eleve.getDateNaissance());
         dto.setLieuNaissance(eleve.getLieuNaissance());
         dto.setNationalite(eleve.getNationalite());
         dto.setActif(eleve.isActif());
+        dto.setAllergies(new ArrayList<>(eleve.getAllergies()));
+        dto.setMedecinTraitantDTO(medecinTraitantMapper.toMedecinTraitantDTO(eleve.getMedecinTraitant()));
         return dto;
     }
+
+    public DetailsEleveDTO createDetailsEleveDTO(Eleve eleve) {
+        if (eleve == null) {
+            return null;
+        }
+        DetailsEleveDTO dto = new DetailsEleveDTO();
+        dto.setId(eleve.getId());
+        dto.setMatricule(eleve.getMatricule());
+        dto.setNom(eleve.getNom());
+        dto.setPrenom(eleve.getPrenom());
+        dto.setSexe(eleve.getSexe());
+        dto.setAddress(eleve.getAddress());
+        dto.setDateNaissance(eleve.getDateNaissance());
+        dto.setLieuNaissance(eleve.getLieuNaissance());
+        dto.setNationalite(eleve.getNationalite());
+        dto.setActif(eleve.isActif());
+        dto.setAllergies(new ArrayList<>(eleve.getAllergies()));
+        dto.setMedecinTraitantDTO(medecinTraitantMapper.toMedecinTraitantDTO(eleve.getMedecinTraitant()));
+        dto.setUtilisateurDTOS(createSetListParentDTO(eleve.getUtilisateurs()));
+        return dto;
+    }
+
+
+    public List<UtilisateurDTO> createSetListParentDTO(Set<Utilisateur> list) {
+        if (list == null)
+            return null;
+        List<UtilisateurDTO> dtos = new ArrayList<>();
+        for (Utilisateur ins : list) {
+            if (ins != null)
+                dtos.add(toParent(ins));
+        }
+        return dtos;
+    }
+
+    public UtilisateurDTO toParent(Utilisateur parentDTO) {
+        return UtilisateurDTO.builder()
+                .id(parentDTO.getId())
+                .prenom(parentDTO.getPrenom())
+                .nom(parentDTO.getNom())
+                .civility(parentDTO.getCivility())
+                .address(parentDTO.getAddress())
+                .profession(parentDTO.getProfession())
+                .email(parentDTO.getEmail())
+                .telephone(parentDTO.getTelephone())
+                .username(parentDTO.getUsername())
+                //       .actif(parentDTO.isActif())
+
+                //        .profil(modelFactory.createProfil(profilServiceCustom.findProfilById(PROFIL_PARENT)))
+                .build();
+    }
+
 
     public List<EleveDTO> createListeEleveDTO(List<Eleve> eleves) {
         if (eleves == null) {
@@ -58,6 +120,17 @@ public class DTOFactoryDossierEl {
         return eleves.stream()
                 .map(this::createEleveDTO)
                 .toList();
+    }
+
+    public List<EleveDTO> createSetListEleveDTO(Set<Eleve> list) {
+        if (list == null)
+            return null;
+        List<EleveDTO> dtos = new ArrayList<>();
+        for (Eleve ins : list) {
+            if (ins != null)
+                dtos.add(createEleveDTO(ins));
+        }
+        return dtos;
     }
 
     public InscriptionDTO createInscriptionDTO(Inscription inscription) {

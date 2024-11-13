@@ -34,6 +34,11 @@ public class InscriptionController implements InscriptionApi {
     }
 
     @Override
+    public List<ListeInscriptionDTO> getInscriptionsByEleveId(Long eleveId) {
+        return inscriptionService.findInscriptionsByEleveID(eleveId);
+    }
+
+    @Override
     public InscriptionDTO getInscription(Long inscriptionId) {
         return inscriptionService.findInscriptionById(inscriptionId);
     }

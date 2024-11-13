@@ -2,7 +2,9 @@ package com.myschool.sn.dossiereleve.controller.api;
 
 import com.myschool.sn.dossiereleve.message.ResponseEleveDTO;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.DetailsEleveDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.EleveDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.EleveRequestDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +32,10 @@ public interface EleveApi {
     @ResponseStatus(HttpStatus.CREATED)
     ResponseEleveDTO createOrUpdateEleve(@RequestBody EleveDTO eleveDTO);
 
+    @PostMapping(value = "/create", consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    ResponseEleveDTO createEleve(@RequestBody EleveDTO eleveRequestDTO);
+
     @PutMapping(value = "/update/{eleveId}", consumes = "application/json")
     @ResponseStatus(HttpStatus.ACCEPTED)
     ResponseEleveDTO updateEleve(@PathVariable Long eleveId, @RequestBody EleveDTO eleveDTO);
@@ -38,11 +44,18 @@ public interface EleveApi {
     @ResponseStatus(HttpStatus.OK)
     EleveDTO getEleveByMatricule(@PathVariable String matricule);
 
+    @GetMapping(value = "/details/{studentId}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    DetailsEleveDTO getDetailStudent(@PathVariable Long studentId);
+
     @GetMapping(value = "/by-nom/{nom}/by-prenom/{prenom}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     EleveDTO getEleveByNomOrPrenom(@PathVariable String nom, @PathVariable String prenom);
 
     @DeleteMapping(value = "/delete/{eleveId}")
     ReponseMessageDTO deleteEleve(@PathVariable Long eleveId);
+
+    @GetMapping(value = "/nbreeleve")
+    long countNombreEleve();
 
 }

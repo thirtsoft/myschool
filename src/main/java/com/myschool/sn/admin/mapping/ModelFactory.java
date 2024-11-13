@@ -51,30 +51,14 @@ public class ModelFactory {
         return profil;
     }
 
-    /*
-    public UtilisateurDetails createUtilisateurDetails(UtilisateurDetailsDTO dto) {
-        if (dto == null)
-            return null;
-        UtilisateurDetails model = new UtilisateurDetails();
-        model.setAgree(dto.getAgree());
-        model.setCreatedBy(dto.getCreatedBy());
-        model.setDateCreation(dto.getDateCreation());
-        model.setFonction(UtilString.capitalizeFirst(dto.getFonction()));
-        model.setId(dto.getId());
-        model.setNom(dto.getNom().toUpperCase());
-        model.setPrenom(UtilString.capitalizeWords(dto.getPrenom()));
-        model.setService(modelFactoryRef.createService(dto.getServiceDTO()));
-        model.setTelephone(dto.getTelephone());
-        return model;
-    }*/
-
     public Utilisateur createUtilisateur(UtilisateurDTO dto) {
         if (dto == null)
             return null;
         Utilisateur model = new Utilisateur();
         model.setActif(true);
         model.setActivation(dto.getActivation());
-        model.setUsername(dto.getUsername().toLowerCase());
+        //    model.setUsername(dto.getUsername().toLowerCase());
+        model.setUsername(dto.getUsername());
         model.setId(dto.getId());
         model.setMotdepasse(dto.getMotdepasse());
         model.setProfil(createProfil(dto.getProfilDTO()));
@@ -101,6 +85,5 @@ public class ModelFactory {
         model.setEmail(dto.getEmail());
         return model;
     }
-
 
 }
