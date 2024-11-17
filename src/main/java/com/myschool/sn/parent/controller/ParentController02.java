@@ -18,7 +18,7 @@ import static com.myschool.sn.utils.MessageValueResponse.SUCCESS_MESSAGE;
 
 @RestController
 @RequiredArgsConstructor
-public class ParentController implements ParentApi {
+public class ParentController02 implements ParentApi {
 
     private final ParentService parentService;
 

@@ -34,7 +34,7 @@ public class PaiementServiceImpl implements PaiementService {
             throw new DossierEleveException(NULL_OBJECT);
         if (paiementDTO.getCode() == null || paiementDTO.getCode().isEmpty())
             throw new DossierEleveException("La référence du paiement est obligatoire");
-        if (paiementDTO.getEleveDTO().getId() == null)
+        if (paiementDTO.getEleveDTO() == null)
             throw new DossierEleveException("Le choix d'un élève est obligatoire");
         if (paiementDTO.getMois() == null || paiementDTO.getMois().isEmpty())
             throw new DossierEleveException("Le mois est obligatoire");
@@ -63,7 +63,7 @@ public class PaiementServiceImpl implements PaiementService {
                 throw new DossierEleveException(NULL_OBJECT);
             if (paiementDTO.getCode() == null || paiementDTO.getCode().isEmpty())
                 throw new DossierEleveException("La référence du paiement est obligatoire");
-            if (paiementDTO.getEleveDTO().getId() == null)
+            if (paiementDTO.getEleveDTO() == null)
                 throw new DossierEleveException("Le choix d'un élève est obligatoire");
             if (paiementDTO.getMois() == null || paiementDTO.getMois().isEmpty())
                 throw new DossierEleveException("Le mois est obligatoire");
@@ -115,6 +115,13 @@ public class PaiementServiceImpl implements PaiementService {
     @Override
     public List<PaiementDTO> findPaiementsByMois(String mois) {
         return dtoFactoryDossierEl.createListPaiementDTO(paiementRepository.findPaiementsByMois(mois));
+    }
+
+    @Override
+    public List<PaiementDTO> findPaiementsByEleve(Long eleveId) {
+        return paiementRepository.findPaiementsByEleve(eleveId).stream()
+                .map(dtoFactoryDossierEl::createPaiementDTO)
+                .toList();
     }
 
     @Override

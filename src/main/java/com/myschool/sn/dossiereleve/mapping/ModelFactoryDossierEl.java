@@ -40,6 +40,10 @@ public class ModelFactoryDossierEl {
 
     private final ProfilServiceCustom profilServiceCustom;
 
+//    private final EleveRepository eleveRepository;
+
+//    private final EleveService eleveService;
+
     public Eleve createEleve(EleveDTO dto) {
         if (dto == null) {
             return null;
@@ -126,11 +130,10 @@ public class ModelFactoryDossierEl {
         model.setActif(true);
         model.setCreatedBy(dto.getCreatedBy());
         model.setCode(dto.getCode());
-        model.setEleve(createEleve(dto.getEleveDTO()));
+        model.setEleve(Eleve.builder().id(dto.getEleveDTO().getId()).build());
         model.setMois(dto.getMois());
         model.setMontant(dto.getMontant());
         model.setDatePaiement(dto.getDatePaiement());
-        //   model.setTypePaiements(dto.getTypePaiements());
         model.setTypePaiements(typePaiementMapper.createSetTypePaiement(dto.getTypePaiements()));
         return model;
     }

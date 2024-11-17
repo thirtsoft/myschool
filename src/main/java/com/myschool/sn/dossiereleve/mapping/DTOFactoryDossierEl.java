@@ -1,12 +1,13 @@
 package com.myschool.sn.dossiereleve.mapping;
 
 import com.myschool.sn.admin.entity.Utilisateur;
-import com.myschool.sn.admin.mapping.DTOFactory;
 import com.myschool.sn.dossiereleve.entity.Eleve;
 import com.myschool.sn.dossiereleve.entity.Inscription;
 import com.myschool.sn.dossiereleve.entity.Paiement;
 import com.myschool.sn.dossiereleve.mapping.mapper.MedecinTraitantMapper;
 import com.myschool.sn.dossiereleve.repository.EleveRepository;
+import com.myschool.sn.dossiereleve.repository.InscriptionRepository;
+import com.myschool.sn.dossiereleve.repository.PaiementRepository;
 import com.myschool.sn.referentiel.mapping.DTOFactoryRef;
 import com.myschool.sn.referentiel.mapping.TypePaiementMapper;
 import com.myschool.sn.referentiel.service.ReferentielService;
@@ -40,7 +41,9 @@ public class DTOFactoryDossierEl {
 
     private final MedecinTraitantMapper medecinTraitantMapper;
 
-    private final DTOFactory dtoFactory;
+    private final InscriptionRepository inscriptionRepository;
+
+    private final PaiementRepository paiementRepository;
 
     public EleveDTO createEleveDTO(Eleve eleve) {
         if (eleve == null) {
@@ -80,6 +83,9 @@ public class DTOFactoryDossierEl {
         dto.setAllergies(new ArrayList<>(eleve.getAllergies()));
         dto.setMedecinTraitantDTO(medecinTraitantMapper.toMedecinTraitantDTO(eleve.getMedecinTraitant()));
         dto.setUtilisateurDTOS(createSetListParentDTO(eleve.getUtilisateurs()));
+        dto.setPaiementDTOList(createListPaiementDTO(paiementRepository.findPaiementsByEleve(eleve.getId())));
+        dto.setListeInscriptionDTOS(createListeInscriptionDTO(
+                inscriptionRepository.findListInscriptionByEleveId(eleve.getId())));
         return dto;
     }
 
@@ -106,9 +112,6 @@ public class DTOFactoryDossierEl {
                 .email(parentDTO.getEmail())
                 .telephone(parentDTO.getTelephone())
                 .username(parentDTO.getUsername())
-                //       .actif(parentDTO.isActif())
-
-                //        .profil(modelFactory.createProfil(profilServiceCustom.findProfilById(PROFIL_PARENT)))
                 .build();
     }
 
@@ -231,7 +234,7 @@ public class DTOFactoryDossierEl {
         dto.setCreatedBy(paiement.getCreatedBy());
         dto.setMois(paiement.getMois());
         dto.setMontant(paiement.getMontant());
-        //    dto.setTypePaiements(paiement.getTypePaiements());
+        dto.setDatePaiement(paiement.getDatePaiement());
         dto.setTypePaiements(typePaiementMapper.createListeTypePaiementDTO(paiement.getTypePaiements()));
         return dto;
     }

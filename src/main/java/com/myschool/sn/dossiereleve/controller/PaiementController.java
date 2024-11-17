@@ -40,16 +40,6 @@ public class PaiementController implements PaiementApi {
     }
 
     @Override
-    public ReponseMessageDTO createPaiement(PaiementDTO paiementDTO) {
-        try {
-            paiementService.savePaiement(paiementDTO);
-            return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
-        } catch (Exception e) {
-            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
-        }
-    }
-
-    @Override
     public ReponseMessageDTO savePaiement(PaiementAddDTO paiementAddDTO) {
         try {
             paiementService.addPay(paiementAddDTO);

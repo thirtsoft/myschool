@@ -10,8 +10,14 @@ import java.util.Optional;
 
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Long> {
 
-    @Query("Select DISTINCT u from Utilisateur u where u.actif=true and u.id!=1 order by u.telephone")
+    @Query("Select DISTINCT u from Utilisateur u where u.actif=true and u.profil.id!=1 order by u.id desc")
     List<Utilisateur> findAllActive();
+
+    @Query("Select DISTINCT u from Utilisateur u where u.actif=true and u.profil.id=3 order by u.id desc")
+    List<Utilisateur> findAllParent();
+
+    @Query("Select DISTINCT u from Utilisateur u where u.actif=true and u.profil.id=4 order by u.id desc")
+    List<Utilisateur> findAllEnseignant();
 
     @Query(value = "SELECT DISTINCT u FROM Utilisateur u WHERE u.id=:id")
     Utilisateur findUtilisateurById(@Param("id") Long id);

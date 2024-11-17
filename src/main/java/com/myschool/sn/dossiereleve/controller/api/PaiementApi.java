@@ -18,6 +18,7 @@ import java.util.List;
 
 @RequestMapping(value = "/paiement")
 public interface PaiementApi {
+
     @GetMapping(value = "", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     List<PaiementDTO> getPaiements();
@@ -29,10 +30,6 @@ public interface PaiementApi {
     @GetMapping(value = "/{paiementId}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     PaiementDTO getPaiement(@PathVariable @NotNull Long paiementId);
-
-    @PostMapping(value = "/save", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    ReponseMessageDTO createPaiement(@RequestBody PaiementDTO paiementDTO);
 
     @PostMapping(value = "/add-pay", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)

@@ -22,6 +22,8 @@ public interface PaiementService {
 
     List<PaiementDTO> findPaiementsByMois(String mois);
 
+    List<PaiementDTO> findPaiementsByEleve(Long eleveId);
+
     void deletePaiement(Long id);
 
 }

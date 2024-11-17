@@ -45,12 +45,6 @@ public class Paiement {
     @Column(name = "date_paiement")
     private Date datePaiement;
 
-    /*
-    @ElementCollection
-    @CollectionTable(name = "paiement_type", joinColumns = @JoinColumn(name = "id_paiement"))
-    @Column(name = "type_paiement")
-    private Set<String> typePaiements;*/
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "typepaiement_par_paiement",
             joinColumns = @JoinColumn(name = "paiement_uid"),

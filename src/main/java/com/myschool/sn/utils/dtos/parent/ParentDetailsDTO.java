@@ -1,37 +1,30 @@
-package com.myschool.sn.utils.dtos.dossiereleve;
+package com.myschool.sn.utils.dtos.parent;
 
-import com.myschool.sn.utils.dtos.referentiel.TypePaiementDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.EleveDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.List;
 
-@Setter
 @Getter
-@NoArgsConstructor
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class PaiementDTO {
+public class ParentDetailsDTO {
 
     private Long id;
-
-    private String code;
-
-    private EleveDTO eleveDTO;
-
-    private String mois;
-
-    private Double montant;
-
-    private List<TypePaiementDTO> typePaiements;
-
-    private Date datePaiement;
-
-    private Long createdBy;
+    private String nom;
+    private String prenom;
+    private String address;
+    private String profession;
+    private String telephone;
+    private String email;
+    private String civility;
+    List<EleveDTO> eleveDTOS;
 
     private int actif;
 
@@ -45,5 +38,4 @@ public class PaiementDTO {
     public boolean isActif() {
         return actif == 1;
     }
-
 }

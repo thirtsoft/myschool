@@ -41,6 +41,10 @@ public class DetailsEleveDTO {
 
     private List<UtilisateurDTO> utilisateurDTOS;
 
+    private List<PaiementDTO> paiementDTOList;
+
+    private List<ListeInscriptionDTO> listeInscriptionDTOS;
+
     private int actif;
 
     public void setActif(boolean actif) {

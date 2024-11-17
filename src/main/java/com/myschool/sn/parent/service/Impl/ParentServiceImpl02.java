@@ -16,7 +16,7 @@ import static com.myschool.sn.utils.MessageValueResponse.NOT_FOUND_OBJECT;
 
 @Service
 @RequiredArgsConstructor
-public class ParentServiceImpl implements ParentService {
+public class ParentServiceImpl02 implements ParentService {
 
     private final ParentRepository parentRepository;
     private final ParentMapper parentMapper;

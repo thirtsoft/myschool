@@ -5,17 +5,15 @@ import com.myschool.sn.admin.service.ProfilServiceCustom;
 import com.myschool.sn.admin.service.UserService;
 import com.myschool.sn.utils.dtos.admin.ActionDTO;
 import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
+import com.myschool.sn.utils.dtos.admin.UtilisateurListDTO;
 import com.myschool.sn.utils.dtos.admin.UtilisateurProfilDTO;
-import com.myschool.sn.utils.dtos.admin.login.JwtResponse;
-import com.myschool.sn.utils.dtos.admin.login.LoginRequest;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
 import com.myschool.sn.utils.dtos.admin.login.UserCredentials;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
-import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 public class UtilisateurController implements UtilisateurApi {
@@ -95,5 +93,10 @@ public class UtilisateurController implements UtilisateurApi {
     @Override
     public UtilisateurProfilDTO getUserDetails(Long userId) throws Exception {
         return userService.getUserDetails(userId);
+    }
+
+    @Override
+    public ResponseEntity<List<UtilisateurListDTO>> getUtilisateursList() {
+        return new ResponseEntity<>(userService.findAllUtilisateur(), HttpStatus.OK);
     }
 }

@@ -11,6 +11,7 @@ import com.myschool.sn.admin.repository.UtilisateurRepository;
 import com.myschool.sn.admin.service.UserService;
 import com.myschool.sn.admin.service.UtilsServiceCustom;
 import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
+import com.myschool.sn.utils.dtos.admin.UtilisateurListDTO;
 import com.myschool.sn.utils.dtos.admin.UtilisateurProfilDTO;
 import com.myschool.sn.utils.dtos.admin.login.ChangePasswordDTO;
 import com.myschool.sn.utils.dtos.admin.login.UserCredentials;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.MessageFormat;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -176,6 +178,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UtilisateurDTO findUtilisateurByEleveId(Long eleveId) {
         return null;
+    }
+
+    @Override
+    public List<UtilisateurListDTO> findAllUtilisateur() {
+        return utilisateurRepository.findAllActive().stream()
+                .map(dtoFactory::createUtilisateurListDTO)
+                .toList();
     }
 
     public Utilisateur getUserById(Long userId) {
