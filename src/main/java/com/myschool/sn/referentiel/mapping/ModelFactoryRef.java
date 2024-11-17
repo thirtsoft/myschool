@@ -26,13 +26,15 @@ import com.myschool.sn.utils.dtos.referentiel.SemestreDTO;
 import com.myschool.sn.utils.dtos.referentiel.TypeDocumentDTO;
 
 import javax.inject.Named;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Named("modelFactoryRef")
 public class ModelFactoryRef {
 
     public AnneeScolaire createAnneeScolaire(AnneeScolaireDTO dto) {
-        if (dto == null)
-            return null;
+        if (dto == null) return null;
         AnneeScolaire model = new AnneeScolaire();
         model.setId(dto.getId());
         model.setActif(true);
@@ -42,29 +44,34 @@ public class ModelFactoryRef {
     }
 
     public Batiment createBatiment(BatimentDTO batimentDTO) {
-        if (batimentDTO == null)
-            return null;
+        if (batimentDTO == null) return null;
         Batiment model = new Batiment();
         model.setId(batimentDTO.getId());
         model.setActif(batimentDTO.isActif());
         model.setLibelle(batimentDTO.getLibelle());
+        model.setClasses(createSetClasse(batimentDTO.getClasseDTOS()));
         return model;
     }
 
     public Classe createClasse(ClasseDTO dto) {
-        if (dto == null)
-            return null;
+        if (dto == null) return null;
         Classe model = new Classe();
         model.setId(dto.getId());
-        model.setActif(dto.isActif());
+        model.setActif(true);
         model.setLibelle(dto.getLibelle());
-        model.setBatimentId(dto.getBatimentId());
         return model;
     }
 
+    public Set<Classe> createSetClasse(List<ClasseDTO> classeDTOList) {
+        if (classeDTOList == null) return null;
+        Set<Classe> classeHashSet = new HashSet<>();
+        for (ClasseDTO dto : classeDTOList)
+            if (dto != null) classeHashSet.add(createClasse(dto));
+        return classeHashSet;
+    }
+
     public Matiere createMatiere(MatiereDTO dto) {
-        if (dto == null)
-            return null;
+        if (dto == null) return null;
         Matiere model = new Matiere();
         model.setId(dto.getId());
         model.setCode(dto.getCode());
@@ -74,8 +81,7 @@ public class ModelFactoryRef {
     }
 
     public Salle createSalle(SalleDTO dto) {
-        if (dto == null)
-            return null;
+        if (dto == null) return null;
         Salle model = new Salle();
         model.setId(dto.getId());
         model.setLibelle(dto.getLibelle());
@@ -85,8 +91,7 @@ public class ModelFactoryRef {
     }
 
     public Evenement createEvenement(EvenementDTO dto) {
-        if (dto == null)
-            return null;
+        if (dto == null) return null;
         Evenement model = new Evenement();
         model.setId(dto.getId());
         model.setLibelle(dto.getLibelle());
@@ -99,8 +104,7 @@ public class ModelFactoryRef {
     }
 
     public Semestre createSemestre(SemestreDTO dto) {
-        if (dto == null)
-            return null;
+        if (dto == null) return null;
         Semestre model = new Semestre();
         model.setId(dto.getId());
         model.setLibelle(dto.getLibelle());
@@ -110,8 +114,7 @@ public class ModelFactoryRef {
     }
 
     public TypeDocument createTypeDocument(TypeDocumentDTO dto) {
-        if (dto == null)
-            return null;
+        if (dto == null) return null;
         TypeDocument model = new TypeDocument();
         model.setId(dto.getId());
         model.setLibelle(dto.getLibelle());
@@ -121,8 +124,7 @@ public class ModelFactoryRef {
     }
 
     public NiveauEducation createNiveauEducation(NiveauEducationDTO dto) {
-        if (dto == null)
-            return null;
+        if (dto == null) return null;
         NiveauEducation model = new NiveauEducation();
         model.setId(dto.getId());
         model.setLibelle(dto.getLibelle());
@@ -132,30 +134,35 @@ public class ModelFactoryRef {
     }
 
     public CategoryMenu createCategoryMenu(CategoryMenuDTO dto) {
-        if (dto == null)
-            return null;
+        if (dto == null) return null;
         CategoryMenu model = new CategoryMenu();
         model.setId(dto.getId());
         model.setLibelle(dto.getLibelle());
+        model.setMenus(createSetMenu(dto.getMenuDTOs()));
         model.setActif(dto.isActif());
         return model;
     }
 
+    public Set<Menu> createSetMenu(List<MenuDTO> menuDTOList) {
+        if (menuDTOList == null) return null;
+        Set<Menu> menus = new HashSet<>();
+        for (MenuDTO dto : menuDTOList)
+            if (dto != null) menus.add(createMenu(dto));
+        return menus;
+    }
+
     public Menu createMenu(MenuDTO dto) {
-        if (dto == null)
-            return null;
+        if (dto == null) return null;
         Menu model = new Menu();
         model.setId(dto.getId());
         model.setLibelle(dto.getLibelle());
         model.setDescription(dto.getDescription());
-        model.setCategoryMenu(createCategoryMenu(dto.getCategoryMenuDTO()));
-        model.setActif(dto.isActif());
+        model.setActif(true);
         return model;
     }
 
     public Meeting createMeeting(MeetingDTO dto) {
-        if (dto == null)
-            return null;
+        if (dto == null) return null;
         Meeting model = new Meeting();
         model.setId(dto.getId());
         model.setLibelle(dto.getLibelle());

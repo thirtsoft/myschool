@@ -1,16 +1,20 @@
 package com.myschool.sn.utils.dtos.dossiereleve;
 
+import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class DetailsEleveDTO {
 
     private Long id;
@@ -23,11 +27,23 @@ public class DetailsEleveDTO {
 
     private String sexe;
 
-    private String lieu;
+    private String lieuNaissance;
 
-    private Date Date;
+    private String nationalite;
 
-    private String adresse;
+    private Date DateNaissance;
+
+    private String address;
+
+    private List<String> allergies;
+
+    private MedecinTraitantDTO medecinTraitantDTO;
+
+    private List<UtilisateurDTO> utilisateurDTOS;
+
+    private List<PaiementDTO> paiementDTOList;
+
+    private List<ListeInscriptionDTO> listeInscriptionDTOS;
 
     private int actif;
 

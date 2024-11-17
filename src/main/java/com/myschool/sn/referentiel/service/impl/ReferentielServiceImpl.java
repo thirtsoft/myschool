@@ -148,11 +148,13 @@ public class ReferentielServiceImpl implements ReferentielService {
     }
 
     @Override
-    public Long saveBatiment(BatimentDTO batimentDTO) throws ReferentielException {
+    public void saveBatiment(BatimentDTO batimentDTO) throws ReferentielException {
         if (batimentDTO == null)
             throw new ReferentielException(NULL_OBJECT);
         if (batimentDTO.getLibelle() == null || batimentDTO.getLibelle().isEmpty())
             throw new ReferentielException("Le libellé du batiment est obligatoire");
+        if (batimentDTO.getClasseDTOS() == null || batimentDTO.getClasseDTOS().isEmpty())
+            throw new ReferentielException("Associé au moins une classe au batiment");
         Batiment foundBatiment = batimentRepository.findByCode(batimentDTO.getLibelle());
         if (batimentDTO.getId() == null && foundBatiment != null
                 || (batimentDTO.getId() != null && foundBatiment != null && !foundBatiment.getId().equals(batimentDTO.getId()))) {
@@ -161,17 +163,15 @@ public class ReferentielServiceImpl implements ReferentielService {
         Batiment savedBatiment = modelFactoryRef.createBatiment(batimentDTO);
         savedBatiment.setActif(true);
         batimentRepository.save(savedBatiment);
-        return savedBatiment.getId();
     }
 
     @Override
-    public Long updateBatiment(Long id, BatimentDTO batimentDTO) throws ReferentielException {
+    public void updateBatiment(Long id, BatimentDTO batimentDTO) throws ReferentielException {
         BatimentDTO searchBatimentDTO = findBatimentById(id);
         if (searchBatimentDTO == null)
             throw new ReferentielException(NOT_FOUND_OBJECT);
         batimentDTO.setId(id);
         saveBatiment(batimentDTO);
-        return batimentDTO.getId();
     }
 
     @Override
@@ -551,8 +551,9 @@ public class ReferentielServiceImpl implements ReferentielService {
     @Override
     public Long updateNiveauEducation(Long id, NiveauEducationDTO niveauEducationDTO) throws ReferentielException {
         NiveauEducationDTO foundNiveauEducation = findNiveauEducationById(id);
-        if (foundNiveauEducation == null)
+        if (foundNiveauEducation == null) {
             throw new ReferentielException(NOT_FOUND_OBJECT);
+        }
         niveauEducationDTO.setId(id);
         saveNiveauEducation(niveauEducationDTO);
         return niveauEducationDTO.getId();
@@ -639,8 +640,6 @@ public class ReferentielServiceImpl implements ReferentielService {
             throw new ReferentielException(NULL_OBJECT);
         if (menuDTO.getLibelle() == null || menuDTO.getLibelle().isEmpty())
             throw new ReferentielException("Le libelle du menu est obligatoire");
-        if (menuDTO.getCategoryMenuDTO() == null)
-            throw new ReferentielException("La category du menu est obligatoire");
         Menu byLibelle = menuRepository.findByLibelle(menuDTO.getLibelle());
         if (menuDTO.getId() == null && byLibelle != null
                 || (menuDTO.getId() != null && byLibelle != null && !byLibelle.getId().equals(menuDTO.getId())))
@@ -676,10 +675,11 @@ public class ReferentielServiceImpl implements ReferentielService {
         return dtoFactoryRef.createListeMenuDTO(menuRepository.findAllActivesMenu());
     }
 
+    /*
     @Override
     public List<MenuDTO> findMenusByCategoryMenu(Long catMenuId) {
         return dtoFactoryRef.createListeMenuDTO(menuRepository.findAllActivesMenu(catMenuId));
-    }
+    }*/
 
     @Override
     public void deleteMenu(Long id) {
@@ -747,6 +747,8 @@ public class ReferentielServiceImpl implements ReferentielService {
         TypePaiement typePaiement = typePaiementRepository.findById(id)
                 .orElseThrow(() -> new ReferentielException(NOT_FOUND_OBJECT));
         typePaiement.setLibelle(typePaiementDTO.getLibelle());
+        typePaiement.setMontant(typePaiementDTO.getMontant());
+        typePaiementRepository.save(typePaiement);
     }
 
     @Override

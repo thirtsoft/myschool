@@ -24,4 +24,6 @@ public interface ProfilServiceCustom {
     List<ActionDTO> getListActionByRoleId(Long roleId);
 
     List<ProfilDTO> findProfilByTypeCompte(String type);
+
+    void updateProfile(Long profileId, ProfilDTO profilDTO);
 }

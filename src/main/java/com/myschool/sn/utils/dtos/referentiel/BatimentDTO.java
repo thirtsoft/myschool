@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 
 @Setter
 @Getter
@@ -15,6 +17,8 @@ public class BatimentDTO {
     private Long id;
 
     private String libelle;
+
+    private List<ClasseDTO> classeDTOS;
 
     private int actif;
 

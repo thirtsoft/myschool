@@ -13,4 +13,5 @@ public class TypePaiementDTO {
 
     private Long id;
     private String libelle;
+    private Double montant;
 }

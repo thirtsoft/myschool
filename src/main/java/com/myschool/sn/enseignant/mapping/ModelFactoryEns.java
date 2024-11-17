@@ -21,7 +21,7 @@ public class ModelFactoryEns {
         model.setNom(dto.getNom());
         model.setCivilite(dto.getCivilite());
         model.setCni(dto.getCni());
-        model.setAdresse(dto.getAdresse());
+        model.setAddress(dto.getAdresse());
         model.setTelephone(dto.getTelephone());
         model.setEmail(dto.getEmail());
         return model;

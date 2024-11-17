@@ -3,6 +3,7 @@ package com.myschool.sn.dossiereleve.controller;
 import com.myschool.sn.dossiereleve.controller.api.PaiementApi;
 import com.myschool.sn.dossiereleve.service.PaiementService;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.PaiementAddDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.PaiementDTO;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,9 +40,9 @@ public class PaiementController implements PaiementApi {
     }
 
     @Override
-    public ReponseMessageDTO createPaiement(PaiementDTO paiementDTO) {
+    public ReponseMessageDTO savePaiement(PaiementAddDTO paiementAddDTO) {
         try {
-            paiementService.savePaiement(paiementDTO);
+            paiementService.addPay(paiementAddDTO);
             return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
         } catch (Exception e) {
             return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);

@@ -1,23 +1,32 @@
 package com.myschool.sn.enseignant.entity;
 
+import com.myschool.sn.admin.entity.Utilisateur;
+import com.myschool.sn.person.Identification;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "myschool_enseignant")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Enseignant {
+@SuperBuilder
+public class Enseignant extends Identification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,26 +35,12 @@ public class Enseignant {
     @Column(unique = true, name = "matricule_enseignant")
     private String matricule;
 
-    @Column(name = "nom_enseignant")
-    private String nom;
-
-    @Column(name = "prenom_enseignant")
-    private String prenom;
-
     @Column(name = "cni_enseignant")
     private String cni;
 
-    @Column(name = "civilite_enseignant")
-    private String civilite;
-
-    @Column(name = "adresse_enseignant")
-    private String adresse;
-
-    @Column(name = "email_enseignant")
-    private String email;
-
-    @Column(name = "telephone_enseignant")
-    private String telephone;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "utilisateur_uid", referencedColumnName = "id", nullable = false)
+    private Utilisateur utilisateur;
 
     private int actif;
 

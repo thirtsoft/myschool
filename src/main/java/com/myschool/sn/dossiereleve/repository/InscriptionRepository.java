@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface InscriptionRepository extends JpaRepository<Inscription, Long> {
 
-    @Query("Select DISTINCT el from  Inscription el where el.actif=1 and el.code=:code order by id")
+    @Query("Select DISTINCT el from  Inscription el where el.actif=1 and el.code=:code")
     Inscription findByCode(@Param("code") String code);
 
     @Query("Select DISTINCT el from  Inscription el where el.id=:id and actif=1")
@@ -18,9 +18,12 @@ public interface InscriptionRepository extends JpaRepository<Inscription, Long> 
     @Query("Select DISTINCT el from  Inscription el where el.actif=1 and lower(el.eleve.nom)=lower(:nom) and lower(el.eleve.prenom)=lower(:prenom)")
     Inscription findInscriptionByEleve(@Param("nom") String nom, @Param("prenom") String prenom);
 
-    @Query("Select DISTINCT el from  Inscription el where el.actif=1 order by id")
+    @Query("Select DISTINCT el from  Inscription el where el.actif=1 order by id desc")
     List<Inscription> findAllInscriptions();
 
-    @Query("Select DISTINCT el from  Inscription el where el.actif=1 and el.anneeScolaire_debut.libelle=:anneeScolaire")
+    @Query("Select DISTINCT el from  Inscription el where el.actif=1 and el.anneeScolaire_debut.libelle=:anneeScolaire order by id desc")
     List<Inscription> findInscriptionByAnneeScolaire(@Param("anneeScolaire") String anneeScolaire);
+
+    @Query("Select DISTINCT el from  Inscription el where el.actif=1 and el.eleve.id=:eleveId order by id desc")
+    List<Inscription> findListInscriptionByEleveId(@Param("eleveId") Long eleveId);
 }

@@ -1,7 +1,10 @@
 package com.myschool.sn.dossiereleve.controller.api;
 
+import com.myschool.sn.dossiereleve.message.ResponseEleveDTO;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.DetailsEleveDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.EleveDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.EleveRequestDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,15 +30,23 @@ public interface EleveApi {
 
     @PostMapping(value = "/save", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    ReponseMessageDTO createOrUpdateEleve(@RequestBody EleveDTO eleveDTO);
+    ResponseEleveDTO createOrUpdateEleve(@RequestBody EleveDTO eleveDTO);
+
+    @PostMapping(value = "/create", consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    ResponseEleveDTO createEleve(@RequestBody EleveDTO eleveRequestDTO);
 
     @PutMapping(value = "/update/{eleveId}", consumes = "application/json")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    ReponseMessageDTO updateEleve(@PathVariable Long eleveId, @RequestBody EleveDTO eleveDTO);
+    ResponseEleveDTO updateEleve(@PathVariable Long eleveId, @RequestBody EleveDTO eleveDTO);
 
     @GetMapping(value = "/by-matricule/{matricule}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     EleveDTO getEleveByMatricule(@PathVariable String matricule);
+
+    @GetMapping(value = "/details/{studentId}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    DetailsEleveDTO getDetailStudent(@PathVariable Long studentId);
 
     @GetMapping(value = "/by-nom/{nom}/by-prenom/{prenom}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
@@ -43,5 +54,8 @@ public interface EleveApi {
 
     @DeleteMapping(value = "/delete/{eleveId}")
     ReponseMessageDTO deleteEleve(@PathVariable Long eleveId);
+
+    @GetMapping(value = "/nbreeleve")
+    long countNombreEleve();
 
 }

@@ -12,16 +12,18 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 @Entity
-@Table(name = "profil")
+@Table(name = "myschool_profil")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Profil {
 
     @Id

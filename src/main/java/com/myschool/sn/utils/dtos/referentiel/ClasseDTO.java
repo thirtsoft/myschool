@@ -15,8 +15,6 @@ public class ClasseDTO {
 
     private String libelle;
 
-    private Long batimentId;
-
     private int actif;
 
     public void setActif(boolean actif) {

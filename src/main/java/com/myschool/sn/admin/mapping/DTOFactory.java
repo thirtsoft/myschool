@@ -3,11 +3,16 @@ package com.myschool.sn.admin.mapping;
 import com.myschool.sn.admin.entity.Action;
 import com.myschool.sn.admin.entity.Profil;
 import com.myschool.sn.admin.entity.Utilisateur;
+import com.myschool.sn.dossiereleve.mapping.DTOFactoryDossierEl;
 import com.myschool.sn.utils.dtos.admin.ActionDTO;
 import com.myschool.sn.utils.dtos.admin.ProfilDTO;
 import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
+import com.myschool.sn.utils.dtos.admin.UtilisateurListDTO;
 import com.myschool.sn.utils.dtos.admin.UtilisateurProfilDTO;
 import com.myschool.sn.utils.dtos.admin.register.AgentDTO;
+import com.myschool.sn.utils.dtos.parent.ParentDetailsDTO;
+import com.myschool.sn.utils.dtos.parent.ParentListeDTO;
+import lombok.RequiredArgsConstructor;
 
 import javax.inject.Named;
 import java.io.Serializable;
@@ -18,7 +23,10 @@ import java.util.Set;
 import static java.util.Collections.emptyList;
 
 @Named("dtoFactory")
+@RequiredArgsConstructor
 public class DTOFactory implements Serializable {
+
+    private final DTOFactoryDossierEl dtoFactoryDossierEl;
 
     public ActionDTO createActionDTO(Action action) {
         if (action == null)
@@ -97,20 +105,58 @@ public class DTOFactory implements Serializable {
     public UtilisateurProfilDTO createUtilisateurProfilDTO(Utilisateur model) {
         if (model == null)
             return null;
-        //    UtilisateurDetails det = model.getUtilisateurDetails();
         UtilisateurProfilDTO dto = new UtilisateurProfilDTO();
         dto.setEmail(model.getUsername());
-        //      dto.setDateCreation(DateUtils.formatDate(det.getDateCreation()));
-//        dto.setId(det.getId());
-//        dto.setNom(det.getNom());
-//        dto.setPrenom(det.getPrenom());
-//        if (det.getService() != null)
-//            dto.setService(det.getService().getLibelle());
-//        if (det.getQualite() != null)
-//            dto.setFonction(det.getQualite().getLibelle());
-//        dto.setTelephone(det.getTelephone());
         dto.setTypeProfil(model.getProfil().getTypeCompte());
         dto.setProfil(model.getProfil().getLibelle());
+        return dto;
+    }
+
+    public UtilisateurListDTO createUtilisateurListDTO(Utilisateur model) {
+        if (model == null)
+            return null;
+        UtilisateurListDTO dto = new UtilisateurListDTO();
+        dto.setId(model.getId());
+        dto.setUsername(model.getUsername());
+        dto.setCivility(model.getCivility());
+        dto.setAddress(model.getAddress());
+        dto.setNomComplet(model.getPrenom() + ' ' + model.getNom());
+        dto.setTelephone(model.getTelephone());
+        dto.setEmail(model.getEmail());
+        dto.setProfession(model.getProfession());
+        dto.setActif(model.isActif());
+        return dto;
+    }
+
+    public ParentListeDTO createParentListeDTO(Utilisateur model) {
+        if (model == null)
+            return null;
+        ParentListeDTO dto = new ParentListeDTO();
+        dto.setId(model.getId());
+        dto.setCivility(model.getCivility());
+        dto.setAddress(model.getAddress());
+        dto.setNomComplet(model.getPrenom() + ' ' + model.getNom());
+        dto.setTelephone(model.getTelephone());
+        dto.setEmail(model.getEmail());
+        dto.setProfession(model.getProfession());
+        dto.setActif(model.isActif());
+        return dto;
+    }
+
+    public ParentDetailsDTO createParentDetailsDTO(Utilisateur model) {
+        if (model == null)
+            return null;
+        ParentDetailsDTO dto = new ParentDetailsDTO();
+        dto.setId(model.getId());
+        dto.setCivility(model.getCivility());
+        dto.setNom(model.getNom());
+        dto.setPrenom(model.getPrenom());
+        dto.setAddress(model.getAddress());
+        dto.setTelephone(model.getTelephone());
+        dto.setEmail(model.getEmail());
+        dto.setProfession(model.getProfession());
+        dto.setActif(model.isActif());
+        dto.setEleveDTOS(dtoFactoryDossierEl.createSetListEleveDTO(model.getEleves()));
         return dto;
     }
 

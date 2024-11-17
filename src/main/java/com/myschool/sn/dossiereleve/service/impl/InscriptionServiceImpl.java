@@ -12,6 +12,7 @@ import com.myschool.sn.utils.dtos.dossiereleve.ListeInscriptionDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 import static com.myschool.sn.utils.MessageValueResponse.NOT_FOUND_OBJECT;
@@ -43,9 +44,6 @@ public class InscriptionServiceImpl implements InscriptionService {
             throw new DossierEleveException("L'année scolaire de fin est obligatoire");
         if (inscriptionDTO.getClasseDTO() == null)
             throw new DossierEleveException("La classe d'inscription est obligatoire");
-
-//        if (inscriptionDTO.getDateInscription() == null)
-//            throw new DossierEleveException("La date de l'inscription est obligatoire");
         Inscription SearchInscription = inscriptionRepository.findByCode(inscriptionDTO.getCode());
         if (inscriptionDTO.getId() == null && SearchInscription != null
                 || (inscriptionDTO.getId() != null && SearchInscription != null && !SearchInscription.getId().equals(inscriptionDTO.getId()))) {
@@ -53,6 +51,7 @@ public class InscriptionServiceImpl implements InscriptionService {
         }
         Inscription saveInscription = modelFactoryDossierEl.createInscription(inscriptionDTO);
         saveInscription.setActif(true);
+        saveInscription.setDateInscription(new Date());
         inscriptionRepository.save(saveInscription);
         return saveInscription.getId();
     }
@@ -70,17 +69,17 @@ public class InscriptionServiceImpl implements InscriptionService {
     }
 
     @Override
-    public DetailsInscriptionDTO findInscriptionById(Long id) {
+    public InscriptionDTO findInscriptionById(Long id) {
         if (id == null)
             throw new DossierEleveException(NOT_FOUND_OBJECT);
-        return dtoFactoryDossierEl.createDetailsInscriptionDTO(inscriptionRepository.findInscriptionById(id));
+        return dtoFactoryDossierEl.createInscriptionDTO(inscriptionRepository.findInscriptionById(id));
     }
 
     @Override
-    public DetailsInscriptionDTO findInscriptionByCode(String code) {
-        if (code == null)
+    public DetailsInscriptionDTO findDetailsInscription(Long id) {
+        if (id == null)
             throw new DossierEleveException(NOT_FOUND_OBJECT);
-        return dtoFactoryDossierEl.createDetailsInscriptionDTO(inscriptionRepository.findByCode(code));
+        return dtoFactoryDossierEl.createDetailsInscriptionDTO(inscriptionRepository.findInscriptionById(id));
     }
 
     @Override
@@ -103,9 +102,17 @@ public class InscriptionServiceImpl implements InscriptionService {
     }
 
     @Override
+    public List<ListeInscriptionDTO> findInscriptionsByEleveID(Long eleveId) {
+        if (eleveId == null)
+            throw new DossierEleveException(NOT_FOUND_OBJECT);
+        return dtoFactoryDossierEl.createListeInscriptionDTO(inscriptionRepository.findListInscriptionByEleveId(eleveId));
+    }
+
+    @Override
     public void deleteInscription(Long id) {
         Inscription deleted = inscriptionRepository.findInscriptionById(id);
         deleted.setActif(false);
         inscriptionRepository.save(deleted);
     }
+
 }

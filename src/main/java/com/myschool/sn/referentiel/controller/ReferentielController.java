@@ -460,16 +460,6 @@ public class ReferentielController implements ReferentielApi {
     }
 
     @Override
-    public NiveauEducationDTO getNiveauEducationByCode(String code) {
-        return referentielService.findNiveauEducationByCode(code);
-    }
-
-    @Override
-    public NiveauEducationDTO getNiveauEducationByLibelle(String libelle) {
-        return referentielService.findNiveauEducationByLibelle(libelle);
-    }
-
-    @Override
     public ReponseMessageDTO deleteNiveauEducation(Long niveauEducationId) {
         try {
             referentielService.deleteNiveauEducation(niveauEducationId);
@@ -531,10 +521,10 @@ public class ReferentielController implements ReferentielApi {
         return referentielService.findAllMenus();
     }
 
-    @Override
+   /* @Override
     public List<MenuDTO> findMenusByCategoryMenu(Long catMenuId) {
         return referentielService.findMenusByCategoryMenu(catMenuId);
-    }
+    }*/
 
     @Override
     public MenuDTO getMenu(Long menuId) {

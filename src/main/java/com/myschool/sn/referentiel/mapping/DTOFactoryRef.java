@@ -31,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Named("dtoFactoryRef")
 @RequiredArgsConstructor
@@ -68,6 +69,7 @@ public class DTOFactoryRef {
         dto.setId(batiment.getId());
         dto.setLibelle(batiment.getLibelle());
         dto.setActif(batiment.isActif());
+        dto.setClasseDTOS(createSetListeClasseDTO(batiment.getClasses()));
         return dto;
     }
 
@@ -75,7 +77,7 @@ public class DTOFactoryRef {
         if (batiments == null)
             return new ArrayList<>();
         List<BatimentDTO> dtos = new ArrayList<>();
-        for (Batiment batiment: batiments) {
+        for (Batiment batiment : batiments) {
             dtos.add(createBatimentDTO(batiment));
         }
         return dtos;
@@ -88,7 +90,6 @@ public class DTOFactoryRef {
         ClasseDTO dto = new ClasseDTO();
         dto.setId(model.getId());
         dto.setLibelle(model.getLibelle());
-        dto.setBatimentId(model.getBatimentId());
         dto.setActif(model.isActif());
         return dto;
     }
@@ -97,8 +98,19 @@ public class DTOFactoryRef {
         if (classes == null)
             return new ArrayList<>();
         List<ClasseDTO> dtos = new ArrayList<>();
-        for (Classe classe: classes) {
+        for (Classe classe : classes) {
             dtos.add(createClasseDTO(classe));
+        }
+        return dtos;
+    }
+
+    public List<ClasseDTO> createSetListeClasseDTO(Set<Classe> list) {
+        if (list == null)
+            return null;
+        List<ClasseDTO> dtos = new ArrayList<>();
+        for (Classe ins : list) {
+            if (ins != null)
+                dtos.add(createClasseDTO(ins));
         }
         return dtos;
     }
@@ -110,8 +122,6 @@ public class DTOFactoryRef {
         dto.setId(model.getId());
         dto.setLibelle(model.getLibelle());
         dto.setActif(model.isActif());
-        if (model.getBatimentId() != null)
-            dto.setBatiment(batimentRepository.findBatimentById(model.getBatimentId()).getLibelle());
         return dto;
     }
 
@@ -119,7 +129,7 @@ public class DTOFactoryRef {
         if (classes == null)
             return new ArrayList<>();
         List<ListeClasseDTO> dtos = new ArrayList<>();
-        for (Classe classe: classes) {
+        for (Classe classe : classes) {
             dtos.add(createListeClasseDTO(classe));
         }
         return dtos;
@@ -141,7 +151,7 @@ public class DTOFactoryRef {
         if (matieres == null)
             return new ArrayList<>();
         List<MatiereDTO> dtos = new ArrayList<>();
-        for (Matiere matiere: matieres) {
+        for (Matiere matiere : matieres) {
             dtos.add(createMatiereDTO(matiere));
         }
         return dtos;
@@ -163,7 +173,7 @@ public class DTOFactoryRef {
         if (salles == null)
             return new ArrayList<>();
         List<SalleDTO> dtos = new ArrayList<>();
-        for (Salle salle: salles) {
+        for (Salle salle : salles) {
             dtos.add(createSalleDTO(salle));
         }
         return dtos;
@@ -188,7 +198,7 @@ public class DTOFactoryRef {
         if (evenements == null)
             return new ArrayList<>();
         List<EvenementDTO> dtos = new ArrayList<>();
-        for (Evenement evenement: evenements) {
+        for (Evenement evenement : evenements) {
             dtos.add(createEvenementDTO(evenement));
         }
         return dtos;
@@ -210,7 +220,7 @@ public class DTOFactoryRef {
         if (semestres == null)
             return new ArrayList<>();
         List<SemestreDTO> dtos = new ArrayList<>();
-        for (Semestre semestre: semestres) {
+        for (Semestre semestre : semestres) {
             dtos.add(createSemestreDTO(semestre));
         }
         return dtos;
@@ -232,7 +242,7 @@ public class DTOFactoryRef {
         if (typeDocuments == null)
             return new ArrayList<>();
         List<TypeDocumentDTO> dtos = new ArrayList<>();
-        for (TypeDocument typeDocument: typeDocuments) {
+        for (TypeDocument typeDocument : typeDocuments) {
             dtos.add(createTypeDocumentDTO(typeDocument));
         }
         return dtos;
@@ -254,7 +264,7 @@ public class DTOFactoryRef {
         if (niveauEducations == null)
             return new ArrayList<>();
         List<NiveauEducationDTO> dtos = new ArrayList<>();
-        for (NiveauEducation niveauEducation: niveauEducations) {
+        for (NiveauEducation niveauEducation : niveauEducations) {
             dtos.add(createNiveauEducationDTO(niveauEducation));
         }
         return dtos;
@@ -267,6 +277,7 @@ public class DTOFactoryRef {
         CategoryMenuDTO dto = new CategoryMenuDTO();
         dto.setId(model.getId());
         dto.setLibelle(model.getLibelle());
+        dto.setMenuDTOs(createSetMenuDTO(model.getMenus()));
         dto.setActif(model.isActif());
         return dto;
     }
@@ -275,13 +286,24 @@ public class DTOFactoryRef {
         if (categoryMenus == null)
             return new ArrayList<>();
         List<CategoryMenuDTO> dtos = new ArrayList<>();
-        for (CategoryMenu categoryMenu: categoryMenus) {
+        for (CategoryMenu categoryMenu : categoryMenus) {
             dtos.add(createCategoryMenuDTO(categoryMenu));
         }
         return dtos;
     }
 
     /*************      Menu    ****************/
+    public List<MenuDTO> createSetMenuDTO(Set<Menu> menus) {
+        if (menus == null)
+            return null;
+        List<MenuDTO> dtos = new ArrayList<>();
+        for (Menu ins : menus) {
+            if (ins != null)
+                dtos.add(createMenuDTO(ins));
+        }
+        return dtos;
+    }
+
     public MenuDTO createMenuDTO(Menu model) {
         if (model == null)
             return null;
@@ -289,7 +311,6 @@ public class DTOFactoryRef {
         dto.setId(model.getId());
         dto.setLibelle(model.getLibelle());
         dto.setDescription(model.getDescription());
-        dto.setCategoryMenuDTO(createCategoryMenuDTO(model.getCategoryMenu()));
         dto.setActif(model.isActif());
         return dto;
     }
@@ -298,7 +319,7 @@ public class DTOFactoryRef {
         if (menus == null)
             return new ArrayList<>();
         List<MenuDTO> dtos = new ArrayList<>();
-        for (Menu menu: menus) {
+        for (Menu menu : menus) {
             dtos.add(createMenuDTO(menu));
         }
         return dtos;
@@ -318,11 +339,12 @@ public class DTOFactoryRef {
         dto.setActif(model.isActif());
         return dto;
     }
+
     public List<MeetingDTO> createListeMeetingDTO(List<Meeting> meetings) {
         if (meetings == null)
             return new ArrayList<>();
         List<MeetingDTO> dtos = new ArrayList<>();
-        for (Meeting meeting: meetings) {
+        for (Meeting meeting : meetings) {
             dtos.add(createMeetingDTO(meeting));
         }
         return dtos;

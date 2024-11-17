@@ -22,7 +22,7 @@ public class DTOFactoryEns {
         dto.setPrenom(model.getPrenom());
         dto.setCivilite(model.getCivilite());
         dto.setCni(model.getCni());
-        dto.setAdresse(model.getAdresse());
+        dto.setAdresse(model.getAddress());
         dto.setTelephone(model.getTelephone());
         dto.setEmail(model.getEmail());
         dto.setActif(model.isActif());

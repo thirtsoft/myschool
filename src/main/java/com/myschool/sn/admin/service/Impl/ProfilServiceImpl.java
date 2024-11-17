@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.myschool.sn.utils.MessageValueResponse.NOT_FOUND_OBJECT;
+
 @Service
 @AllArgsConstructor
 public class ProfilServiceImpl implements ProfilServiceCustom {
@@ -92,5 +94,15 @@ public class ProfilServiceImpl implements ProfilServiceCustom {
     public List<ProfilDTO> findProfilByTypeCompte(String type) {
         List<Profil> list = profilRepository.findByTypeCompte(type);
         return dtoFactory.createListeProfilDTO(list);
+    }
+
+    @Override
+    public void updateProfile(Long profileId, ProfilDTO profilDTO) {
+        ProfilDTO searchProfile = findProfilById(profileId);
+        if (searchProfile == null) {
+            throw new RuntimeException(NOT_FOUND_OBJECT);
+        }
+        profilDTO.setId(profileId);
+        saveProfil(profilDTO);
     }
 }

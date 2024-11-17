@@ -1,23 +1,21 @@
 package com.myschool.sn.referentiel.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "myschool_classe")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
 public class Classe extends ReferencetielEntity {
-
-    @JoinColumn(name = "batiment_uid", referencedColumnName = "id", nullable = false)
-    private Long batimentId;
 
     private int actif;
 

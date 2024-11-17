@@ -10,8 +10,14 @@ import java.util.Optional;
 
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Long> {
 
-    @Query("Select DISTINCT u from Utilisateur u where u.actif=true and u.id!=1 order by u.telephone")
+    @Query("Select DISTINCT u from Utilisateur u where u.actif=true and u.profil.id!=1 order by u.id desc")
     List<Utilisateur> findAllActive();
+
+    @Query("Select DISTINCT u from Utilisateur u where u.actif=true and u.profil.id=3 order by u.id desc")
+    List<Utilisateur> findAllParent();
+
+    @Query("Select DISTINCT u from Utilisateur u where u.actif=true and u.profil.id=4 order by u.id desc")
+    List<Utilisateur> findAllEnseignant();
 
     @Query(value = "SELECT DISTINCT u FROM Utilisateur u WHERE u.id=:id")
     Utilisateur findUtilisateurById(@Param("id") Long id);
@@ -23,9 +29,6 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Long> 
 
     @Query(value = "SELECT DISTINCT u FROM Utilisateur u WHERE (lower(u.email)=lower(:email) or u.telephone=:email) and u.actif=true")
     Utilisateur findByEmailOrTel(@Param("email") String email);
-
-    @Query(value = "SELECT DISTINCT u.email FROM Utilisateur u WHERE u.activation=:code")
-    String findMailByActivation(@Param("code") String code);
 
     @Query(value = "SELECT DISTINCT u FROM Utilisateur u WHERE u.activation=:code")
     Utilisateur findUtilisateurByActivation(@Param("code") String code);

@@ -5,7 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.Version;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -29,6 +28,6 @@ public class ReferencetielEntity implements Serializable {
     @Column(unique = true)
     private String libelle;
 
-    @Version
-    private Long version;
+    //  @Version
+    //  private Long version;
 }

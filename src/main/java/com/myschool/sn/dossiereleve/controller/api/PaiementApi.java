@@ -1,6 +1,7 @@
 package com.myschool.sn.dossiereleve.controller.api;
 
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.PaiementAddDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.PaiementDTO;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RequestMapping(value = "/paiement")
 public interface PaiementApi {
+
     @GetMapping(value = "", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     List<PaiementDTO> getPaiements();
@@ -29,9 +31,9 @@ public interface PaiementApi {
     @ResponseStatus(HttpStatus.OK)
     PaiementDTO getPaiement(@PathVariable @NotNull Long paiementId);
 
-    @PostMapping(value = "/save", consumes = "application/json")
+    @PostMapping(value = "/add-pay", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    ReponseMessageDTO createPaiement(@RequestBody PaiementDTO paiementDTO);
+    ReponseMessageDTO savePaiement(@RequestBody PaiementAddDTO paiementAddDTO);
 
     @PutMapping(value = "/update/{paiementId}", consumes = "application/json")
     @ResponseStatus(HttpStatus.ACCEPTED)

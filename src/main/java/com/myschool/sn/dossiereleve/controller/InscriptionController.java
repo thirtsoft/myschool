@@ -34,8 +34,18 @@ public class InscriptionController implements InscriptionApi {
     }
 
     @Override
-    public DetailsInscriptionDTO getInscription(Long inscriptionId) {
+    public List<ListeInscriptionDTO> getInscriptionsByEleveId(Long eleveId) {
+        return inscriptionService.findInscriptionsByEleveID(eleveId);
+    }
+
+    @Override
+    public InscriptionDTO getInscription(Long inscriptionId) {
         return inscriptionService.findInscriptionById(inscriptionId);
+    }
+
+    @Override
+    public DetailsInscriptionDTO getDetailsInscription(Long inscriptionId) {
+        return inscriptionService.findDetailsInscription(inscriptionId);
     }
 
     @Override
@@ -56,11 +66,6 @@ public class InscriptionController implements InscriptionApi {
         } catch (Exception e) {
             return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
-    }
-
-    @Override
-    public DetailsInscriptionDTO getInscriptionByCode(String code) {
-        return inscriptionService.findInscriptionByCode(code);
     }
 
     @Override

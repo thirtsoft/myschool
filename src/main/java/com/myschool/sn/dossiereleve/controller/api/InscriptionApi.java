@@ -4,7 +4,6 @@ import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.DetailsInscriptionDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.InscriptionDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.ListeInscriptionDTO;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,9 +27,17 @@ public interface InscriptionApi {
     @ResponseStatus(HttpStatus.OK)
     List<ListeInscriptionDTO> getInscriptionsByAnneeScolaire(@PathVariable String code);
 
-    @GetMapping(value = "/{inscriptionId}", produces = "application/json")
+    @GetMapping(value = "/by-eleve/{eleveId}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    DetailsInscriptionDTO getInscription(@PathVariable @NotNull Long inscriptionId);
+    List<ListeInscriptionDTO> getInscriptionsByEleveId(@PathVariable Long eleveId);
+
+    @GetMapping(value = "/{inscriptionId}")
+    @ResponseStatus(HttpStatus.OK)
+    InscriptionDTO getInscription(@PathVariable Long inscriptionId);
+
+    @GetMapping(value = "/details/{inscriptionId}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    DetailsInscriptionDTO getDetailsInscription(@PathVariable Long inscriptionId);
 
     @PostMapping(value = "/save", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
@@ -39,10 +46,6 @@ public interface InscriptionApi {
     @PutMapping(value = "/update/{inscriptionId}", consumes = "application/json")
     @ResponseStatus(HttpStatus.ACCEPTED)
     ReponseMessageDTO updateInscription(@PathVariable Long inscriptionId, @RequestBody InscriptionDTO inscriptionDTO);
-
-    @GetMapping(value = "/by-code/{code}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    DetailsInscriptionDTO getInscriptionByCode(@PathVariable String code);
 
     @GetMapping(value = "/by-nom/{nom}/by-prenom/{prenom}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)

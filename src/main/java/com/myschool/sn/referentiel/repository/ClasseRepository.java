@@ -17,8 +17,4 @@ public interface ClasseRepository extends JpaRepository<Classe, Long> {
 
     @Query("SELECT DISTINCT cl from Classe cl where cl.actif=1")
     List<Classe> findAllActives();
-
-    @Query("SELECT DISTINCT cl from Classe cl where cl.actif=1 and cl.batimentId=:batimentId")
-    List<Classe> findListeClasseByBatimentId(@Param("batimentId") Long batimentId);
-
 }
