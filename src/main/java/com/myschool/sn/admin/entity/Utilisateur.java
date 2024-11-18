@@ -57,6 +57,9 @@ public class Utilisateur implements UserDetails {
 
     private boolean actif;
 
+    @Column(columnDefinition = "boolean default true")
+    private boolean active;
+
     @Column(unique = true)
     @NotEmpty(message = "Username cannot be empty")
     private String username;
@@ -103,21 +106,21 @@ public class Utilisateur implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return this.actif;
+        return this.active;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.actif;
+        return this.active;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return this.actif;
+        return this.active;
     }
 
     @Override
     public boolean isEnabled() {
-        return this.actif;
+        return this.active;
     }
 }

@@ -23,6 +23,7 @@ public class ParentListeDTO {
     private String telephone;
     private String email;
     private String civility;
+    private boolean active;
 
     private int actif;
 

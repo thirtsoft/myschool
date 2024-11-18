@@ -52,14 +52,20 @@ public class ModelFactory {
     }
 
     public Utilisateur createUtilisateur(UtilisateurDTO dto) {
-        if (dto == null)
-            return null;
+        if (dto == null) return null;
         Utilisateur model = new Utilisateur();
+        model.setId(dto.getId());
         model.setActif(true);
         model.setActivation(dto.getActivation());
-        //    model.setUsername(dto.getUsername().toLowerCase());
+        model.setActive(dto.isActive());
+        model.setCivility(dto.getCivility());
+        model.setPrenom(dto.getPrenom());
+        model.setNom(dto.getNom());
+        model.setAddress(dto.getAddress());
+        model.setTelephone(dto.getTelephone());
+        model.setEmail(dto.getEmail());
+        model.setProfession(dto.getProfession());
         model.setUsername(dto.getUsername());
-        model.setId(dto.getId());
         model.setMotdepasse(dto.getMotdepasse());
         model.setProfil(createProfil(dto.getProfilDTO()));
         return model;
@@ -83,6 +89,7 @@ public class ModelFactory {
         model.setMotdepasse(dto.getMotdepasse());
         model.setTypeCompte(dto.getTypeCompte());
         model.setEmail(dto.getEmail());
+        model.setActive(dto.isActive());
         return model;
     }
 

@@ -21,6 +21,8 @@ public class UtilisateurListDTO {
     private String telephone;
     private String email;
     private String civility;
+    private String profil;
+    private boolean active;
 
     private int actif;
 

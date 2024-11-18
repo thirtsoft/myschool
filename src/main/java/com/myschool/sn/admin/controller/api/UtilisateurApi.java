@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -29,31 +28,31 @@ public interface UtilisateurApi {
     @GetMapping("/get-me")
     ResponseEntity<UtilisateurDTO> getMe() throws Exception;
 
-    @GetMapping("/name/{userId}")
-    ResponseEntity<String> getUserNameById(@PathVariable @NotNull Long userId);
-
     @GetMapping("/{userId}")
     ResponseEntity<UtilisateurDTO> getUserById(@PathVariable @NotNull Long userId);
-
-    @GetMapping("/email/{email}")
-    ResponseEntity<UtilisateurDTO> getUserById(@PathVariable @NotNull String email);
 
     @PutMapping("/{userId}/credentials")
     ReponseMessageDTO updateUserCredentials(@PathVariable @NotNull Long userId, @Valid @RequestBody UserCredentials userCredentials);
 
-    @DeleteMapping("/{userId}")
+    @PutMapping("/edit/{userId}")
+    ReponseMessageDTO updateUserInternal(@PathVariable @NotNull Long userId, @Valid @RequestBody UtilisateurDTO utilisateurDTO);
+
+    @DeleteMapping("/delete/{userId}")
     void deleteUser(@PathVariable @NotNull Long userId);
 
     @GetMapping(value = "/{userId}/actions")
     List<ActionDTO> canDo(@PathVariable Long userId);
-
-    @PostMapping(value = "/reset")
-    ReponseMessageDTO resetPassword(@RequestParam String email);
 
     @GetMapping(value = "/monprofil/{userId}")
     UtilisateurProfilDTO getUserDetails(@PathVariable Long userId) throws Exception;
 
     @GetMapping(value = "/list")
     ResponseEntity<List<UtilisateurListDTO>> getUtilisateursList();
+
+    @PostMapping("/activated/{userId}")
+    ReponseMessageDTO activatedAccount(@PathVariable Long userId);
+
+    @PostMapping("/deactivated/{userId}")
+    ReponseMessageDTO deactivatedAccount(@PathVariable Long userId);
 
 }

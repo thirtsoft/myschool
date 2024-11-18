@@ -1,5 +1,7 @@
 package com.myschool.sn.admin.service;
 
+import com.myschool.sn.admin.exception.UtilisateurException;
+import com.myschool.sn.admin.exception.UtilsException;
 import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
 import com.myschool.sn.utils.dtos.admin.UtilisateurListDTO;
 import com.myschool.sn.utils.dtos.admin.UtilisateurProfilDTO;
@@ -10,9 +12,9 @@ import java.util.List;
 
 public interface UserService {
 
-    void createUser(UtilisateurDTO utilisateurDTO) throws Exception;
+    void createUser(UtilisateurDTO utilisateurDTO) throws UtilisateurException;
 
-    UtilisateurDTO getMe() throws Exception;
+    UtilisateurDTO getMe() throws UtilisateurException;
 
     UtilisateurDTO getUser(Long userId);
 
@@ -35,4 +37,9 @@ public interface UserService {
     List<UtilisateurListDTO> findAllUtilisateur();
 
 
+    void activatedAccount(Long userId);
+
+    void deactivatedAccount(Long userId);
+
+    void updateUser(Long userId, UtilisateurDTO utilisateurDTO) throws UtilisateurException;
 }

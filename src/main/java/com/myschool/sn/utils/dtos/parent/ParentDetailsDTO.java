@@ -25,7 +25,7 @@ public class ParentDetailsDTO {
     private String email;
     private String civility;
     List<EleveDTO> eleveDTOS;
-
+    private boolean active;
     private int actif;
 
     public void setActif(boolean actif) {

@@ -8,7 +8,7 @@ public final class ConstantSigs {
 
     public static final String SESSION_USER_AUTHORISE = "userAuthorise";
 
-    public static final String SESSION_TOKEN_TIME = "tokenTime";
+    public static final String PASSWORD_PAR_DEFAULT = "Passer123#";
 
     public static final Long ID_ADMIN = 1L;
     public static final String TYPE_COMPTE_ADM = "AGENT";
@@ -34,5 +34,10 @@ public final class ConstantSigs {
     public static final int ETAT_ACCEPTE = 3;
     public static final int ETAT_REJETE = 4;
     public static final int ETAT_ANNULE = 5;
+
+
+    public static final String USER_ALREADY_EXIST = "Un utilisateur avec cet nom d'utilisateur ou téléphone existe dèjà.";
+    public static final String USER_NOT_FOUND = "User with id {0} not found";
+    public static final String PASSWORD_DID_NOT_MATCHED = "Le mot de passe courant est incorrect.";
 
 }

@@ -25,4 +25,6 @@ public class AgentDTO {
     private String typeCompte;
 
     private ProfilDTO profilDTO;
+
+    private boolean active;
 }

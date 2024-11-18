@@ -21,6 +21,8 @@ public class EnseignantListDTO {
     private String email;
     private String civility;
 
+    private boolean active;
+
     private int actif;
 
     public void setActif(boolean actif) {

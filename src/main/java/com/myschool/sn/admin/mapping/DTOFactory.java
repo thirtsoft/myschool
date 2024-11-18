@@ -81,13 +81,19 @@ public class DTOFactory implements Serializable {
     }
 
     public UtilisateurDTO createUtilisateurDTO(Utilisateur model) {
-        if (model == null)
-            return null;
+        if (model == null) return null;
         UtilisateurDTO dto = new UtilisateurDTO();
-        dto.setUsername(model.getUsername());
         dto.setId(model.getId());
+        dto.setUsername(model.getUsername());
+        dto.setPrenom(model.getPrenom());
+        dto.setNom(model.getNom());
+        dto.setAddress(model.getAddress());
+        dto.setTelephone(model.getTelephone());
+        dto.setEmail(model.getEmail());
+        dto.setCivility(model.getCivility());
+        dto.setProfession(model.getProfession());
         dto.setProfilDTO(createProfilDTO(model.getProfil()));
-//        dto.setUtilisateurDetailsDTO(createUtilisateurDetailsDTO(model.getUtilisateurDetails()));
+        dto.setActif(model.isActive());
         dto.setMotdepasse(model.getMotdepasse());
         return dto;
     }
@@ -109,6 +115,7 @@ public class DTOFactory implements Serializable {
         dto.setEmail(model.getUsername());
         dto.setTypeProfil(model.getProfil().getTypeCompte());
         dto.setProfil(model.getProfil().getLibelle());
+        dto.setActive(model.isActive());
         return dto;
     }
 
@@ -125,6 +132,8 @@ public class DTOFactory implements Serializable {
         dto.setEmail(model.getEmail());
         dto.setProfession(model.getProfession());
         dto.setActif(model.isActif());
+        dto.setProfil(model.getProfil().getLibelle());
+        dto.setActive(model.isActive());
         return dto;
     }
 
@@ -140,6 +149,7 @@ public class DTOFactory implements Serializable {
         dto.setEmail(model.getEmail());
         dto.setProfession(model.getProfession());
         dto.setActif(model.isActif());
+        dto.setActive(model.isActive());
         return dto;
     }
 
@@ -157,6 +167,7 @@ public class DTOFactory implements Serializable {
         dto.setProfession(model.getProfession());
         dto.setActif(model.isActif());
         dto.setEleveDTOS(dtoFactoryDossierEl.createSetListEleveDTO(model.getEleves()));
+        dto.setActive(model.isActive());
         return dto;
     }
 
@@ -169,6 +180,7 @@ public class DTOFactory implements Serializable {
         agentDTO.setTelephone(utilisateur.getTelephone());
         agentDTO.setProfilDTO(createProfilDTO(utilisateur.getProfil()));
         agentDTO.setTypeCompte(utilisateur.getTypeCompte());
+        agentDTO.setActive(utilisateur.isActive());
         return agentDTO;
     }
 
