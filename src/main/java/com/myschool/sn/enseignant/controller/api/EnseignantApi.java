@@ -2,6 +2,7 @@ package com.myschool.sn.enseignant.controller.api;
 
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
 import com.myschool.sn.utils.dtos.enseignant.EnseignantDTO;
+import com.myschool.sn.utils.dtos.enseignant.EnseignantListDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,10 @@ import java.util.List;
 
 @RequestMapping(value = "/enseignant")
 public interface EnseignantApi {
+
+    @GetMapping(value = "/list", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    List<EnseignantListDTO> getEnseignantList();
 
     @GetMapping(value = "", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)

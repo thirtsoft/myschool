@@ -3,6 +3,7 @@ package com.myschool.sn.enseignant.service;
 import com.myschool.sn.enseignant.exception.EnseignantException;
 import com.myschool.sn.utils.dtos.enseignant.CongesDTO;
 import com.myschool.sn.utils.dtos.enseignant.EnseignantDTO;
+import com.myschool.sn.utils.dtos.enseignant.EnseignantListDTO;
 
 import java.util.List;
 
@@ -20,6 +21,8 @@ public interface EnseignantService {
     EnseignantDTO findByTelephone(String telephone);
 
     List<EnseignantDTO> findAllEnseignants();
+
+    List<EnseignantListDTO> findEnseignantList();
 
     void deleteEnseignant(Long id);
 

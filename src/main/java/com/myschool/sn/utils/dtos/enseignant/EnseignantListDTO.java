@@ -20,7 +20,7 @@ public class EnseignantListDTO {
     private String telephone;
     private String email;
     private String civility;
-
+    private String profil;
     private boolean active;
 
     private int actif;
@@ -35,4 +35,6 @@ public class EnseignantListDTO {
     public boolean isActif() {
         return actif == 1;
     }
+
+
 }

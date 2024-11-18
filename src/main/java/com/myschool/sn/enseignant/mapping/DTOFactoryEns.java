@@ -1,9 +1,11 @@
 package com.myschool.sn.enseignant.mapping;
 
+import com.myschool.sn.admin.entity.Utilisateur;
 import com.myschool.sn.enseignant.entity.Conges;
 import com.myschool.sn.enseignant.entity.Enseignant;
 import com.myschool.sn.utils.dtos.enseignant.CongesDTO;
 import com.myschool.sn.utils.dtos.enseignant.EnseignantDTO;
+import com.myschool.sn.utils.dtos.enseignant.EnseignantListDTO;
 
 import javax.inject.Named;
 import java.util.ArrayList;
@@ -27,6 +29,22 @@ public class DTOFactoryEns {
         dto.setEmail(model.getEmail());
         dto.setActif(model.isActif());
         return dto;
+    }
+
+    public EnseignantListDTO createEnseignantListDTO(Utilisateur utilisateur) {
+        return EnseignantListDTO
+                .builder()
+                .id(utilisateur.getId())
+                .username(utilisateur.getUsername())
+                .nomComplet(utilisateur.getPrenom() + ' ' + utilisateur.getNom())
+                .address(utilisateur.getAddress())
+                .email(utilisateur.getEmail())
+                .telephone(utilisateur.getTelephone())
+                .profession(utilisateur.getProfession())
+                .civility(utilisateur.getCivility())
+                .active(utilisateur.isActive())
+                .profil(utilisateur.getProfil().getLibelle())
+                .build();
     }
 
     public List<EnseignantDTO> createListeEnseignantDTO(List<Enseignant> enseignants) {
@@ -57,7 +75,7 @@ public class DTOFactoryEns {
         if (conges == null)
             return new ArrayList<>();
         List<CongesDTO> dtos = new ArrayList<>();
-        for (Conges conge: conges) {
+        for (Conges conge : conges) {
             dtos.add(createCongesDTO(conge));
         }
         return dtos;

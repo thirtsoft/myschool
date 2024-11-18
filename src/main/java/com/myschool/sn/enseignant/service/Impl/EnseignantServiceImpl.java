@@ -1,5 +1,6 @@
 package com.myschool.sn.enseignant.service.Impl;
 
+import com.myschool.sn.admin.repository.UtilisateurRepository;
 import com.myschool.sn.enseignant.entity.Conges;
 import com.myschool.sn.enseignant.entity.Enseignant;
 import com.myschool.sn.enseignant.exception.EnseignantException;
@@ -11,6 +12,7 @@ import com.myschool.sn.enseignant.service.EnseignantService;
 import com.myschool.sn.utils.ConstantSigs;
 import com.myschool.sn.utils.dtos.enseignant.CongesDTO;
 import com.myschool.sn.utils.dtos.enseignant.EnseignantDTO;
+import com.myschool.sn.utils.dtos.enseignant.EnseignantListDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,8 @@ public class EnseignantServiceImpl implements EnseignantService {
     private final DTOFactoryEns dtoFactoryEns;
 
     private final ModelFactoryEns modelFactoryEns;
+
+    private final UtilisateurRepository utilisateurRepository;
 
     @Override
     public Long saveEnseignant(EnseignantDTO enseignantDTO) throws EnseignantException {
@@ -86,6 +90,13 @@ public class EnseignantServiceImpl implements EnseignantService {
     @Override
     public List<EnseignantDTO> findAllEnseignants() {
         return dtoFactoryEns.createListeEnseignantDTO(enseignantRepository.findAllEnseignants());
+    }
+
+    @Override
+    public List<EnseignantListDTO> findEnseignantList() {
+        return utilisateurRepository.findAllEnseignant().stream()
+                .map(dtoFactoryEns::createEnseignantListDTO)
+                .toList();
     }
 
     @Override
