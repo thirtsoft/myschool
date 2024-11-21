@@ -3,6 +3,7 @@ package com.myschool.sn.dossiereleve.mapping;
 import com.myschool.sn.admin.entity.Utilisateur;
 import com.myschool.sn.dossiereleve.entity.Eleve;
 import com.myschool.sn.dossiereleve.entity.Inscription;
+import com.myschool.sn.dossiereleve.entity.Note;
 import com.myschool.sn.dossiereleve.entity.Paiement;
 import com.myschool.sn.dossiereleve.mapping.mapper.MedecinTraitantMapper;
 import com.myschool.sn.dossiereleve.repository.EleveRepository;
@@ -14,9 +15,12 @@ import com.myschool.sn.referentiel.service.ReferentielService;
 import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.DetailsEleveDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.DetailsInscriptionDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.DetailsNoteDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.EleveDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.InscriptionDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.ListNoteDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.ListeInscriptionDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.NoteDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.PaiementDTO;
 import lombok.RequiredArgsConstructor;
 
@@ -246,5 +250,59 @@ public class DTOFactoryDossierEl {
         return paiements.stream()
                 .map(this::createPaiementDTO)
                 .toList();
+    }
+
+    /****************** Note  ***********************/
+
+    public NoteDTO createNoteDTO(Note note) {
+        if (note == null) return null;
+        return NoteDTO
+                .builder()
+                .id(note.getId())
+                .note(note.getNote())
+                .eleve(createEleveDTO(note.getEleve()))
+                .matiere(dtoFactoryRef.createMatiereDTO(note.getMatiere()))
+                .semestre(dtoFactoryRef.createSemestreDTO(note.getSemestre()))
+                .type(note.getType())
+                .actif(note.getActif())
+                .dateCreation(note.getDateCreation())
+                .build();
+    }
+
+    public ListNoteDTO createNoteListDTO(Note note) {
+        if (note == null) return null;
+        return ListNoteDTO
+                .builder()
+                .id(note.getId())
+                .note(note.getNote())
+                .eleve(note.getEleve().getPrenom() + ' ' + note.getEleve().getNom())
+                .matiere(note.getMatiere().getLibelle())
+                .semestre(note.getSemestre().getLibelle())
+                .type(note.getType())
+                .actif(note.getActif())
+                .dateCreation(note.getDateCreation())
+                .build();
+    }
+
+    public List<ListNoteDTO> createListNoteDTO(List<Note> noteList) {
+        if (noteList == null) return emptyList();
+        return noteList.stream()
+                .map(this::createNoteListDTO)
+                .toList();
+    }
+
+    public DetailsNoteDTO createDetailsNoteDTO(Note note) {
+        if (note == null) return null;
+        return DetailsNoteDTO
+                .builder()
+                .id(note.getId())
+                .note(note.getNote())
+                .eleve(createDetailsEleveDTO(note.getEleve()))
+                .matiere(dtoFactoryRef.createMatiereDTO(note.getMatiere()))
+                .semestre(dtoFactoryRef.createSemestreDTO(note.getSemestre()))
+                .type(note.getType())
+                .actif(note.getActif())
+                .dateCreation(note.getDateCreation())
+                .build();
     }
 }

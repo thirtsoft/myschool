@@ -1,5 +1,7 @@
 package com.myschool.sn.dossiereleve.entity;
 
+import com.myschool.sn.referentiel.entity.Matiere;
+import com.myschool.sn.referentiel.entity.Semestre;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,16 +11,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "myschool_note")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Note {
 
     @Id
@@ -29,19 +33,21 @@ public class Note {
     @JoinColumn(name = "eleve_uid", referencedColumnName = "id", nullable = false)
     private Eleve eleve;
 
-    @Column(name = "note_devoir_01")
-    private Double noteDS1;
+    @ManyToOne
+    @JoinColumn(name = "matiere_uid", referencedColumnName = "id", nullable = false)
+    private Matiere matiere;
 
-    @Column(name = "note_devoir_02")
-    private Double noteDS2;
+    @ManyToOne
+    @JoinColumn(name = "semestre_uid", referencedColumnName = "id", nullable = false)
+    private Semestre semestre;
 
-    @Column(name = "note_examen")
-    private Double noteExam;
+    private Double note;
+
+    private String type;
 
     @Column(name = "date_creation")
-    private Date dateCreation;
+    private LocalDateTime dateCreation;
 
-    private Long createdBy;
 
     private int actif;
 

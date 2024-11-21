@@ -5,6 +5,7 @@ import com.myschool.sn.admin.mapping.ModelFactory;
 import com.myschool.sn.admin.service.ProfilServiceCustom;
 import com.myschool.sn.dossiereleve.entity.Eleve;
 import com.myschool.sn.dossiereleve.entity.Inscription;
+import com.myschool.sn.dossiereleve.entity.Note;
 import com.myschool.sn.dossiereleve.entity.Paiement;
 import com.myschool.sn.dossiereleve.mapping.mapper.MedecinTraitantMapper;
 import com.myschool.sn.parent.mapping.ParentMapper;
@@ -13,6 +14,7 @@ import com.myschool.sn.referentiel.mapping.TypePaiementMapper;
 import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.EleveDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.InscriptionDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.NoteDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.PaiementDTO;
 import lombok.RequiredArgsConstructor;
 
@@ -136,5 +138,20 @@ public class ModelFactoryDossierEl {
         model.setDatePaiement(dto.getDatePaiement());
         model.setTypePaiements(typePaiementMapper.createSetTypePaiement(dto.getTypePaiements()));
         return model;
+    }
+
+    public Note createNote(NoteDTO dto) {
+        if (dto == null) return null;
+        return Note
+                .builder()
+                .id(dto.getId())
+                .note(dto.getNote())
+                .eleve(createEleve(dto.getEleve()))
+                .matiere(modelFactoryRef.createMatiere(dto.getMatiere()))
+                .semestre(modelFactoryRef.createSemestre(dto.getSemestre()))
+                .type(dto.getType())
+                .actif(dto.getActif())
+                .dateCreation(dto.getDateCreation())
+                .build();
     }
 }
