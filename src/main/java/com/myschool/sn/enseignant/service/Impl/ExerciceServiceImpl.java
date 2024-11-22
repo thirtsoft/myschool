@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.myschool.sn.utils.MessageValueResponse.NOT_FOUND_OBJECT;
+import static com.myschool.sn.utils.MessageValueResponse.NULL_OBJECT;
 
 @Service
 @RequiredArgsConstructor
@@ -25,15 +26,15 @@ public class ExerciceServiceImpl implements ExerciceService {
     @Override
     public void saveExercice(ExerciceDTO exerciceDTO) throws EnseignantException {
         if (exerciceDTO == null) {
-            throw new EnseignantException(NOT_FOUND_OBJECT);
+            throw new EnseignantException(NULL_OBJECT);
         }
         if (exerciceDTO.getLibelle() == null || exerciceDTO.getLibelle().isEmpty()) {
             throw new EnseignantException("Le libellé de l'exercice est obligatoire");
         }
-        if (exerciceDTO.getEnseignantId() == null) {
-            throw new EnseignantException("L'identifiant de l'enseignant est obligatoire");
+        if (exerciceDTO.getClasse() == null) {
+            throw new EnseignantException("L'identifiant de la classe est obligatoire");
         }
-        if (exerciceDTO.getClasseId() == null) {
+        if (exerciceDTO.getEnseignant() == null) {
             throw new EnseignantException("L'identifiant de l'enseignant est obligatoire");
         }
         Exercice exercice = exerciceMapper.toExercieDTO(exerciceDTO);
@@ -63,21 +64,30 @@ public class ExerciceServiceImpl implements ExerciceService {
 
     @Override
     public List<ListeExerciceDTO> findListeExercice() {
-        return List.of();
+        return exerciceRepository.findAllExercices().stream()
+                .map(exerciceMapper::toListExercice)
+                .toList();
     }
 
     @Override
     public List<ListeExerciceDTO> findListeExerciceByEnseignant(Long enseignantId) {
-        return List.of();
+
+        return exerciceRepository.findAllExerciceByEnseignants(enseignantId).stream()
+                .map(exerciceMapper::toListExercice)
+                .toList();
     }
 
     @Override
     public List<ListeExerciceDTO> findListeExerciceByClasse(Long classeId) {
-        return List.of();
+        return exerciceRepository.findAllExerciceByClasses(classeId).stream()
+                .map(exerciceMapper::toListExercice)
+                .toList();
     }
 
     @Override
     public void deleteExercice(Long id) {
-
+        var delete = exerciceRepository.findExerciceById(id);
+        delete.setActif(false);
+        exerciceRepository.save(delete);
     }
 }

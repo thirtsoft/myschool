@@ -1,5 +1,6 @@
 package com.myschool.sn.utils.dtos.enseignant;
 
+import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +26,7 @@ public class DetailsExerciceDTO {
 
     private String piece_jointe;
 
-    private EnseignantDTO enseignantDTO;
+    private UtilisateurDTO enseignantDTO;
 
     private ClasseDTO classeDTO;
 

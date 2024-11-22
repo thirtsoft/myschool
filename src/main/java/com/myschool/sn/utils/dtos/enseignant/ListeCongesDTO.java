@@ -1,7 +1,5 @@
 package com.myschool.sn.utils.dtos.enseignant;
 
-import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
-import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,26 +7,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.joda.time.LocalDate;
 
-@Setter
 @Getter
-@NoArgsConstructor
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class ExerciceDTO {
+public class ListeCongesDTO {
 
     private Long id;
 
-    private String libelle;
+    private String objet;
 
-    private String description;
+    private String motif;
 
-    private String url;
+    private String demandeur;
 
-    private String piece_jointe;
-
-    private UtilisateurDTO enseignant;
-
-    private ClasseDTO classe;
+    private String etat;
 
     private LocalDate dateDebut;
 

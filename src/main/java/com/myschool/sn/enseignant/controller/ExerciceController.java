@@ -1,10 +1,10 @@
 package com.myschool.sn.enseignant.controller;
 
-import com.myschool.sn.enseignant.controller.api.CongesApi;
-import com.myschool.sn.enseignant.service.CongesService;
+import com.myschool.sn.enseignant.controller.api.ExerciceApi;
+import com.myschool.sn.enseignant.service.ExerciceService;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
-import com.myschool.sn.utils.dtos.enseignant.CongesDTO;
-import com.myschool.sn.utils.dtos.enseignant.ListeCongesDTO;
+import com.myschool.sn.utils.dtos.enseignant.ExerciceDTO;
+import com.myschool.sn.utils.dtos.enseignant.ListeExerciceDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,40 +19,24 @@ import static com.myschool.sn.utils.MessageValueResponse.SUCCESS_MESSAGE;
 
 @RestController
 @RequiredArgsConstructor
-public class CongesController implements CongesApi {
+public class ExerciceController implements ExerciceApi {
 
-    private final CongesService congesService;
-
+    private final ExerciceService exerciceService;
 
     @Override
-    public List<ListeCongesDTO> getListCongess() {
-        return congesService.findListeConges();
+    public List<ListeExerciceDTO> getListeExercices() {
+        return exerciceService.findListeExercice();
     }
 
     @Override
-    public List<ListeCongesDTO> getListCongessSoumis() {
-        return congesService.findListeCongesSoumis();
+    public ExerciceDTO getExerciceDTO(Long exerciceId) {
+        return exerciceService.findExerciceById(exerciceId);
     }
 
     @Override
-    public List<ListeCongesDTO> getListCongessAcceptes() {
-        return congesService.findListeCongesAcceptes();
-    }
-
-    @Override
-    public List<ListeCongesDTO> getListCongessRejetes() {
-        return congesService.findListeCongesRejetes();
-    }
-
-    @Override
-    public CongesDTO getConges(Long congesId) {
-        return congesService.findCongesById(congesId);
-    }
-
-    @Override
-    public ReponseMessageDTO createConges(CongesDTO congesDTO) {
+    public ReponseMessageDTO createExercice(ExerciceDTO exerciceDTO) {
         try {
-            congesService.saveConges(congesDTO);
+            exerciceService.saveExercice(exerciceDTO);
             return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
         } catch (Exception e) {
             return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
@@ -60,9 +44,9 @@ public class CongesController implements CongesApi {
     }
 
     @Override
-    public ReponseMessageDTO updateConges(Long congesId, CongesDTO congesDTO) {
+    public ReponseMessageDTO updateEnseignant(Long exerciceId, ExerciceDTO exerciceDTO) {
         try {
-            congesService.updateConges(congesId, congesDTO);
+            exerciceService.updateExercice(exerciceId, exerciceDTO);
             return new ReponseMessageDTO(SUCCESS_MESSAGE, EDIT_OBJECT);
         } catch (Exception e) {
             return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
@@ -70,9 +54,19 @@ public class CongesController implements CongesApi {
     }
 
     @Override
-    public ReponseMessageDTO deleteConges(Long congesId) {
+    public List<ListeExerciceDTO> getListeExercicesByClasse(Long classeId) {
+        return exerciceService.findListeExerciceByClasse(classeId);
+    }
+
+    @Override
+    public List<ListeExerciceDTO> getListeExercicesByEnseignant(Long enseignantId) {
+        return exerciceService.findListeExerciceByEnseignant(enseignantId);
+    }
+
+    @Override
+    public ReponseMessageDTO deleteExercice(Long exerciceId) {
         try {
-            congesService.deleteConges(congesId);
+            exerciceService.deleteExercice(exerciceId);
             return new ReponseMessageDTO(SUCCESS_MESSAGE, DELETE_OBJECT);
         } catch (Exception e) {
             return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);

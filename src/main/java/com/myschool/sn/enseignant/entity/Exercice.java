@@ -1,5 +1,6 @@
 package com.myschool.sn.enseignant.entity;
 
+import com.myschool.sn.admin.entity.Utilisateur;
 import com.myschool.sn.referentiel.entity.Classe;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,7 +38,7 @@ public class Exercice {
 
     @ManyToOne
     @JoinColumn(name = "enseignant_uid", referencedColumnName = "id", nullable = false)
-    private Enseignant enseignant;
+    private Utilisateur enseignant;
 
     @ManyToOne
     @JoinColumn(name = "classe_uid", referencedColumnName = "id", nullable = false)
@@ -49,6 +50,17 @@ public class Exercice {
     @Column(name = "date_fin")
     private LocalDate dateFin;
 
-    private boolean actif;
+    private int actif;
+
+    public void setActif(boolean actif) {
+        if (actif)
+            this.actif = 1;
+        else
+            this.actif = 0;
+    }
+
+    public boolean isActif() {
+        return actif == 1;
+    }
 
 }

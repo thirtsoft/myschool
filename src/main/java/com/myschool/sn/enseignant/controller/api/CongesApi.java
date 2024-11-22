@@ -2,6 +2,7 @@ package com.myschool.sn.enseignant.controller.api;
 
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
 import com.myschool.sn.utils.dtos.enseignant.CongesDTO;
+import com.myschool.sn.utils.dtos.enseignant.ListeCongesDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,19 +20,19 @@ public interface CongesApi {
 
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    List<CongesDTO> getCongess();
+    List<ListeCongesDTO> getListCongess();
 
     @GetMapping(value = "/soumis", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    List<CongesDTO> getCongessSoumis();
+    List<ListeCongesDTO> getListCongessSoumis();
 
     @GetMapping(value = "/accepte", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    List<CongesDTO> getCongessAcceptes();
+    List<ListeCongesDTO> getListCongessAcceptes();
 
     @GetMapping(value = "/rejete", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    List<CongesDTO> getCongessRejetes();
+    List<ListeCongesDTO> getListCongessRejetes();
 
     @GetMapping(value = "/{congesId}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
