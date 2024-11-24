@@ -1,14 +1,28 @@
 package com.myschool.sn;
 
+import com.myschool.sn.admin.entity.Utilisateur;
 import com.myschool.sn.admin.repository.ActionRepository;
 import com.myschool.sn.admin.repository.ProfilRepository;
 import com.myschool.sn.admin.repository.UtilisateurRepository;
 import com.myschool.sn.admin.service.AuthenticationService;
+import com.myschool.sn.dossiereleve.entity.Eleve;
+import com.myschool.sn.dossiereleve.entity.Note;
+import com.myschool.sn.dossiereleve.repository.NoteRepository;
+import com.myschool.sn.enseignant.entity.Conges;
+import com.myschool.sn.enseignant.entity.Exercice;
+import com.myschool.sn.enseignant.repository.CongesRepository;
+import com.myschool.sn.enseignant.repository.ExerciceRepository;
+import com.myschool.sn.referentiel.entity.Classe;
+import com.myschool.sn.referentiel.entity.Matiere;
+import com.myschool.sn.referentiel.entity.Semestre;
 import lombok.RequiredArgsConstructor;
+import org.joda.time.LocalDate;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
 
 @SpringBootApplication
 @RequiredArgsConstructor
@@ -23,6 +37,12 @@ public class MyschoolApplication implements CommandLineRunner {
     private final AuthenticationService authenticationService;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final NoteRepository noteRepository;
+
+    private final CongesRepository congesRepository;
+
+    private final ExerciceRepository exerciceRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(MyschoolApplication.class, args);
@@ -89,8 +109,33 @@ public class MyschoolApplication implements CommandLineRunner {
 		var manager = RegisterRequest.builder().firstname("User").prenom("User").email("manager@mail.com").password("password").profilCode("USER").build();
 		System.out.println("Manager token: " + authenticationService.register(manager).getAccessToken());
 
-*/
 
+        Note n1 = Note.builder().eleve(Eleve.builder().id(1L).build())
+                .semestre(Semestre.builder().id(1L).build())
+                .matiere(Matiere.builder().id(1L).build()).actif(1)
+                .note(19.5).type("Controle continue 01").build();
+        Note n2 = Note.builder().eleve(Eleve.builder().id(1L).build())
+                .semestre(Semestre.builder().id(1L).build())
+                .matiere(Matiere.builder().id(1L).build()).actif(1)
+                .note(15.5).type("Controle continue 02").build();
+        Note n3 = Note.builder().eleve(Eleve.builder().id(3L).build()).actif(1)
+                .semestre(Semestre.builder().id(2L).build())
+                .matiere(Matiere.builder().id(2L).build())
+                .note(12.5).type("Controle continue 01").build();
+        Note n4 = Note.builder().eleve(Eleve.builder().id(3L).build()).actif(1)
+                .semestre(Semestre.builder().id(3L).build())
+                .matiere(Matiere.builder().id(3L).build())
+                .note(16.5).type("Controle continue 01").build();
+        Conges c1 = Conges.builder().actif(1).enseignant(Utilisateur.builder().id(1L).build())
+                .objet("Conge 01").motif("Motif o1").etat(1).dateDebut(LocalDate.now())
+                .dateFin(LocalDate.now()).build();
+        Exercice e1 = Exercice.builder().actif(1).classe(Classe.builder().id(1L).build())
+                .description("Description").libelle("Exercice 01").build();
+
+        noteRepository.saveAll(List.of(n1, n1, n3, n4));
+        congesRepository.save(c1);
+        exerciceRepository.save(e1);
+*/
 
     }
 }

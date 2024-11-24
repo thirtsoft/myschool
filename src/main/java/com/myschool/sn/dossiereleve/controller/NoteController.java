@@ -68,4 +68,19 @@ public class NoteController implements NoteApi {
             return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
+
+    @Override
+    public List<ListNoteDTO> getListNotesByEleve(Long eleveId) {
+        return noteService.findAllListNotesByEleve(eleveId);
+    }
+
+    @Override
+    public List<ListNoteDTO> getListNotesByMatiere(Long matId) {
+        return noteService.findAllListNotesByMatiere(matId);
+    }
+
+    @Override
+    public List<ListNoteDTO> getListNotesBySemestre(Long semId) {
+        return noteService.findAllListNotesSemestre(semId);
+    }
 }

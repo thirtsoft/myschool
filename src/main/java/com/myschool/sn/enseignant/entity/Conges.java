@@ -17,6 +17,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.joda.time.LocalDate;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "myschool_conges")
 @Data
@@ -42,10 +44,10 @@ public class Conges {
     private int etat;
 
     @Column(name = "date_debut_conges")
-    private LocalDate dateDebut;
+    private Date dateDebut;
 
     @Column(name = "date_fin_conges")
-    private LocalDate dateFin;
+    private Date dateFin;
 
     @Enumerated(EnumType.STRING)
     private EtatConges etatConges;

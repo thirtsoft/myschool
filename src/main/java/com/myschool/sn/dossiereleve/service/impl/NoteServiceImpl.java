@@ -70,7 +70,28 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public List<ListNoteDTO> findAllListNotes() {
-        return noteRepository.findAllByActif().stream()
+        return noteRepository.findAllNotes().stream()
+                .map(dtoFactoryDossierEl::createNoteListDTO)
+                .toList();
+    }
+
+    @Override
+    public List<ListNoteDTO> findAllListNotesByEleve(Long eleveId) {
+        return noteRepository.findAllNotesByEleve(eleveId).stream()
+                .map(dtoFactoryDossierEl::createNoteListDTO)
+                .toList();
+    }
+
+    @Override
+    public List<ListNoteDTO> findAllListNotesByMatiere(Long matId) {
+        return noteRepository.findAllNotesByMatiere(matId).stream()
+                .map(dtoFactoryDossierEl::createNoteListDTO)
+                .toList();
+    }
+
+    @Override
+    public List<ListNoteDTO> findAllListNotesSemestre(Long semId) {
+        return noteRepository.findAllNotesBySemestre(semId).stream()
                 .map(dtoFactoryDossierEl::createNoteListDTO)
                 .toList();
     }

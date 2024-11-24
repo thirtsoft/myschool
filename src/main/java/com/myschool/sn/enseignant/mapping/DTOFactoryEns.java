@@ -1,18 +1,23 @@
 package com.myschool.sn.enseignant.mapping;
 
 import com.myschool.sn.admin.entity.Utilisateur;
+import com.myschool.sn.admin.mapping.DTOFactory;
 import com.myschool.sn.enseignant.entity.Conges;
 import com.myschool.sn.enseignant.entity.Enseignant;
 import com.myschool.sn.utils.dtos.enseignant.CongesDTO;
 import com.myschool.sn.utils.dtos.enseignant.EnseignantDTO;
 import com.myschool.sn.utils.dtos.enseignant.EnseignantListDTO;
+import lombok.RequiredArgsConstructor;
 
 import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 
 @Named("dtoFactoryEns")
+@RequiredArgsConstructor
 public class DTOFactoryEns {
+
+    private final DTOFactory dtoFactory;
 
     public EnseignantDTO createEnseignantDTO(Enseignant model) {
         if (model == null)
@@ -63,7 +68,7 @@ public class DTOFactoryEns {
         CongesDTO dto = new CongesDTO();
         dto.setId(model.getId());
         dto.setMotif(model.getMotif());
-        dto.setEnseignantDTO(createEnseignantDTO(model.getEnseignant()));
+        dto.setEnseignantDTO(dtoFactory.createUtilisateurDTO(model.getEnseignant()));
         dto.setEtat(model.getEtat());
         dto.setDateDebut(model.getDateDebut());
         dto.setDateFin(model.getDateFin());

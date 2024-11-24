@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.myschool.sn.utils.MessageValueResponse.ACCEPT_CONGES;
 import static com.myschool.sn.utils.MessageValueResponse.DELETE_OBJECT;
 import static com.myschool.sn.utils.MessageValueResponse.EDIT_OBJECT;
 import static com.myschool.sn.utils.MessageValueResponse.ERROR_MESSAGE;
 import static com.myschool.sn.utils.MessageValueResponse.FAILED_MESSAGE;
+import static com.myschool.sn.utils.MessageValueResponse.REJET_CONGES;
 import static com.myschool.sn.utils.MessageValueResponse.SAVED_OBJECT;
+import static com.myschool.sn.utils.MessageValueResponse.SEND_CONGES;
 import static com.myschool.sn.utils.MessageValueResponse.SUCCESS_MESSAGE;
 
 @RestController
@@ -64,6 +67,36 @@ public class CongesController implements CongesApi {
         try {
             congesService.updateConges(congesId, congesDTO);
             return new ReponseMessageDTO(SUCCESS_MESSAGE, EDIT_OBJECT);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public ReponseMessageDTO sendConges(Long congesId) {
+        try {
+            congesService.sendConges(congesId);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, SEND_CONGES);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public ReponseMessageDTO acceptConges(Long congesId) {
+        try {
+            congesService.acceptConges(congesId);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, ACCEPT_CONGES);
+        } catch (Exception e) {
+            return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public ReponseMessageDTO rejetConges(Long congesId) {
+        try {
+            congesService.rejetConges(congesId);
+            return new ReponseMessageDTO(SUCCESS_MESSAGE, REJET_CONGES);
         } catch (Exception e) {
             return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }

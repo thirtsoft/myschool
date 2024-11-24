@@ -5,6 +5,7 @@ import com.myschool.sn.admin.mapping.ModelFactory;
 import com.myschool.sn.enseignant.entity.Exercice;
 import com.myschool.sn.referentiel.mapping.DTOFactoryRef;
 import com.myschool.sn.referentiel.mapping.ModelFactoryRef;
+import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
 import com.myschool.sn.utils.dtos.enseignant.DetailsExerciceDTO;
 import com.myschool.sn.utils.dtos.enseignant.ExerciceDTO;
 import com.myschool.sn.utils.dtos.enseignant.ListeExerciceDTO;
@@ -27,7 +28,8 @@ public class ExerciceMapper {
                 .description(exerciceDTO.getDescription())
                 .piece_jointe(exerciceDTO.getPiece_jointe())
                 .actif(exerciceDTO.getActif())
-                .enseignant(modelFactoryEns.createUtilisateur(exerciceDTO.getEnseignant()))
+                .enseignant(modelFactoryEns.createUtilisateur(
+                        UtilisateurDTO.builder().id(exerciceDTO.getEnseignant().getId()).build()))
                 .classe(modelFactoryRef.createClasse(exerciceDTO.getClasse()))
                 .dateDebut(exerciceDTO.getDateDebut())
                 .dateFin(exerciceDTO.getDateFin())
@@ -70,8 +72,6 @@ public class ExerciceMapper {
                 .url(exercice.getUrl())
                 .piece_jointe(exercice.getPiece_jointe())
                 .actif(exercice.isActif())
-                .dateDebut(exercice.getDateDebut())
-                .dateFin(exercice.getDateFin())
                 .enseignantDTO(
                         dtoFactoryEns.createUtilisateurDTO(exercice.getEnseignant()))
                 .classeDTO(

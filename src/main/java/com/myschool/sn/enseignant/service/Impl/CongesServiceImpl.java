@@ -104,4 +104,25 @@ public class CongesServiceImpl implements CongesService {
             congesRepository.save(delete);
         }
     }
+
+    @Override
+    public void sendConges(Long congesId) {
+        var send = congesRepository.findCongesById(congesId);
+        send.setEtat(2);
+        congesRepository.save(send);
+    }
+
+    @Override
+    public void acceptConges(Long congesId) {
+        var send = congesRepository.findCongesById(congesId);
+        send.setEtat(3);
+        congesRepository.save(send);
+    }
+
+    @Override
+    public void rejetConges(Long congesId) {
+        var send = congesRepository.findCongesById(congesId);
+        send.setEtat(4);
+        congesRepository.save(send);
+    }
 }

@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.joda.time.LocalDate;
 
+import java.util.Date;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -30,9 +32,9 @@ public class ExerciceDTO {
 
     private ClasseDTO classe;
 
-    private LocalDate dateDebut;
+    private Date dateDebut;
 
-    private LocalDate dateFin;
+    private Date dateFin;
 
     private int actif;
 

@@ -19,5 +19,11 @@ public interface NoteService {
 
     List<ListNoteDTO> findAllListNotes();
 
+    List<ListNoteDTO> findAllListNotesByEleve(Long eleveId);
+
+    List<ListNoteDTO> findAllListNotesByMatiere(Long matId);
+
+    List<ListNoteDTO> findAllListNotesSemestre(Long semId);
+
     void deleteNote(Long id);
 }

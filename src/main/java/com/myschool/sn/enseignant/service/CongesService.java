@@ -25,4 +25,10 @@ public interface CongesService {
     List<ListeCongesDTO> findListeCongesByDemandeur(Long demandeurId);
 
     void deleteConges(Long id);
+
+    void sendConges(Long congesId);
+
+    void acceptConges(Long congesId);
+
+    void rejetConges(Long congesId);
 }

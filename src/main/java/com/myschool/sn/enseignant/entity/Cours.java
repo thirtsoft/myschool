@@ -1,8 +1,8 @@
 package com.myschool.sn.enseignant.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.myschool.sn.admin.entity.Utilisateur;
 import com.myschool.sn.referentiel.entity.Classe;
+import com.myschool.sn.referentiel.entity.Matiere;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,33 +12,28 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.joda.time.LocalDate;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "myschool_exercice")
-@Data
+@Table(name = "myschool_cours")
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Exercice {
+@SuperBuilder
+public class Cours implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String libelle;
-
-    private String description;
-
-    private String url;
-
-    private String piece_jointe;
 
     @ManyToOne
     @JoinColumn(name = "enseignant_uid", referencedColumnName = "id")
@@ -48,13 +43,16 @@ public class Exercice {
     @JoinColumn(name = "classe_uid", referencedColumnName = "id", nullable = false)
     private Classe classe;
 
-    @Column(name = "date_debut")
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @ManyToOne
+    @JoinColumn(name = "matiere_uid", referencedColumnName = "id", nullable = false)
+    private Matiere matiere;
+
+    @Column(name = "date_cours")
     private Date dateDebut;
 
-    @Column(name = "date_fin")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date dateFin;
+    private String heureDebut;
+
+    private String heureFin;
 
     private int actif;
 

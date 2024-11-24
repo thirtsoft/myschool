@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.joda.time.LocalDate;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -24,9 +26,9 @@ public class ListeCongesDTO {
 
     private String etat;
 
-    private LocalDate dateDebut;
+    private Date dateDebut;
 
-    private LocalDate dateFin;
+    private Date dateFin;
 
     private int actif;
 

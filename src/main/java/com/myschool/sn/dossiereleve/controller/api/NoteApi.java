@@ -1,10 +1,7 @@
 package com.myschool.sn.dossiereleve.controller.api;
 
-import com.myschool.sn.dossiereleve.message.ResponseEleveDTO;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
-import com.myschool.sn.utils.dtos.dossiereleve.DetailsEleveDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.DetailsNoteDTO;
-import com.myschool.sn.utils.dtos.dossiereleve.EleveDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.ListNoteDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.NoteDTO;
 import org.springframework.http.HttpStatus;
@@ -26,7 +23,7 @@ public interface NoteApi {
     @ResponseStatus(HttpStatus.OK)
     List<ListNoteDTO> getListNotes();
 
-    @GetMapping(value = "/find/{eleveId}", produces = "application/json")
+    @GetMapping(value = "/find/{noteId}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     NoteDTO getNote(@PathVariable Long noteId);
 
@@ -38,12 +35,23 @@ public interface NoteApi {
     @ResponseStatus(HttpStatus.ACCEPTED)
     ReponseMessageDTO updateNote(@PathVariable Long noteId, @RequestBody NoteDTO noteDTO);
 
-
     @GetMapping(value = "/details/{noteId}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     DetailsNoteDTO getDetailNote(@PathVariable Long noteId);
 
     @DeleteMapping(value = "/delete/{noteId}")
     ReponseMessageDTO deleteNote(@PathVariable Long noteId);
+
+    @GetMapping(value = "/byeleve/{eleveId}\"", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    List<ListNoteDTO> getListNotesByEleve(@PathVariable Long eleveId);
+
+    @GetMapping(value = "/bymatiere/{matId}\"", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    List<ListNoteDTO> getListNotesByMatiere(@PathVariable Long matId);
+
+    @GetMapping(value = "/bysemestre/{semId}\"", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    List<ListNoteDTO> getListNotesBySemestre(@PathVariable Long semId);
 
 }

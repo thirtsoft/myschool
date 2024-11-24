@@ -1,8 +1,8 @@
 package com.myschool.sn.enseignant.controller.api;
 
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
-import com.myschool.sn.utils.dtos.enseignant.ExerciceDTO;
-import com.myschool.sn.utils.dtos.enseignant.ListeExerciceDTO;
+import com.myschool.sn.utils.dtos.enseignant.CoursDTO;
+import com.myschool.sn.utils.dtos.enseignant.ListeCoursDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,33 +15,37 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
-@RequestMapping("/exercice")
-public interface ExerciceApi {
+@RequestMapping("/cours")
+public interface CoursApi {
 
     @GetMapping(value = "/list", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    List<ListeExerciceDTO> getListeExercices();
+    List<ListeCoursDTO> getListCours();
 
-    @GetMapping(value = "/find/{exerciceId}", produces = "application/json")
+    @GetMapping(value = "/{courId}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    ExerciceDTO getExerciceDTO(@PathVariable Long exerciceId);
+    CoursDTO getCours(@PathVariable Long courId);
 
     @PostMapping(value = "/save", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    ReponseMessageDTO createExercice(@RequestBody ExerciceDTO exerciceDTO);
+    ReponseMessageDTO createCours(@RequestBody CoursDTO coursDTO);
 
-    @PutMapping(value = "/update/{exerciceId}", consumes = "application/json")
+    @PutMapping(value = "/update/{courId}", consumes = "application/json")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    ReponseMessageDTO updateEnseignant(@PathVariable Long exerciceId, @RequestBody ExerciceDTO exerciceDTO);
+    ReponseMessageDTO updateCours(@PathVariable Long courId, @RequestBody CoursDTO coursDTO);
+
+    @DeleteMapping(value = "/delete/{courId}")
+    ReponseMessageDTO deleteCours(@PathVariable Long courId);
 
     @GetMapping(value = "/byclasse/{classeId}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    List<ListeExerciceDTO> getListeExercicesByClasse(@PathVariable Long classeId);
+    List<ListeCoursDTO> getListCoursByClasse(@PathVariable Long classeId);
 
-    @GetMapping(value = "/byenseignant/{enseignantId}", produces = "application/json")
+    @GetMapping(value = "/bymatiere/{matId}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    List<ListeExerciceDTO> getListeExercicesByEnseignant(@PathVariable Long enseignantId);
+    List<ListeCoursDTO> getListCoursByMatiere(@PathVariable Long matId);
 
-    @DeleteMapping(value = "/delete/{exerciceId}")
-    ReponseMessageDTO deleteExercice(@PathVariable Long exerciceId);
+    @GetMapping(value = "/byenseignant/{ensId}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    List<ListeCoursDTO> getListCoursByEnseignant(@PathVariable Long ensId);
 }

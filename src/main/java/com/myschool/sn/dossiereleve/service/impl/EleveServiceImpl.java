@@ -167,6 +167,7 @@ public class EleveServiceImpl implements EleveService {
             utilisateur.setTelephone(utilisateurDTORequest.getTelephone());
             utilisateur.setEmail(utilisateurDTORequest.getEmail());
             utilisateur.setTypeCompte("Parent");
+            utilisateur.setActive(true);
             utilisateurRepository.save(utilisateur);
         }
         return eleve.getId();

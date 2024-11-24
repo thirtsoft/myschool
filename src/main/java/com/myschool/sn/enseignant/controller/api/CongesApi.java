@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping(value = "/conges")
 public interface CongesApi {
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(value = "/list", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     List<ListeCongesDTO> getListCongess();
 
@@ -45,6 +45,18 @@ public interface CongesApi {
     @PutMapping(value = "/update/{congesId}", consumes = "application/json")
     @ResponseStatus(HttpStatus.ACCEPTED)
     ReponseMessageDTO updateConges(@PathVariable Long congesId, @RequestBody CongesDTO congesDTO);
+
+    @PutMapping(value = "/envoyer/{congesId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    ReponseMessageDTO sendConges(@PathVariable Long congesId);
+
+    @PutMapping(value = "/accepter/{congesId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    ReponseMessageDTO acceptConges(@PathVariable Long congesId);
+
+    @PutMapping(value = "/refuser/{congesId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    ReponseMessageDTO rejetConges(@PathVariable Long congesId);
 
     @DeleteMapping(value = "/delete/{congesId}")
     ReponseMessageDTO deleteConges(@PathVariable Long congesId);

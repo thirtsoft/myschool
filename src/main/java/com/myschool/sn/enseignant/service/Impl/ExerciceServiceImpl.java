@@ -9,6 +9,8 @@ import com.myschool.sn.utils.dtos.enseignant.DetailsExerciceDTO;
 import com.myschool.sn.utils.dtos.enseignant.ExerciceDTO;
 import com.myschool.sn.utils.dtos.enseignant.ListeExerciceDTO;
 import lombok.RequiredArgsConstructor;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

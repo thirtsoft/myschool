@@ -22,4 +22,10 @@ public class MessageValueResponse {
 
     public static final String ERROR_MESSAGE = "Erreur lors de l'ajout ou de la suppression de l'object";
 
+    public static final String SEND_CONGES = "Le congés à été envoyé avec succès";
+
+    public static final String ACCEPT_CONGES = "Le congés à été accepté avec succès";
+
+    public static final String REJET_CONGES = "Le congés à été refusé avec succès";
+
 }
