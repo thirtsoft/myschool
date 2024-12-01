@@ -8,15 +8,18 @@ import com.myschool.sn.dossiereleve.entity.Paiement;
 import com.myschool.sn.dossiereleve.mapping.mapper.MedecinTraitantMapper;
 import com.myschool.sn.dossiereleve.repository.EleveRepository;
 import com.myschool.sn.dossiereleve.repository.InscriptionRepository;
+import com.myschool.sn.dossiereleve.repository.NoteRepository;
 import com.myschool.sn.dossiereleve.repository.PaiementRepository;
 import com.myschool.sn.referentiel.mapping.DTOFactoryRef;
 import com.myschool.sn.referentiel.mapping.TypePaiementMapper;
 import com.myschool.sn.referentiel.service.ReferentielService;
 import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.DetailsEleveDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.DetailsEleveParentDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.DetailsInscriptionDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.DetailsNoteDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.EleveDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.EleveEditDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.InscriptionDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.ListNoteDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.ListeInscriptionDTO;
@@ -48,6 +51,8 @@ public class DTOFactoryDossierEl {
     private final InscriptionRepository inscriptionRepository;
 
     private final PaiementRepository paiementRepository;
+
+    private final NoteRepository noteRepository;
 
     public EleveDTO createEleveDTO(Eleve eleve) {
         if (eleve == null) {
@@ -305,4 +310,49 @@ public class DTOFactoryDossierEl {
                 .dateCreation(note.getDateCreation())
                 .build();
     }
+
+    public DetailsEleveParentDTO createDetailsEleveParentDTO(Eleve eleve) {
+        if (eleve == null) {
+            return null;
+        }
+        DetailsEleveParentDTO dto = new DetailsEleveParentDTO();
+        dto.setId(eleve.getId());
+        dto.setMatricule(eleve.getMatricule());
+        dto.setNom(eleve.getNom());
+        dto.setPrenom(eleve.getPrenom());
+        dto.setSexe(eleve.getSexe());
+        dto.setAddress(eleve.getAddress());
+        dto.setDateNaissance(eleve.getDateNaissance());
+        dto.setLieuNaissance(eleve.getLieuNaissance());
+        dto.setNationalite(eleve.getNationalite());
+        dto.setActif(eleve.isActif());
+        dto.setAllergies(new ArrayList<>(eleve.getAllergies()));
+        dto.setMedecinTraitantDTO(medecinTraitantMapper.toMedecinTraitantDTO(eleve.getMedecinTraitant()));
+        dto.setPaiementDTOList(createListPaiementDTO(paiementRepository.findPaiementsByEleve(eleve.getId())));
+        dto.setListeInscriptionDTOS(createListeInscriptionDTO(
+                inscriptionRepository.findListInscriptionByEleveId(eleve.getId())));
+        dto.setListNoteDTOS(createListNoteDTO(noteRepository.findAllNotesByEleve(eleve.getId())));
+        return dto;
+    }
+
+    public List<DetailsEleveParentDTO> createSetDetailsEleveParentDTO(Set<Eleve> list) {
+        if (list == null) return null;
+        List<DetailsEleveParentDTO> dtos = new ArrayList<>();
+        for (Eleve ins : list) {
+            if (ins != null)
+                dtos.add(createDetailsEleveParentDTO(ins));
+        }
+        return dtos;
+    }
+
+    public EleveEditDTO createEleveEditDTO(Eleve eleve) {
+        return EleveEditDTO.builder().id(eleve.getId()).matricule(eleve.getMatricule())
+                .nom(eleve.getNom()).prenom(eleve.getPrenom()).sexe(eleve.getSexe())
+                .DateNaissance(eleve.getDateNaissance()).lieuNaissance(eleve.getLieuNaissance())
+                .address(eleve.getAddress()).nationalite(eleve.getNationalite())
+                .actif(eleve.getActif()).build();
+
+    }
+
+
 }

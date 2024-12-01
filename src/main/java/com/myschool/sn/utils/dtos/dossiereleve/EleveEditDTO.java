@@ -1,31 +1,39 @@
-package com.myschool.sn.utils.dtos.parent;
+package com.myschool.sn.utils.dtos.dossiereleve;
 
-import com.myschool.sn.utils.dtos.dossiereleve.DetailsEleveParentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
-@Getter
 @Setter
-@AllArgsConstructor
+@Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class ParentDetailsDTO {
+public class EleveEditDTO {
 
     private Long id;
+
+    private String matricule;
+
     private String nom;
+
     private String prenom;
+
+    private String sexe;
+
+    private String lieuNaissance;
+
+    private String nationalite;
+
+    private Date DateNaissance;
+
     private String address;
-    private String profession;
-    private String telephone;
-    private String email;
-    private String civility;
-    List<DetailsEleveParentDTO> detailsEleveParentDTOS;
-    private boolean active;
+
     private int actif;
 
     public void setActif(boolean actif) {

@@ -136,41 +136,7 @@ public class DTOFactory implements Serializable {
         dto.setActive(model.isActive());
         return dto;
     }
-
-    public ParentListeDTO createParentListeDTO(Utilisateur model) {
-        if (model == null)
-            return null;
-        ParentListeDTO dto = new ParentListeDTO();
-        dto.setId(model.getId());
-        dto.setCivility(model.getCivility());
-        dto.setAddress(model.getAddress());
-        dto.setNomComplet(model.getPrenom() + ' ' + model.getNom());
-        dto.setTelephone(model.getTelephone());
-        dto.setEmail(model.getEmail());
-        dto.setProfession(model.getProfession());
-        dto.setActif(model.isActif());
-        dto.setActive(model.isActive());
-        return dto;
-    }
-
-    public ParentDetailsDTO createParentDetailsDTO(Utilisateur model) {
-        if (model == null)
-            return null;
-        ParentDetailsDTO dto = new ParentDetailsDTO();
-        dto.setId(model.getId());
-        dto.setCivility(model.getCivility());
-        dto.setNom(model.getNom());
-        dto.setPrenom(model.getPrenom());
-        dto.setAddress(model.getAddress());
-        dto.setTelephone(model.getTelephone());
-        dto.setEmail(model.getEmail());
-        dto.setProfession(model.getProfession());
-        dto.setActif(model.isActif());
-        dto.setEleveDTOS(dtoFactoryDossierEl.createSetListEleveDTO(model.getEleves()));
-        dto.setActive(model.isActive());
-        return dto;
-    }
-
+    
     public AgentDTO createAgent(Utilisateur utilisateur) {
         if (utilisateur == null)
             return null;

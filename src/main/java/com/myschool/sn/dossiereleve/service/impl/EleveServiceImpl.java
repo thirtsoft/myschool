@@ -2,25 +2,20 @@ package com.myschool.sn.dossiereleve.service.impl;
 
 
 import com.myschool.sn.admin.entity.Utilisateur;
-import com.myschool.sn.admin.mapping.DTOFactory;
 import com.myschool.sn.admin.mapping.ModelFactory;
-import com.myschool.sn.admin.repository.ProfilRepository;
 import com.myschool.sn.admin.repository.UtilisateurRepository;
 import com.myschool.sn.admin.service.ProfilServiceCustom;
-import com.myschool.sn.admin.service.UserService;
 import com.myschool.sn.dossiereleve.entity.Eleve;
 import com.myschool.sn.dossiereleve.exception.DossierEleveException;
 import com.myschool.sn.dossiereleve.mapping.DTOFactoryDossierEl;
 import com.myschool.sn.dossiereleve.mapping.ModelFactoryDossierEl;
 import com.myschool.sn.dossiereleve.repository.EleveRepository;
 import com.myschool.sn.dossiereleve.service.EleveService;
-import com.myschool.sn.parent.entity.Parent;
-import com.myschool.sn.parent.mapping.ParentMapper;
-import com.myschool.sn.parent.repository.ParentRepository;
 import com.myschool.sn.utils.dtos.admin.ProfilDTO;
 import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.DetailsEleveDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.EleveDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.EleveEditDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.EleveRequestDTO;
 import com.myschool.sn.utils.dtos.parent.ParentDTO;
 import jakarta.transaction.Transactional;
@@ -46,23 +41,13 @@ public class EleveServiceImpl implements EleveService {
 
     private final ModelFactoryDossierEl modelFactoryDossierEl;
 
-    private final ParentRepository parentRepository;
-
-    private final ParentMapper parentMapper;
-
     private final UtilisateurRepository utilisateurRepository;
 
     private final PasswordEncoder passwordEncoder;
 
-    private final ProfilRepository profilRepository;
-
-    private final UserService userService;
-
     private final ProfilServiceCustom profilServiceCustom;
 
     private final ModelFactory modelFactory;
-
-    private final DTOFactory dtoFactory;
 
     @Override
     public Long saveEleve(EleveDTO eleveDTO) throws DossierEleveException {
@@ -174,6 +159,7 @@ public class EleveServiceImpl implements EleveService {
     }
 
     @Override
+    @Transactional
     public Long savedStudent(EleveDTO eleveDTO) throws DossierEleveException {
         if (eleveDTO == null)
             throw new DossierEleveException(NULL_OBJECT);
@@ -196,6 +182,7 @@ public class EleveServiceImpl implements EleveService {
         Eleve foundsavedEleve = eleveRepository.findEleveById(eleve.getId());
         for (Utilisateur utilisateur : foundsavedEleve.getUtilisateurs()) {
             utilisateur.setActif(true);
+            utilisateur.setActive(true);
             utilisateur.setMotdepasse(passwordEncoder.encode("Passer123#"));
             utilisateur.setTypeCompte("Parent");
             utilisateurRepository.save(utilisateur);
@@ -206,6 +193,42 @@ public class EleveServiceImpl implements EleveService {
     @Override
     public Long updateEleveRequest(Long id, EleveRequestDTO eleveRequestDTO) throws DossierEleveException {
         return 0L;
+    }
+
+    @Override
+    public EleveEditDTO findEleveToEddit(Long id) {
+        if (id == null)
+            throw new DossierEleveException(NOT_FOUND_OBJECT);
+        return dtoFactoryDossierEl.createEleveEditDTO(eleveRepository.findEleveById(id));
+    }
+
+    @Override
+    public Long editEleve(Long id, EleveEditDTO dto) {
+        if (id == null)
+            throw new DossierEleveException(NOT_FOUND_OBJECT);
+        Eleve eleveOptional = eleveRepository.findByMatricule(dto.getMatricule());
+        if (dto.getId() == null && eleveOptional != null
+                || (dto.getId() != null && eleveOptional != null && !eleveOptional.getId().equals(dto.getId()))) {
+            throw new DossierEleveException(String.format("Le matricule %s est déjà associé à un autre élève  .", dto.getMatricule()));
+        }
+        EleveEditDTO editDTO = findEleveToEddit(id);
+        if (editDTO == null) {
+            throw new DossierEleveException(NOT_FOUND_OBJECT);
+        } else {
+            editDTO.setId(dto.getId());
+            editDTO.setNom(dto.getNom());
+            editDTO.setPrenom(dto.getPrenom());
+            editDTO.setSexe(dto.getSexe());
+            editDTO.setAddress(dto.getAddress());
+            editDTO.setDateNaissance(dto.getDateNaissance());
+            editDTO.setLieuNaissance(dto.getLieuNaissance());
+            editDTO.setMatricule(dto.getMatricule());
+            editDTO.setNationalite(dto.getNationalite());
+        }
+        var model = modelFactoryDossierEl.createEleveEdit(editDTO);
+        model.setActif(true);
+        eleveRepository.save(model);
+        return model.getId();
     }
 
     @Override

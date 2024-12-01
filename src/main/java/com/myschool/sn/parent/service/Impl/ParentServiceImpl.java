@@ -1,10 +1,10 @@
-package com.myschool.sn.admin.service.Impl;
+package com.myschool.sn.parent.service.Impl;
 
 import com.myschool.sn.admin.entity.Utilisateur;
 import com.myschool.sn.admin.exception.ResourceNotFoundException;
-import com.myschool.sn.admin.mapping.DTOFactory;
 import com.myschool.sn.admin.repository.UtilisateurRepository;
-import com.myschool.sn.admin.service.ParentService;
+import com.myschool.sn.parent.mapping.ParentMapper;
+import com.myschool.sn.parent.service.ParentService;
 import com.myschool.sn.utils.dtos.parent.ParentDetailsDTO;
 import com.myschool.sn.utils.dtos.parent.ParentListeDTO;
 import lombok.RequiredArgsConstructor;
@@ -21,19 +21,21 @@ public class ParentServiceImpl implements ParentService {
 
     private final UtilisateurRepository parentRepository;
 
-    private final DTOFactory dtoFactory;
+//    private final DTOFactory dtoFactory;
+
+    private final ParentMapper parentMapper;
 
     @Override
     public List<ParentListeDTO> findAllParent() {
         return parentRepository.findAllParent().stream()
-                .map(dtoFactory::createParentListeDTO)
+                .map(parentMapper::createParentListeDTO)
                 .toList();
     }
 
 
     @Override
     public ParentDetailsDTO getDetailsParent(Long parentId) {
-        return dtoFactory.createParentDetailsDTO(
+        return parentMapper.createParentDetailsDTO(
                 parentRepository.findById(parentId).orElseThrow(() ->
                         new
                                 ResourceNotFoundException(MessageFormat.format(USER_NOT_FOUND, parentId))));

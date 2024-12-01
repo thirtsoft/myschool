@@ -34,6 +34,9 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Long> 
     @Query(value = "SELECT DISTINCT u FROM Utilisateur u WHERE (lower(u.email)=lower(:email) or u.telephone=:email) and u.actif=true")
     Utilisateur findByEmailOrTel(@Param("email") String email);
 
+    @Query(value = "SELECT DISTINCT u FROM Utilisateur u WHERE (u.email=:arg) or (u.telephone=:arg) or (u.username=:arg)")
+    Utilisateur findByEmailOrTelOrUsername(@Param("arg") String arg);
+
     @Query(value = "SELECT DISTINCT u FROM Utilisateur u WHERE u.activation=:code")
     Utilisateur findUtilisateurByActivation(@Param("code") String code);
 }
