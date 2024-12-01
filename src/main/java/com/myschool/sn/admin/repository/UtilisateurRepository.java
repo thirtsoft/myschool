@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Long> {
 
-    @Query("Select DISTINCT u from Utilisateur u where u.actif=true and u.profil.id!=1 order by u.id desc")
+    @Query("Select DISTINCT u from Utilisateur u where u.actif=true and u.profil.id=2 order by u.id desc")
     List<Utilisateur> findAllActive();
 
     @Query("Select DISTINCT u from Utilisateur u where u.actif=true and u.profil.id=3 order by u.id desc")
@@ -25,12 +25,18 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Long> 
     @Query(value = "SELECT DISTINCT u FROM Utilisateur u WHERE lower(u.username)=lower(:username) and u.actif=true")
     Utilisateur findUtilisateurByUsername(@Param("username") String username);
 
+
+    @Query(value = "SELECT DISTINCT u FROM Utilisateur u WHERE lower(u.telephone)=lower(:telephone) and u.actif=true")
+    Utilisateur findUtilisateurByTelephone(@Param("telephone") String telephone);
+
     Optional<Utilisateur> findByUsername(String username);
 
     @Query(value = "SELECT DISTINCT u FROM Utilisateur u WHERE (lower(u.email)=lower(:email) or u.telephone=:email) and u.actif=true")
     Utilisateur findByEmailOrTel(@Param("email") String email);
 
+    @Query(value = "SELECT DISTINCT u FROM Utilisateur u WHERE (u.email=:arg) or (u.telephone=:arg) or (u.username=:arg)")
+    Utilisateur findByEmailOrTelOrUsername(@Param("arg") String arg);
+
     @Query(value = "SELECT DISTINCT u FROM Utilisateur u WHERE u.activation=:code")
     Utilisateur findUtilisateurByActivation(@Param("code") String code);
-
 }

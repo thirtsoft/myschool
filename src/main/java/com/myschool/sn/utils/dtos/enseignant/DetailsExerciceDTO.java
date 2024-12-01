@@ -1,12 +1,13 @@
 package com.myschool.sn.utils.dtos.enseignant;
 
+import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
 import com.myschool.sn.utils.dtos.referentiel.ClasseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -25,13 +26,13 @@ public class DetailsExerciceDTO {
 
     private String piece_jointe;
 
-    private EnseignantDTO enseignantDTO;
+    private UtilisateurDTO enseignantDTO;
 
     private ClasseDTO classeDTO;
 
-    private LocalDate dateDebut;
+    private LocalDateTime dateDebut;
 
-    private LocalDate dateFin;
+    private LocalDateTime dateFin;
 
     private boolean actif;
 }

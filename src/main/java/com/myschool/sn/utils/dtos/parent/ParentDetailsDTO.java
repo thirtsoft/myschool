@@ -1,6 +1,6 @@
 package com.myschool.sn.utils.dtos.parent;
 
-import com.myschool.sn.utils.dtos.dossiereleve.EleveDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.DetailsEleveParentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,8 +24,8 @@ public class ParentDetailsDTO {
     private String telephone;
     private String email;
     private String civility;
-    List<EleveDTO> eleveDTOS;
-
+    List<DetailsEleveParentDTO> detailsEleveParentDTOS;
+    private boolean active;
     private int actif;
 
     public void setActif(boolean actif) {

@@ -31,6 +31,8 @@ public class EnseignantDTO {
 
     private String telephone;
 
+    private boolean active;
+
     private int actif;
 
     public void setActif(boolean actif) {

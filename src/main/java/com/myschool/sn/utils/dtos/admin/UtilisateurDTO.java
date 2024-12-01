@@ -40,6 +40,7 @@ public class UtilisateurDTO {
 
     private ProfilDTO profilDTO;
 
+    private boolean active;
 
     private int actif;
 

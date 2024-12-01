@@ -4,6 +4,7 @@ import com.myschool.sn.enseignant.controller.api.EnseignantApi;
 import com.myschool.sn.enseignant.service.EnseignantService;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
 import com.myschool.sn.utils.dtos.enseignant.EnseignantDTO;
+import com.myschool.sn.utils.dtos.enseignant.EnseignantListDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +22,11 @@ import static com.myschool.sn.utils.MessageValueResponse.SUCCESS_MESSAGE;
 public class EnseignantController implements EnseignantApi {
 
     private final EnseignantService enseignantService;
+
+    @Override
+    public List<EnseignantListDTO> getEnseignantList() {
+        return enseignantService.findEnseignantList();
+    }
 
     @Override
     public List<EnseignantDTO> getEnseignants() {

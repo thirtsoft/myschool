@@ -1,7 +1,6 @@
 package com.myschool.sn.admin.controller;
 
 import com.myschool.sn.admin.controller.api.UtilisateurApi;
-import com.myschool.sn.admin.service.ProfilServiceCustom;
 import com.myschool.sn.admin.service.UserService;
 import com.myschool.sn.utils.dtos.admin.ActionDTO;
 import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
@@ -20,11 +19,8 @@ public class UtilisateurController implements UtilisateurApi {
 
     private final UserService userService;
 
-    private final ProfilServiceCustom profilServiceCustom;
-
-    public UtilisateurController(UserService userService, ProfilServiceCustom profilServiceCustom) {
+    public UtilisateurController(UserService userService) {
         this.userService = userService;
-        this.profilServiceCustom = profilServiceCustom;
     }
 
 
@@ -43,10 +39,6 @@ public class UtilisateurController implements UtilisateurApi {
         return ResponseEntity.ok(userService.getMe());
     }
 
-    @Override
-    public ResponseEntity<String> getUserNameById(Long userId) {
-        return ResponseEntity.ok(userService.getUserName(userId));
-    }
 
     @Override
     public ResponseEntity<UtilisateurDTO> getUserById(Long userId) {
@@ -54,14 +46,20 @@ public class UtilisateurController implements UtilisateurApi {
     }
 
     @Override
-    public ResponseEntity<UtilisateurDTO> getUserById(String email) {
-        return ResponseEntity.ok(userService.getUserByUsername(email));
-    }
-
-    @Override
     public ReponseMessageDTO updateUserCredentials(Long userId, UserCredentials userCredentials) {
         try {
             userService.updateUserCredentials(userId, userCredentials);
+            return new ReponseMessageDTO("OK", "Utilisateur modifié avec succès");
+        } catch (Exception e) {
+            return new ReponseMessageDTO("FAILED", e.getMessage());
+
+        }
+    }
+
+    @Override
+    public ReponseMessageDTO updateUserInternal(Long userId, UtilisateurDTO utilisateurDTO) {
+        try {
+            userService.updateUser(userId, utilisateurDTO);
             return new ReponseMessageDTO("OK", "Utilisateur modifié avec succès");
         } catch (Exception e) {
             return new ReponseMessageDTO("FAILED", e.getMessage());
@@ -80,17 +78,6 @@ public class UtilisateurController implements UtilisateurApi {
     }
 
     @Override
-    public ReponseMessageDTO resetPassword(String email) {
-        try {
-            userService.resetPass(email);
-            return new ReponseMessageDTO("OK", "Mot de passe modifié avec succès");
-
-        } catch (Exception e) {
-            return new ReponseMessageDTO("FAILED", e.getMessage());
-        }
-    }
-
-    @Override
     public UtilisateurProfilDTO getUserDetails(Long userId) throws Exception {
         return userService.getUserDetails(userId);
     }
@@ -98,5 +85,27 @@ public class UtilisateurController implements UtilisateurApi {
     @Override
     public ResponseEntity<List<UtilisateurListDTO>> getUtilisateursList() {
         return new ResponseEntity<>(userService.findAllUtilisateur(), HttpStatus.OK);
+    }
+
+    @Override
+    public ReponseMessageDTO activatedAccount(Long userId) {
+        try {
+            userService.activatedAccount(userId);
+            return new ReponseMessageDTO("OK", "Compte utlisateur activé avec succès");
+        } catch (Exception e) {
+            return new ReponseMessageDTO("FAILED", e.getMessage());
+
+        }
+    }
+
+    @Override
+    public ReponseMessageDTO deactivatedAccount(Long userId) {
+        try {
+            userService.deactivatedAccount(userId);
+            return new ReponseMessageDTO("OK", "Compte utlisateur desactivé avec succès");
+        } catch (Exception e) {
+            return new ReponseMessageDTO("FAILED", e.getMessage());
+
+        }
     }
 }

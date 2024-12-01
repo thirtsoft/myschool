@@ -1,8 +1,8 @@
 package com.myschool.sn.enseignant.service;
 
 import com.myschool.sn.enseignant.exception.EnseignantException;
-import com.myschool.sn.utils.dtos.enseignant.CongesDTO;
 import com.myschool.sn.utils.dtos.enseignant.EnseignantDTO;
+import com.myschool.sn.utils.dtos.enseignant.EnseignantListDTO;
 
 import java.util.List;
 
@@ -21,25 +21,8 @@ public interface EnseignantService {
 
     List<EnseignantDTO> findAllEnseignants();
 
+    List<EnseignantListDTO> findEnseignantList();
+
     void deleteEnseignant(Long id);
-
-    /****************    Conges    ******************************/
-
-    Long saveConges(CongesDTO congesDTO) throws EnseignantException;
-
-    Long updateConges(Long id, CongesDTO congesDTO) throws EnseignantException;
-
-    CongesDTO findCongeById(Long id);
-
-    List<CongesDTO> findAllConges();
-
-    List<CongesDTO> findAllCongesSoumis();
-
-    List<CongesDTO> findAllCongesAccepte();
-
-    List<CongesDTO> findAllCongesRejetes();
-
-    void deleteConges(Long id);
-
 
 }

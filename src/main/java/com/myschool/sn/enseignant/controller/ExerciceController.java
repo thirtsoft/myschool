@@ -1,9 +1,10 @@
-package com.myschool.sn.parent.controller;
+package com.myschool.sn.enseignant.controller;
 
-import com.myschool.sn.parent.controller.api.ParentApi;
-import com.myschool.sn.parent.service.ParentService;
+import com.myschool.sn.enseignant.controller.api.ExerciceApi;
+import com.myschool.sn.enseignant.service.ExerciceService;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
-import com.myschool.sn.utils.dtos.parent.ParentDTO;
+import com.myschool.sn.utils.dtos.enseignant.ExerciceDTO;
+import com.myschool.sn.utils.dtos.enseignant.ListeExerciceDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,29 +19,24 @@ import static com.myschool.sn.utils.MessageValueResponse.SUCCESS_MESSAGE;
 
 @RestController
 @RequiredArgsConstructor
-public class ParentController02 implements ParentApi {
+public class ExerciceController implements ExerciceApi {
 
-    private final ParentService parentService;
+    private final ExerciceService exerciceService;
 
     @Override
-    public List<ParentDTO> getAllParents() {
-        return parentService.findAllParents();
+    public List<ListeExerciceDTO> getListeExercices() {
+        return exerciceService.findListeExercice();
     }
 
     @Override
-    public ParentDTO getParent(Long parentId) {
-        return parentService.findParentById(parentId);
+    public ExerciceDTO getExerciceDTO(Long exerciceId) {
+        return exerciceService.findExerciceById(exerciceId);
     }
 
     @Override
-    public ParentDTO getParentByUser(Long userId) {
-        return parentService.findParentByUserId(userId);
-    }
-
-    @Override
-    public ReponseMessageDTO createOrUpdateParent(ParentDTO parentDTO) {
+    public ReponseMessageDTO createExercice(ExerciceDTO exerciceDTO) {
         try {
-            parentService.saveParent(parentDTO);
+            exerciceService.saveExercice(exerciceDTO);
             return new ReponseMessageDTO(SUCCESS_MESSAGE, SAVED_OBJECT);
         } catch (Exception e) {
             return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
@@ -48,9 +44,9 @@ public class ParentController02 implements ParentApi {
     }
 
     @Override
-    public ReponseMessageDTO updateParent(Long parentId, ParentDTO parentDTO) {
+    public ReponseMessageDTO updateEnseignant(Long exerciceId, ExerciceDTO exerciceDTO) {
         try {
-            parentService.updateParent(parentId, parentDTO);
+            exerciceService.updateExercice(exerciceId, exerciceDTO);
             return new ReponseMessageDTO(SUCCESS_MESSAGE, EDIT_OBJECT);
         } catch (Exception e) {
             return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
@@ -58,9 +54,19 @@ public class ParentController02 implements ParentApi {
     }
 
     @Override
-    public ReponseMessageDTO deleteParent(Long parentId) {
+    public List<ListeExerciceDTO> getListeExercicesByClasse(Long classeId) {
+        return exerciceService.findListeExerciceByClasse(classeId);
+    }
+
+    @Override
+    public List<ListeExerciceDTO> getListeExercicesByEnseignant(Long enseignantId) {
+        return exerciceService.findListeExerciceByEnseignant(enseignantId);
+    }
+
+    @Override
+    public ReponseMessageDTO deleteExercice(Long exerciceId) {
         try {
-            parentService.deleteParent(parentId);
+            exerciceService.deleteExercice(exerciceId);
             return new ReponseMessageDTO(SUCCESS_MESSAGE, DELETE_OBJECT);
         } catch (Exception e) {
             return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);

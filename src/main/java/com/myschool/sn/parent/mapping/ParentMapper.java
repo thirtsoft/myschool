@@ -1,7 +1,11 @@
 package com.myschool.sn.parent.mapping;
 
+import com.myschool.sn.admin.entity.Utilisateur;
+import com.myschool.sn.dossiereleve.mapping.DTOFactoryDossierEl;
 import com.myschool.sn.parent.entity.Parent;
 import com.myschool.sn.utils.dtos.parent.ParentDTO;
+import com.myschool.sn.utils.dtos.parent.ParentDetailsDTO;
+import com.myschool.sn.utils.dtos.parent.ParentListeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +17,8 @@ import java.util.Set;
 @Component
 @RequiredArgsConstructor
 public class ParentMapper {
+
+    private final DTOFactoryDossierEl dtoFactoryDossierEl;
 
     public Parent toParent(ParentDTO parentDTO) {
         return Parent.builder()
@@ -48,7 +54,6 @@ public class ParentMapper {
                 .telephone(parent.getTelephone())
                 .typeParent(parent.getTypeParent())
                 .actif(parent.getActif())
-                //            .eleves(dtoFactoryDossierEl.createSetListEleveDTO(parent.getEleves()))
                 .build();
     }
 
@@ -66,4 +71,38 @@ public class ParentMapper {
         }
         return dtos;
     }
+
+    public ParentListeDTO createParentListeDTO(Utilisateur model) {
+        if (model == null) return null;
+        ParentListeDTO dto = new ParentListeDTO();
+        dto.setId(model.getId());
+        dto.setCivility(model.getCivility());
+        dto.setAddress(model.getAddress());
+        dto.setNomComplet(model.getPrenom() + ' ' + model.getNom());
+        dto.setTelephone(model.getTelephone());
+        dto.setEmail(model.getEmail());
+        dto.setProfession(model.getProfession());
+        dto.setActif(model.isActif());
+        dto.setActive(model.isActive());
+        return dto;
+    }
+
+    public ParentDetailsDTO createParentDetailsDTO(Utilisateur model) {
+        if (model == null)
+            return null;
+        ParentDetailsDTO dto = new ParentDetailsDTO();
+        dto.setId(model.getId());
+        dto.setCivility(model.getCivility());
+        dto.setNom(model.getNom());
+        dto.setPrenom(model.getPrenom());
+        dto.setAddress(model.getAddress());
+        dto.setTelephone(model.getTelephone());
+        dto.setEmail(model.getEmail());
+        dto.setProfession(model.getProfession());
+        dto.setActif(model.isActif());
+        dto.setDetailsEleveParentDTOS(dtoFactoryDossierEl.createSetDetailsEleveParentDTO(model.getEleves()));
+        dto.setActive(model.isActive());
+        return dto;
+    }
+
 }

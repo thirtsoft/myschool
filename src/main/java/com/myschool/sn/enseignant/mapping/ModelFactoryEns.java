@@ -1,14 +1,19 @@
 package com.myschool.sn.enseignant.mapping;
 
+import com.myschool.sn.admin.mapping.ModelFactory;
 import com.myschool.sn.enseignant.entity.Conges;
 import com.myschool.sn.enseignant.entity.Enseignant;
 import com.myschool.sn.utils.dtos.enseignant.CongesDTO;
 import com.myschool.sn.utils.dtos.enseignant.EnseignantDTO;
+import lombok.RequiredArgsConstructor;
 
 import javax.inject.Named;
 
 @Named("modelFactoryEns")
+@RequiredArgsConstructor
 public class ModelFactoryEns {
+
+    private final ModelFactory modelFactory;
 
     public Enseignant createEnseignant(EnseignantDTO dto) {
         if (dto == null)
@@ -28,16 +33,17 @@ public class ModelFactoryEns {
     }
 
     public Conges createConges(CongesDTO dto) {
-        if (dto == null)
-            return null;
-        Conges model = new Conges();
-        model.setId(dto.getId());
-        model.setMotif(dto.getMotif());
-        model.setEtat(dto.getEtat());
-        model.setEnseignant(createEnseignant(dto.getEnseignantDTO()));
-        model.setDateDebut(dto.getDateDebut());
-        model.setDateFin(dto.getDateFin());
-        model.setActif(dto.isActif());
-        return model;
+        if (dto == null) return null;
+        return Conges.builder()
+                .id(dto.getId())
+                .motif(dto.getMotif())
+                .etat(dto.getEtat())
+                .enseignant(modelFactory.createUtilisateur(dto.getEnseignantDTO()))
+                .dateDebut(dto.getDateDebut())
+                .dateFin(dto.getDateFin())
+                .actif(dto.getActif())
+                .build();
+
+
     }
 }

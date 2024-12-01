@@ -28,7 +28,7 @@ public class ParentDTO {
     private String typeParent;
     private UtilisateurDTO utilisateurDTO;
     private List<EleveDTO> eleves;
-
+    private boolean active;
     private int actif;
 
     public void setActif(boolean actif) {

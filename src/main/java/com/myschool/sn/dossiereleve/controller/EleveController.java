@@ -1,37 +1,29 @@
 package com.myschool.sn.dossiereleve.controller;
 
 import com.myschool.sn.dossiereleve.controller.api.EleveApi;
-import com.myschool.sn.dossiereleve.mapping.DTOFactoryDossierEl;
-import com.myschool.sn.dossiereleve.mapping.ModelFactoryDossierEl;
 import com.myschool.sn.dossiereleve.message.ResponseEleveDTO;
 import com.myschool.sn.dossiereleve.service.EleveService;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.DetailsEleveDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.EleveDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.EleveEditDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 import static com.myschool.sn.utils.MessageValueResponse.DELETE_OBJECT;
+import static com.myschool.sn.utils.MessageValueResponse.EDIT_OBJECT;
 import static com.myschool.sn.utils.MessageValueResponse.ERROR_MESSAGE;
 import static com.myschool.sn.utils.MessageValueResponse.FAILED_MESSAGE;
 import static com.myschool.sn.utils.MessageValueResponse.SAVED_OBJECT;
 import static com.myschool.sn.utils.MessageValueResponse.SUCCESS_MESSAGE;
 
 @RestController
+@RequiredArgsConstructor
 public class EleveController implements EleveApi {
 
     private final EleveService eleveService;
-
-    private final DTOFactoryDossierEl dtoFactoryDossierEl;
-
-    private final ModelFactoryDossierEl modelFactoryDossierEl;
-
-    public EleveController(EleveService eleveService, DTOFactoryDossierEl dtoFactoryDossierEl, ModelFactoryDossierEl modelFactoryDossierEl) {
-        this.eleveService = eleveService;
-        this.dtoFactoryDossierEl = dtoFactoryDossierEl;
-        this.modelFactoryDossierEl = modelFactoryDossierEl;
-    }
 
     @Override
     public List<EleveDTO> getEleves() {
@@ -41,6 +33,11 @@ public class EleveController implements EleveApi {
     @Override
     public EleveDTO getEleve(Long eleveId) {
         return eleveService.findEleveById(eleveId);
+    }
+
+    @Override
+    public EleveEditDTO getEleveToEdit(Long eleveId) {
+        return eleveService.findEleveToEddit(eleveId);
     }
 
     @Override
@@ -56,7 +53,6 @@ public class EleveController implements EleveApi {
     @Override
     public ResponseEleveDTO createEleve(EleveDTO eleveDTO) {
         try {
-            //    Long saved = eleveService.saveEleveRequest(eleveDTO);
             Long saved = eleveService.savedStudent(eleveDTO);
             return new ResponseEleveDTO(SUCCESS_MESSAGE, SAVED_OBJECT, saved);
         } catch (Exception e) {
@@ -68,7 +64,17 @@ public class EleveController implements EleveApi {
     public ResponseEleveDTO updateEleve(Long eleveId, EleveDTO eleveDTO) {
         try {
             Long saved = eleveService.updateEleve(eleveId, eleveDTO);
-            return new ResponseEleveDTO(SUCCESS_MESSAGE, SAVED_OBJECT, saved);
+            return new ResponseEleveDTO(SUCCESS_MESSAGE, EDIT_OBJECT, saved);
+        } catch (Exception e) {
+            return new ResponseEleveDTO(FAILED_MESSAGE, e.getMessage(), null);
+        }
+    }
+
+    @Override
+    public ResponseEleveDTO editEleve(Long eleveId, EleveEditDTO eleveDTO) {
+        try {
+            Long saved = eleveService.editEleve(eleveId, eleveDTO);
+            return new ResponseEleveDTO(SUCCESS_MESSAGE, EDIT_OBJECT, saved);
         } catch (Exception e) {
             return new ResponseEleveDTO(FAILED_MESSAGE, e.getMessage(), null);
         }

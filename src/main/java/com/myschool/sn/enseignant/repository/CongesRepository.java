@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Arrays;
 import java.util.List;
 
 public interface CongesRepository extends JpaRepository<Conges, Long> {
@@ -23,4 +24,7 @@ public interface CongesRepository extends JpaRepository<Conges, Long> {
 
     @Query("Select DISTINCT c from  Conges c where c.actif=1 and c.etat=4 order by id")
     List<Conges> findAllCongesRejetes();
+
+    @Query("Select DISTINCT c from  Conges c where c.id=:id and c.actif=1")
+    List<Conges> findCongesByDemandeur(@Param("id") Long id);
 }

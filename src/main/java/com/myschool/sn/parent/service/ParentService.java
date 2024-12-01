@@ -1,21 +1,16 @@
 package com.myschool.sn.parent.service;
 
-import com.myschool.sn.parent.exception.ParentException;
-import com.myschool.sn.utils.dtos.parent.ParentDTO;
+import com.myschool.sn.utils.dtos.parent.ParentDetailsDTO;
+import com.myschool.sn.utils.dtos.parent.ParentListeDTO;
 
 import java.util.List;
 
 public interface ParentService {
 
-    Long saveParent(ParentDTO parentDTO) throws ParentException;
+    List<ParentListeDTO> findAllParent();
 
-    Long updateParent(Long id, ParentDTO parentDTO) throws ParentException;
+    ParentDetailsDTO getDetailsParent(Long parentId);
 
-    ParentDTO findParentById(Long id);
+    void deleteParent(Long parentId);
 
-    ParentDTO findParentByUserId(Long userId);
-
-    List<ParentDTO> findAllParents();
-
-    void deleteParent(Long id);
 }

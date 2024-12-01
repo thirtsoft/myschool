@@ -2,6 +2,7 @@ package com.myschool.sn.enseignant.controller.api;
 
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
 import com.myschool.sn.utils.dtos.enseignant.CongesDTO;
+import com.myschool.sn.utils.dtos.enseignant.ListeCongesDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,21 +18,21 @@ import java.util.List;
 @RequestMapping(value = "/conges")
 public interface CongesApi {
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(value = "/list", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    List<CongesDTO> getCongess();
+    List<ListeCongesDTO> getListCongess();
 
     @GetMapping(value = "/soumis", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    List<CongesDTO> getCongessSoumis();
+    List<ListeCongesDTO> getListCongessSoumis();
 
     @GetMapping(value = "/accepte", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    List<CongesDTO> getCongessAcceptes();
+    List<ListeCongesDTO> getListCongessAcceptes();
 
     @GetMapping(value = "/rejete", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    List<CongesDTO> getCongessRejetes();
+    List<ListeCongesDTO> getListCongessRejetes();
 
     @GetMapping(value = "/{congesId}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
@@ -44,6 +45,18 @@ public interface CongesApi {
     @PutMapping(value = "/update/{congesId}", consumes = "application/json")
     @ResponseStatus(HttpStatus.ACCEPTED)
     ReponseMessageDTO updateConges(@PathVariable Long congesId, @RequestBody CongesDTO congesDTO);
+
+    @PutMapping(value = "/envoyer/{congesId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    ReponseMessageDTO sendConges(@PathVariable Long congesId);
+
+    @PutMapping(value = "/accepter/{congesId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    ReponseMessageDTO acceptConges(@PathVariable Long congesId);
+
+    @PutMapping(value = "/refuser/{congesId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    ReponseMessageDTO rejetConges(@PathVariable Long congesId);
 
     @DeleteMapping(value = "/delete/{congesId}")
     ReponseMessageDTO deleteConges(@PathVariable Long congesId);

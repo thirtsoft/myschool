@@ -2,7 +2,6 @@ package com.myschool.sn.dossiereleve.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.myschool.sn.admin.entity.Utilisateur;
-import com.myschool.sn.parent.entity.Parent;
 import com.myschool.sn.person.Personne;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
@@ -27,6 +26,10 @@ import lombok.experimental.SuperBuilder;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import static jakarta.persistence.CascadeType.DETACH;
+import static jakarta.persistence.CascadeType.MERGE;
+import static jakarta.persistence.CascadeType.PERSIST;
 
 @Entity
 @Table(name = "myschool_eleve")
@@ -64,12 +67,18 @@ public class Eleve extends Personne {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private MedecinTraitant medecinTraitant;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "myschool_eleves_parents",
-            joinColumns = {
-                    @JoinColumn(name = "eleves_uid")},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "parents_uid")})
+    @ManyToMany(
+            cascade = {
+                    MERGE,
+                    PERSIST,
+                    DETACH
+            },
+            fetch = FetchType.LAZY)
+//    @JoinTable(name = "myschool_eleves_parents",
+//            joinColumns = {
+//                    @JoinColumn(name = "eleves_uid")},
+//            inverseJoinColumns = {
+//                    @JoinColumn(name = "parents_uid")})
     private Set<Utilisateur> utilisateurs = new HashSet<>();
 
     private int actif;

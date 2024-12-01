@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -26,6 +27,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static jakarta.persistence.CascadeType.DETACH;
+import static jakarta.persistence.CascadeType.MERGE;
+import static jakarta.persistence.CascadeType.PERSIST;
 
 @Entity
 @Table(name = "myschool_utilisateur")
@@ -57,6 +62,9 @@ public class Utilisateur implements UserDetails {
 
     private boolean actif;
 
+    @Column(columnDefinition = "boolean default true")
+    private boolean active;
+
     @Column(unique = true)
     @NotEmpty(message = "Username cannot be empty")
     private String username;
@@ -79,8 +87,20 @@ public class Utilisateur implements UserDetails {
     @JoinColumn(name = "profil_uid", referencedColumnName = "id", nullable = false)
     private Profil profil;
 
-    @ManyToMany(mappedBy = "utilisateurs", fetch = FetchType.LAZY)
+    @ManyToMany(
+            cascade = {
+                    MERGE,
+                    PERSIST,
+                    DETACH
+            },
+            fetch = FetchType.LAZY)
+    @JoinTable(name = "myschool_eleves_parents",
+            joinColumns = {
+                    @JoinColumn(name = "eleves_uid")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "parents_uid")})
     private Set<Eleve> eleves = new HashSet<>();
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -103,21 +123,21 @@ public class Utilisateur implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return this.actif;
+        return this.active;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.actif;
+        return this.active;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return this.actif;
+        return this.active;
     }
 
     @Override
     public boolean isEnabled() {
-        return this.actif;
+        return this.active;
     }
 }

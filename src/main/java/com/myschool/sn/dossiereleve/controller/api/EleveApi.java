@@ -4,7 +4,7 @@ import com.myschool.sn.dossiereleve.message.ResponseEleveDTO;
 import com.myschool.sn.utils.dtos.admin.login.ReponseMessageDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.DetailsEleveDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.EleveDTO;
-import com.myschool.sn.utils.dtos.dossiereleve.EleveRequestDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.EleveEditDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +28,10 @@ public interface EleveApi {
     @ResponseStatus(HttpStatus.OK)
     EleveDTO getEleve(@PathVariable Long eleveId);
 
+    @GetMapping(value = "/gotoedit/{eleveId}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    EleveEditDTO getEleveToEdit(@PathVariable Long eleveId);
+
     @PostMapping(value = "/save", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     ResponseEleveDTO createOrUpdateEleve(@RequestBody EleveDTO eleveDTO);
@@ -39,6 +43,10 @@ public interface EleveApi {
     @PutMapping(value = "/update/{eleveId}", consumes = "application/json")
     @ResponseStatus(HttpStatus.ACCEPTED)
     ResponseEleveDTO updateEleve(@PathVariable Long eleveId, @RequestBody EleveDTO eleveDTO);
+
+    @PutMapping(value = "/edit/{eleveId}", consumes = "application/json")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    ResponseEleveDTO editEleve(@PathVariable Long eleveId, @RequestBody EleveEditDTO eleveDTO);
 
     @GetMapping(value = "/by-matricule/{matricule}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)

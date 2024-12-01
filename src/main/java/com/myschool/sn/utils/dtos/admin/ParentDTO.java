@@ -39,6 +39,8 @@ public class ParentDTO {
 
     private List<EleveDTO> detailsEleveDTOS;
 
+    private boolean active;
+
     private int actif;
 
     public void setActif(boolean actif) {

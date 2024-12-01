@@ -1,9 +1,12 @@
 package com.myschool.sn.utils.dtos.enseignant;
 
+import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.joda.time.LocalDate;
 
 import java.util.Date;
 
@@ -11,13 +14,16 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CongesDTO {
 
     private Long id;
 
+    private String objet;
+
     private String motif;
 
-    private EnseignantDTO enseignantDTO;
+    private UtilisateurDTO enseignantDTO;
 
     private int etat;
 

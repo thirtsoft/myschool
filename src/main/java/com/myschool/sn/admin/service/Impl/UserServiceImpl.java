@@ -4,6 +4,7 @@ import com.myschool.sn.admin.entity.Profil;
 import com.myschool.sn.admin.entity.Utilisateur;
 import com.myschool.sn.admin.exception.ForbiddenActionException;
 import com.myschool.sn.admin.exception.ResourceNotFoundException;
+import com.myschool.sn.admin.exception.UtilisateurException;
 import com.myschool.sn.admin.mapping.DTOFactory;
 import com.myschool.sn.admin.mapping.ModelFactory;
 import com.myschool.sn.admin.repository.ProfilRepository;
@@ -16,90 +17,100 @@ import com.myschool.sn.utils.dtos.admin.UtilisateurProfilDTO;
 import com.myschool.sn.utils.dtos.admin.login.ChangePasswordDTO;
 import com.myschool.sn.utils.dtos.admin.login.UserCredentials;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.MessageFormat;
 import java.util.List;
 
+import static com.myschool.sn.utils.ConstantSigs.PASSWORD_DID_NOT_MATCHED;
+import static com.myschool.sn.utils.ConstantSigs.PASSWORD_PAR_DEFAULT;
+import static com.myschool.sn.utils.ConstantSigs.USER_ALREADY_EXIST;
+import static com.myschool.sn.utils.ConstantSigs.USER_NOT_FOUND;
+
 @Service
 public class UserServiceImpl implements UserService {
 
-    private static final String USER_ALREADY_EXIST = "Un utilisateur avec de mail existe dèjà.";
-    private static final String USER_NOT_FOUND = "User with id {0} not found";
-    private static final String PASSWORD_DID_NOT_MATCHED = "Le mot de passe courant est incorrect.";
-
     private final UtilisateurRepository utilisateurRepository;
     private final ProfilRepository profilRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+//    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final DTOFactory dtoFactory;
 
     private final ModelFactory modelFactory;
 
-    private final AuthenticationManager authenticationManager;
+    //   private final AuthenticationManager authenticationManager;
 
 
     private final UtilsServiceCustom utilsRepositoryCustom;
 
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
 
     RestTemplate restTemplate = new RestTemplate();
 
     public UserServiceImpl(UtilisateurRepository utilisateurRepository,
                            ProfilRepository profilRepository,
-                           BCryptPasswordEncoder bCryptPasswordEncoder,
                            DTOFactory dtoFactory,
                            ModelFactory modelFactory,
-                           AuthenticationManager authenticationManager,
                            UtilsServiceCustom utilsRepositoryCustom,
-                           PasswordEncoder passwordEncoder) {
+                           BCryptPasswordEncoder passwordEncoder) {
         this.utilisateurRepository = utilisateurRepository;
         this.profilRepository = profilRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.dtoFactory = dtoFactory;
         this.modelFactory = modelFactory;
-        this.authenticationManager = authenticationManager;
         this.utilsRepositoryCustom = utilsRepositoryCustom;
         this.passwordEncoder = passwordEncoder;
     }
 
 
     @Override
-    public void createUser(UtilisateurDTO utilisateurDTO) throws Exception {
-        String newPassword = RandomStringUtils.randomAlphanumeric(8);
-        Utilisateur utilisateur = utilisateurRepository.findUtilisateurByUsername(utilisateurDTO.getUsername());
-        if ((utilisateurDTO.getId() == null && utilisateur != null) || (utilisateur != null
-                && utilisateurDTO.getId() != null && !utilisateur.getId().equals(utilisateurDTO.getId())))
+    public void createUser(UtilisateurDTO utilisateurDTO) throws UtilisateurException {
+        if (utilisateurDTO.getNom() == null || utilisateurDTO.getNom().isEmpty()) {
+            throw new UtilisateurException("Le nom d'utilisateur est obligatoire");
+        }
+        if (utilisateurDTO.getPrenom() == null || utilisateurDTO.getPrenom().isEmpty()) {
+            throw new UtilisateurException("Le prénom d'utilisateur est obligatoire");
+        }
+        if (utilisateurDTO.getTelephone() == null || utilisateurDTO.getTelephone().isEmpty()) {
+            throw new UtilisateurException("Le téléphone d'utilisateur est obligatoire");
+        }
+        if (utilisateurDTO.getEmail() == null || utilisateurDTO.getEmail().isEmpty()) {
+            throw new UtilisateurException("L'email d'utilisateur est obligatoire");
+        }
+        if (utilisateurDTO.getUsername() == null || utilisateurDTO.getUsername().isEmpty()) {
+            throw new UtilisateurException("Le nom d'utilisateur est obligatoire");
+        }
+        if (utilisateurDTO.getProfilDTO() == null || utilisateurDTO.getProfilDTO().getId() == null) {
+            throw new UtilisateurException("Le profile de l'utilisateur est obligatoire");
+        }
+        var utilisateur = utilisateurRepository.findUtilisateurByUsername(utilisateurDTO.getUsername());
+        if (utilisateurDTO.getId() == null && utilisateur != null || utilisateur != null && !utilisateur.getId().equals(utilisateurDTO.getId()))
             throw new ForbiddenActionException(USER_ALREADY_EXIST);
-        //     UtilisateurDetails details = modelFactory.createUtilisateurDetails(utilisateurDTO.getUtilisateurDetailsDTO());
-        //     details = utilisateurDetailsRepository.saveAndFlush(details);
+        utilisateur = utilisateurRepository.findUtilisateurByTelephone(utilisateurDTO.getTelephone());
+        if (utilisateurDTO.getId() == null && utilisateur != null || utilisateur != null && !utilisateur.getId().equals(utilisateurDTO.getId()))
+            throw new ForbiddenActionException(USER_ALREADY_EXIST);
         utilisateur = modelFactory.createUtilisateur(utilisateurDTO);
-        //    utilisateur.setUtilisateurDetails(details);
-        utilisateur.setMotdepasse(passwordEncoder.encode(newPassword));
-        //    utilisateur.getUtilisateurDetails().setDateCreation(new Date());
+        utilisateur.setMotdepasse(passwordEncoder.encode(PASSWORD_PAR_DEFAULT));
         utilisateur.setActif(true);
+        utilisateur.setActive(true);
         do {
             utilisateur.setActivation(RandomStringUtils.randomAlphanumeric(15));
         } while (utilisateurRepository.findUtilisateurByActivation(utilisateur.getActivation()) != null);
         Profil profil = profilRepository.findProfilById(utilisateur.getProfil().getId());
         utilisateur.setProfil(profil);
         utilisateurRepository.save(utilisateur);
-        utilsRepositoryCustom.sendMailCreateUser(utilisateur);
     }
 
     @Override
-    public UtilisateurDTO getMe() throws Exception {
+    public UtilisateurDTO getMe() throws UtilisateurException {
         Authentication userAuthenticated = SecurityContextHolder.getContext().getAuthentication();
         Utilisateur user = utilisateurRepository.findByUsername(userAuthenticated.getName()).orElse(null);
         if (user == null) {
-            throw new Exception("La session est associée a un utilisateur non reconnue");
+            throw new UtilisateurException("La session est associée a un utilisateur non reconnue");
         }
         return dtoFactory.createUtilisateurDTO(user);
     }
@@ -135,7 +146,7 @@ public class UserServiceImpl implements UserService {
         if (utilisateur == null)
             throw new ForbiddenActionException("Cet utilisateur est désactivé ou n'existe pas");
         String newPassword = RandomStringUtils.randomAlphanumeric(8);
-        utilisateur.setMotdepasse(bCryptPasswordEncoder.encode(newPassword));
+        utilisateur.setMotdepasse(passwordEncoder.encode(newPassword));
         utilisateurRepository.save(utilisateur);
         try {
             utilsRepositoryCustom.sendMailForgotPass(utilisateur, newPassword);
@@ -147,12 +158,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserPassword(ChangePasswordDTO changePasswordDTO) {
         Utilisateur utilisateur = utilisateurRepository.findByUsername(changePasswordDTO.getUsername()).orElseThrow();
-        if (utilisateur == null)
-            throw new ForbiddenActionException("Cet utilisateur est désactivé ou n'existe pas");
-        if (!bCryptPasswordEncoder.matches(changePasswordDTO.getCurrentPassword(), utilisateur.getMotdepasse())) {
+        if (!passwordEncoder.matches(changePasswordDTO.getCurrentPassword(), utilisateur.getMotdepasse())) {
             throw new ForbiddenActionException("Le mot de passe entré est différent du mot de passe actuel");
         }
-        utilisateur.setMotdepasse(bCryptPasswordEncoder.encode(changePasswordDTO.getNewPassword()));
+        utilisateur.setMotdepasse(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
         utilisateurRepository.save(utilisateur);
     }
 
@@ -185,6 +194,35 @@ public class UserServiceImpl implements UserService {
         return utilisateurRepository.findAllActive().stream()
                 .map(dtoFactory::createUtilisateurListDTO)
                 .toList();
+    }
+
+    @Override
+    public void activatedAccount(Long userId) {
+        if (userId == null) {
+            throw new ResourceNotFoundException(MessageFormat.format(USER_NOT_FOUND, userId));
+        }
+        var foundUser = getUserById(userId);
+        foundUser.setActive(true);
+        utilisateurRepository.save(foundUser);
+    }
+
+    @Override
+    public void deactivatedAccount(Long userId) {
+        if (userId == null) {
+            throw new ResourceNotFoundException(MessageFormat.format(USER_NOT_FOUND, userId));
+        }
+        var foundUser = getUserById(userId);
+        foundUser.setActive(false);
+        utilisateurRepository.save(foundUser);
+    }
+
+    @Override
+    public void updateUser(Long userId, UtilisateurDTO utilisateurDTO) throws UtilisateurException {
+        if (userId == null) {
+            throw new UtilisateurException(MessageFormat.format(USER_NOT_FOUND, userId));
+        }
+        utilisateurDTO.setId(userId);
+        createUser(utilisateurDTO);
     }
 
     public Utilisateur getUserById(Long userId) {

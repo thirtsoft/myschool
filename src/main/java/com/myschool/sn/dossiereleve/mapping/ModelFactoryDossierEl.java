@@ -2,9 +2,11 @@ package com.myschool.sn.dossiereleve.mapping;
 
 import com.myschool.sn.admin.entity.Utilisateur;
 import com.myschool.sn.admin.mapping.ModelFactory;
+import com.myschool.sn.admin.repository.UtilisateurRepository;
 import com.myschool.sn.admin.service.ProfilServiceCustom;
 import com.myschool.sn.dossiereleve.entity.Eleve;
 import com.myschool.sn.dossiereleve.entity.Inscription;
+import com.myschool.sn.dossiereleve.entity.Note;
 import com.myschool.sn.dossiereleve.entity.Paiement;
 import com.myschool.sn.dossiereleve.mapping.mapper.MedecinTraitantMapper;
 import com.myschool.sn.parent.mapping.ParentMapper;
@@ -12,9 +14,12 @@ import com.myschool.sn.referentiel.mapping.ModelFactoryRef;
 import com.myschool.sn.referentiel.mapping.TypePaiementMapper;
 import com.myschool.sn.utils.dtos.admin.UtilisateurDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.EleveDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.EleveEditDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.InscriptionDTO;
+import com.myschool.sn.utils.dtos.dossiereleve.NoteDTO;
 import com.myschool.sn.utils.dtos.dossiereleve.PaiementDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Named;
 import java.util.HashSet;
@@ -24,6 +29,7 @@ import java.util.Set;
 import static com.myschool.sn.utils.ConstantSigs.PROFIL_PARENT;
 import static java.util.Collections.emptyList;
 
+@Slf4j
 @Named("modelFactoryEl")
 @RequiredArgsConstructor
 public class ModelFactoryDossierEl {
@@ -40,9 +46,8 @@ public class ModelFactoryDossierEl {
 
     private final ProfilServiceCustom profilServiceCustom;
 
-//    private final EleveRepository eleveRepository;
+    private final UtilisateurRepository utilisateurRepository;
 
-//    private final EleveService eleveService;
 
     public Eleve createEleve(EleveDTO dto) {
         if (dto == null) {
@@ -79,19 +84,40 @@ public class ModelFactoryDossierEl {
     }
 
     public Utilisateur toParent(UtilisateurDTO parentDTO) {
-        return Utilisateur.builder()
-                .id(parentDTO.getId())
-                .prenom(parentDTO.getPrenom())
-                .nom(parentDTO.getNom())
-                .civility(parentDTO.getCivility())
-                .address(parentDTO.getAddress())
-                .profession(parentDTO.getProfession())
-                .email(parentDTO.getEmail())
-                .telephone(parentDTO.getTelephone())
-                .username(parentDTO.getUsername())
-                .actif(parentDTO.isActif())
-                .profil(modelFactory.createProfil(profilServiceCustom.findProfilById(PROFIL_PARENT)))
-                .build();
+        Utilisateur foundUser = utilisateurRepository.findByEmailOrTelOrUsername(parentDTO.getTelephone());
+        log.info("User founded {} ,", foundUser);
+        if (foundUser != null) {
+            log.info("User founded {} TRUE ,", foundUser);
+            return Utilisateur.builder()
+                    .id(foundUser.getId())
+                    .prenom(foundUser.getPrenom())
+                    .nom(foundUser.getNom())
+                    .civility(foundUser.getCivility())
+                    .address(foundUser.getAddress())
+                    .profession(foundUser.getProfession())
+                    .email(foundUser.getEmail())
+                    .telephone(foundUser.getTelephone())
+                    .username(foundUser.getUsername())
+                    .actif(foundUser.isActif())
+                    .profil(modelFactory.createProfil(profilServiceCustom.findProfilById(PROFIL_PARENT)))
+                    .build();
+        } else {
+            log.info("User founded {} FALSE ,", foundUser);
+            return Utilisateur.builder()
+                    .id(parentDTO.getId())
+                    .prenom(parentDTO.getPrenom())
+                    .nom(parentDTO.getNom())
+                    .civility(parentDTO.getCivility())
+                    .address(parentDTO.getAddress())
+                    .profession(parentDTO.getProfession())
+                    .email(parentDTO.getEmail())
+                    .telephone(parentDTO.getTelephone())
+                    .username(parentDTO.getUsername())
+                    .actif(parentDTO.isActif())
+                    .profil(modelFactory.createProfil(profilServiceCustom.findProfilById(PROFIL_PARENT)))
+                    .build();
+        }
+
     }
 
 
@@ -136,5 +162,29 @@ public class ModelFactoryDossierEl {
         model.setDatePaiement(dto.getDatePaiement());
         model.setTypePaiements(typePaiementMapper.createSetTypePaiement(dto.getTypePaiements()));
         return model;
+    }
+
+    public Note createNote(NoteDTO dto) {
+        if (dto == null) return null;
+        return Note
+                .builder()
+                .id(dto.getId())
+                .note(dto.getNote())
+                .eleve(createEleve(dto.getEleve()))
+                .matiere(modelFactoryRef.createMatiere(dto.getMatiere()))
+                .semestre(modelFactoryRef.createSemestre(dto.getSemestre()))
+                .type(dto.getType())
+                .actif(dto.getActif())
+                .dateCreation(dto.getDateCreation())
+                .build();
+    }
+
+    public Eleve createEleveEdit(EleveEditDTO eleve) {
+        return Eleve.builder().id(eleve.getId()).matricule(eleve.getMatricule())
+                .nom(eleve.getNom()).prenom(eleve.getPrenom()).sexe(eleve.getSexe())
+                .DateNaissance(eleve.getDateNaissance()).lieuNaissance(eleve.getLieuNaissance())
+                .address(eleve.getAddress()).nationalite(eleve.getNationalite())
+                .actif(eleve.getActif()).build();
+
     }
 }

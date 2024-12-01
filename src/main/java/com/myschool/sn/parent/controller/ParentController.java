@@ -1,7 +1,7 @@
-package com.myschool.sn.admin.controller;
+package com.myschool.sn.parent.controller;
 
-import com.myschool.sn.admin.controller.api.ParentApi;
-import com.myschool.sn.admin.service.ParentService;
+import com.myschool.sn.parent.controller.api.ParentApi;
+import com.myschool.sn.parent.service.ParentService;
 import com.myschool.sn.utils.dtos.parent.ParentDetailsDTO;
 import com.myschool.sn.utils.dtos.parent.ParentListeDTO;
 import lombok.RequiredArgsConstructor;

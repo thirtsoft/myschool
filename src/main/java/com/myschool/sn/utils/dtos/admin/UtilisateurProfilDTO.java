@@ -26,4 +26,6 @@ public class UtilisateurProfilDTO {
     private String telephone;
 
     private String dateCreation;
+
+    private boolean active;
 }
