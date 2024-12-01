@@ -53,4 +53,10 @@ public interface InscriptionApi {
 
     @DeleteMapping(value = "/delete/{inscriptionId}")
     ReponseMessageDTO deleteInscription(@PathVariable Long inscriptionId);
+
+    @GetMapping(value = "/nbreinscription")
+    long countNombreInscription();
+
+    @GetMapping(value = "/montantinyear")
+    double getMontantInscriptionInYear();
 }

@@ -24,4 +24,10 @@ public interface PaiementRepository extends JpaRepository<Paiement, Long> {
     @Query("Select DISTINCT pay from Paiement pay where pay.actif=1 and pay.eleve.id=:eleveId order by pay.id desc")
     List<Paiement> findPaiementsByEleve(@Param("eleveId") Long eleveId);
 
+    @Query(value = "SELECT count(pay) from Paiement pay where pay.actif=1 and year(pay.datePaiement)=YEAR(CURRENT_DATE()", nativeQuery = true)
+    long countNombrePaiement();
+
+    @Query(value = "SELECT sum(pay.montant) from Paiement el where pay.actif=1 and year(pay.datePaiement)=YEAR(CURRENT_DATE()", nativeQuery = true)
+    double getMontantPaiement();
+
 }

@@ -26,4 +26,8 @@ public interface PaiementService {
 
     void deletePaiement(Long id);
 
+    long countNombrePaiement();
+
+    double getMontantPaiement();
+
 }

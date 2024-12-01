@@ -26,4 +26,8 @@ public interface InscriptionService {
     List<ListeInscriptionDTO> findInscriptionsByEleveID(Long eleveId);
 
     void deleteInscription(Long id);
+
+    long countNombreInscription();
+
+    double getMontantInscription();
 }

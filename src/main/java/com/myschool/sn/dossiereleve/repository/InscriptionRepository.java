@@ -26,4 +26,10 @@ public interface InscriptionRepository extends JpaRepository<Inscription, Long> 
 
     @Query("Select DISTINCT el from  Inscription el where el.actif=1 and el.eleve.id=:eleveId order by id desc")
     List<Inscription> findListInscriptionByEleveId(@Param("eleveId") Long eleveId);
+
+    @Query(value = "SELECT count(el) from Inscription el where el.actif=1 and year(el.dateInscription)=YEAR(CURRENT_DATE()", nativeQuery = true)
+    long countNombreInscription();
+
+    @Query(value = "SELECT sum(el.montantInscription) from Inscription el where el.actif=1 and year(el.dateInscription)=YEAR(CURRENT_DATE()", nativeQuery = true)
+    double getMontantInscription();
 }

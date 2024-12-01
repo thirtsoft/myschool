@@ -73,4 +73,14 @@ public class PaiementController implements PaiementApi {
             return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
+
+    @Override
+    public long countNombrePaiement() {
+        return paiementService.countNombrePaiement();
+    }
+
+    @Override
+    public double getMontantPaiementInYear() {
+        return paiementService.getMontantPaiement();
+    }
 }

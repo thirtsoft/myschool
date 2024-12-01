@@ -130,4 +130,14 @@ public class PaiementServiceImpl implements PaiementService {
         paiement.setActif(false);
         paiementRepository.save(paiement);
     }
+
+    @Override
+    public long countNombrePaiement() {
+        return paiementRepository.countNombrePaiement();
+    }
+
+    @Override
+    public double getMontantPaiement() {
+        return paiementRepository.getMontantPaiement();
+    }
 }

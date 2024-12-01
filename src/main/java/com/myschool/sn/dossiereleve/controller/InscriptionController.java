@@ -82,4 +82,14 @@ public class InscriptionController implements InscriptionApi {
             return new ReponseMessageDTO(FAILED_MESSAGE, ERROR_MESSAGE);
         }
     }
+
+    @Override
+    public long countNombreInscription() {
+        return inscriptionService.countNombreInscription();
+    }
+
+    @Override
+    public double getMontantInscriptionInYear() {
+        return inscriptionService.getMontantInscription();
+    }
 }

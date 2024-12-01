@@ -115,4 +115,14 @@ public class InscriptionServiceImpl implements InscriptionService {
         inscriptionRepository.save(deleted);
     }
 
+    @Override
+    public long countNombreInscription() {
+        return inscriptionRepository.countNombreInscription();
+    }
+
+    @Override
+    public double getMontantInscription() {
+        return inscriptionRepository.getMontantInscription();
+    }
+
 }

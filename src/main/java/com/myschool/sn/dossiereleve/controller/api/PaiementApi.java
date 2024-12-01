@@ -45,4 +45,10 @@ public interface PaiementApi {
 
     @DeleteMapping(value = "/delete/{paiementId}")
     ReponseMessageDTO deletePaiement(@PathVariable Long paiementId);
+
+    @GetMapping(value = "/nbrepaiement")
+    long countNombrePaiement();
+
+    @GetMapping(value = "/montantinyear")
+    double getMontantPaiementInYear();
 }
